@@ -72,6 +72,21 @@ mPaint = new Paint();//初始化
 
 * setUnderlineText(true);//设置下划线
 
+## 3、Paint详解-颜色相关
+
+1. setColor(int color)参数具体的颜色值，16进制数值，0xffff0000
+2. setARGB(int a,int r,int g,int b) 参数分别透明度，红，绿，蓝。0~255数值
+3. setShader(Shader shader) 参数着色器对象，一般使用shader的几个子类
+
+       LinearGradient:线性渲染
+       RadialGradient:环形渲染
+       SweepGradient :扫描渲染
+       BitmapShader  :位图渲染
+       ComposeShader :组合渲染，例如 LinearGradient+BitmapShader
+4. setColorFilter(ColorFilter colorFilter) 设置颜色过滤。一般是ColorFilter三个子类
+
+       LightingColorFilter:光照效果
+       PorterDuffColorFIlter:指定已颜色和一种PorterDuff.Mode 与绘制对象。
 
 
 
