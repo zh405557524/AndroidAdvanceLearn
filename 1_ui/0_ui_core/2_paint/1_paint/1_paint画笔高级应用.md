@@ -17,7 +17,7 @@ mPaint = new Paint();//初始化
         mPaint.setShader(new SweepGradient(200, 200, Color.BLUE, Color.RED));//设置环形渲染器
         mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DARKEN));//设置图层混合模式
         mPaint.setColorFilter(new LightingColorFilter(0x00ffff, 0x000000));//设置颜色过滤器
-        mPaint.setFilterBitmap(true);//设置颜色过滤器
+        mPaint.setFilterBitmap(true);//设置双线性过滤
         mPaint.setMaskFilter(new BlurMaskFilter(10, BlurMaskFilter.Blur.NORMAL));//设置画笔遮罩滤镜，传入度数和样式
         mPaint.setTextScaleX(2);//设置文本缩放倍数
         mPaint.setTextSize(38);//设置字体大小
@@ -58,7 +58,19 @@ mPaint = new Paint();//初始化
 
 * setXfermode(Xfermode xfermode);//设置图层混合模式
 
+* setColorFilter(new LightingColorFilter(0x00ffff, 0x000000));//设置颜色过滤器
 
+* setFilterBitmap(true);//设置双线性过滤
+
+* setMaskFilter(new BlurMaskFilter(10, BlurMaskFilter.Blur.NORMAL));//设置画笔遮罩滤镜，传入度数和样式
+
+* setTextScaleX(2);//设置文本缩放倍数
+
+* setTextSize(38);//设置字体大小
+
+* setTextAlign(Paint.Align.LEFT);//对齐方式
+
+* setUnderlineText(true);//设置下划线
 
 
 
