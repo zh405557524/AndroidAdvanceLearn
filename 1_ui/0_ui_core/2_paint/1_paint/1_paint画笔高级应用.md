@@ -125,3 +125,6 @@ mPaint = new Paint();//初始化
 
 
 
+
+
+
