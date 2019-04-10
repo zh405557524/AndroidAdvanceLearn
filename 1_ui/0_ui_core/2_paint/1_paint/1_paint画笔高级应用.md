@@ -74,20 +74,32 @@ mPaint = new Paint();//初始化
 
 ## 3、Paint详解-颜色相关
 
-1. setColor(int color)参数具体的颜色值，16进制数值，0xffff0000
-2. setARGB(int a,int r,int g,int b) 参数分别透明度，红，绿，蓝。0~255数值
-3. setShader(Shader shader) 参数着色器对象，一般使用shader的几个子类
-
-       LinearGradient:线性渲染
-       RadialGradient:环形渲染
-       SweepGradient :扫描渲染
-       BitmapShader  :位图渲染
-       ComposeShader :组合渲染，例如 LinearGradient+BitmapShader
-4. setColorFilter(ColorFilter colorFilter) 设置颜色过滤。一般是ColorFilter三个子类
-
-       LightingColorFilter:光照效果
-       PorterDuffColorFIlter:指定已颜色和一种PorterDuff.Mode 与绘制对象。
-
+      setColor(int color)参数具体的颜色值，16进制数值，0xffff0000
+      setARGB(int a,int r,int g,int b) 参数分别透明度，红，绿，蓝。0~255数值
+      setShader(Shader shader) 参数着色器对象，一般使用shader的几个子类
+            LinearGradient:线性渲染
+            RadialGradient:环形渲染
+            SweepGradient :扫描渲染
+            BitmapShader  :位图渲染
+            ComposeShader :组合渲染，例如 LinearGradient+BitmapShader 
+      setColorFilter(ColorFilter colorFilter) 设置颜色过滤。一般是ColorFilter三个子类
+            LightingColorFilter:光照效果
+            PorterDuffColorFIlter:指定已颜色和一种PorterDuff.Mode 与绘制对象进行合成
+            ColorMatrixColorFilter:使用一个ColorMatrix来对颜色进行处理
+1. linearGradient线性渲染
+        
+       构造方法：
+       LinearGradient(float x0,float x1,float y1,int color0,int color1,Shader.TileMode tile)
+       参数
+       x0 y0 x1 y1:渐变的两个端点的位置
+       color0 color1 是端点的颜色
+       tile：端点范围之外的着色规则，类型是TileMode
+       
+       使用：
+       mShader = new LinearGradient(0,0,500,500,new int[]{Color.RED,Color.BLUe},
+       null,Shader.TileMode.CLAMP);
+       mPaint.setShader(mShader);
+       canvas.drawCircle(250,250,250,mPaint);
 
 
 
