@@ -89,10 +89,11 @@ mPaint = new Paint();//初始化
 1. linearGradient线性渲染
         
        构造方法：
-       LinearGradient(float x0,float x1,float y1,int color0,int color1,Shader.TileMode tile)
+       LinearGradient(float x0,float x1,float y1,int color0,int color1,Float[]{z1,z2},Shader.TileMode tile)
        参数
        x0 y0 x1 y1:渐变的两个端点的位置
        color0 color1 是端点的颜色
+       z1,z2 颜色在布局中开始的比例
        tile：端点范围之外的着色规则，类型是TileMode
        
        使用：
