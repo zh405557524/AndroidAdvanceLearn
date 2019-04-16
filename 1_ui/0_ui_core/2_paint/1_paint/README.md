@@ -139,7 +139,7 @@ mPaint = new Paint();//初始化
          mPaint.setShader(mShader);
          canvas.drawCircle(250,250,250,mPaint);
          
-* 4. 位图渲染
+4. 位图渲染
  
          构造方法
          BitmapShader(Bitmap bitmap,Shader.TileMode titleX,Shader.TileMode tileY)
@@ -171,7 +171,7 @@ mPaint = new Paint();//初始化
           mPaint.setShader(mShader);
          canvas.drawCircle(250,250,250,mPaint);
          
- 7. PorterDuff.Mode图层混合模式
+7. PorterDuff.Mode图层混合模式
  
         它将所绘制图形的像素与Canvas中对应位置的像素按照一定规则进行混合，形成新的像素值，从而更新Canvas中
         最终的像素颜色值。
