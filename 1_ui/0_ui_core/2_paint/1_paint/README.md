@@ -106,7 +106,6 @@ mPaint = new Paint();//初始化
        mPaint.setShader(mShader);
        canvas.drawCircle(250,250,250,mPaint);
 
-
 2. RadialGradient 环形渲染
 
         构造方法:
@@ -125,7 +124,7 @@ mPaint = new Paint();//初始化
         mPaint.setShader(mShader);
         canvas.drawCircle(250,250,250,mPaint);
         
-  3. SweepGradient扫描渲染
+3. SweepGradient扫描渲染
    
          构造方法:
          SweepGradient(float cx,float cy,int color0,int color1)
@@ -140,7 +139,7 @@ mPaint = new Paint();//初始化
          mPaint.setShader(mShader);
          canvas.drawCircle(250,250,250,mPaint);
          
-4. 位图渲染
+* 4. 位图渲染
  
          构造方法
          BitmapShader(Bitmap bitmap,Shader.TileMode titleX,Shader.TileMode tileY)
@@ -172,11 +171,76 @@ mPaint = new Paint();//初始化
           mPaint.setShader(mShader);
          canvas.drawCircle(250,250,250,mPaint);
          
-         
+ 7. PorterDuff.Mode图层混合模式
+ 
+        它将所绘制图形的像素与Canvas中对应位置的像素按照一定规则进行混合，形成新的像素值，从而更新Canvas中
+        最终的像素颜色值。
+        
+        18种模式
+        Mode.CLEAR    Mode.SRC      Mode.DST
+        Mode.SRC_OVER Mode.DST_OVER Mode.SRC_IN
+        Mode.DST_IN   Mode.SRC_OUT  Mode.DST_OUT
+        Mode.SRC_ATOP Mode.DST_ATOP Mode.XOR
+        Mode.DARKEN   Mode.LIGHTEN  Mode.MULTIPLY
+        Mode.SCREEN   Mode.OVERLAY  Mode.ADD
+        
+        
+~~~
+            //所有绘制不会提交到画布上
+            new PorterDuffXfermode(PorterDuff.Mode.CLEAR),
+            //显示上层绘制的图像
+            new PorterDuffXfermode(PorterDuff.Mode.SRC),
+            //显示下层绘制图像
+            new PorterDuffXfermode(PorterDuff.Mode.DST),
+            //正常绘制显示，上下层绘制叠盖
+            new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER),
+            //上下层都显示，下层居上显示
+            new PorterDuffXfermode(PorterDuff.Mode.DST_OVER),
+            //取两层绘制交集，显示上层
+            new PorterDuffXfermode(PorterDuff.Mode.SRC_IN),
+            //取两层绘制交集，显示上层
+            new PorterDuffXfermode(PorterDuff.Mode.DST_IN),
+            //取上层绘制非交集部分，交集部分变透明
+            new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT),
+            //取下层绘制非交集部分，交集部分变透明
+            new PorterDuffXfermode(PorterDuff.Mode.DST_OUT),
+            //取上层交集部分与下层非交集部分
+            new PorterDuffXfermode(PorterDuff.Mode.SRC_ATOP),
+            //取下层交集部分与下层非交集部分
+            new PorterDuffXfermode(PorterDuff.Mode.DST_ATOP),
+            //去除两图层交集部分
+            new PorterDuffXfermode(PorterDuff.Mode.XOR),
+            //取两图层全部区域，交集本分颜色加深
+            new PorterDuffXfermode(PorterDuff.Mode.DARKEN),
+            //取两图层全部区域，交集本分颜色点亮
+            new PorterDuffXfermode(PorterDuff.Mode.LIGHTEN),
+            //取两图层交集部分，颜色叠加
+            new PorterDuffXfermode(PorterDuff.Mode.MULTIPLY),
+            //取两图层全部区域，交集部分虑色
+            new PorterDuffXfermode(PorterDuff.Mode.SCREEN),
+            //取两图层全部区域，交集部分饱和度相加
+            new PorterDuffXfermode(PorterDuff.Mode.ADD),
+            //取两图层全部区域，交集部分叠加
+            new PorterDuffXfermode(PorterDuff.Mode.OVERLAY)
+~~~
+  
+8. 离屏绘制
 
-
-
-
+        通过使用离屏缓冲，把要绘制的内容单独绘制在缓冲层，保证Xfermode的使用不会出现错误的结果。
+        
+        使用离屏绘缓冲有两种方式:
+        Canvas.saveLayer() 可以做短时的离屏缓冲，在绘制之前保存，绘制之后恢复:
+        int saveId = canvas.saveLayer(0,0,width,height,Canvas.ALL_SAVE_FLAG);
+        Canvas.drawBItmap(rectBitmap,0,0,paint);画方
+        Paint.setXfermode(xfermode);//设置xfermode
+        Canvas.drawBitmap(circleBitmap,0,0,paint);//画圆
+        Paint.setXfermode(null);//用完及时清除Xfermode
+        cavans.restoreToCount(saveId);
+        
+        
+        View.setLayerType() 直接把整个View都绘制在离屏缓冲中。
+        setLayerType(LAYER_TYPE_HARDWARE)使用GPU来缓冲，
+        setLayerTYpe(LAYER_TYPE_SOFTWARE) 使用一个bitmap来缓冲
 
 
 
