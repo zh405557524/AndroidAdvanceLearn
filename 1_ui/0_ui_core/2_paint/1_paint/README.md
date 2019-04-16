@@ -223,7 +223,7 @@ mPaint = new Paint();//初始化
             //取两图层全部区域，交集部分叠加
             new PorterDuffXfermode(PorterDuff.Mode.OVERLAY)
 ~~~
-  
+  ![18种图层混合模式](https://github.com/zh405557524/AndroidAdvanceLearn/blob/master/1_ui/0_ui_core/2_paint/1_paint/device-2019-04-16-212639.png)
 8. 离屏绘制
 
         通过使用离屏缓冲，把要绘制的内容单独绘制在缓冲层，保证Xfermode的使用不会出现错误的结果。
