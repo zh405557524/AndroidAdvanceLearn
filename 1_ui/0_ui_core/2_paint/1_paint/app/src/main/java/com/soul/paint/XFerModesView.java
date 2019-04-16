@@ -155,7 +155,7 @@ public class XFerModesView extends View {
             canvas.drawRect(x, y, x + W, y + H, paint);
 
             // draw the src/dst example into our offscreen bitmap
-            int sc = canvas.saveLayer(x, y, x + W, y + H, null);
+            int sc = canvas.saveLayer(x, y, x + W, y + H, paint, Canvas.ALL_SAVE_FLAG);
             canvas.translate(x, y);
             canvas.drawBitmap(mDstB, 0, 0, paint);
             paint.setXfermode(sModes[i]);

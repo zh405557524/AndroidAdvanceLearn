@@ -60,7 +60,7 @@ public class XFerModeView extends View {
         setBackgroundColor(Color.GRAY);
 
         //离屏绘制
-        //        int layerId = canvas.saveLayer(0, 0, getWidth(), getHeight(), mPaint, Canvas.ALL_SAVE_FLAG);
+        int layerId = canvas.saveLayer(0, 0, getWidth(), getHeight(), mPaint, Canvas.ALL_SAVE_FLAG);
 
         //目标图
         canvas.drawBitmap(createRectBitmap(mWidth, mHeight), 0, 0, mPaint);
@@ -70,7 +70,7 @@ public class XFerModeView extends View {
         canvas.drawBitmap(createCircleBitmap(mWidth, mHeight), 0, 0, mPaint);
         //清除混合模式
         mPaint.setXfermode(null);
-        //        canvas.restoreToCount(layerId);
+                canvas.restoreToCount(layerId);
     }
 
 
