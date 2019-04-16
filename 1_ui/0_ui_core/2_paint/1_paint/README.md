@@ -86,7 +86,7 @@ mPaint = new Paint();//初始化
             LightingColorFilter:光照效果
             PorterDuffColorFIlter:指定已颜色和一种PorterDuff.Mode 与绘制对象进行合成
             ColorMatrixColorFilter:使用一个ColorMatrix来对颜色进行处理
-1. linearGradient线性渲染
+* 1. linearGradient线性渲染
         
        构造方法：
        LinearGradient(float x0,float x1,float y1,int color0,int color1,Float[]{z1,z2},Shader.TileMode tile)
@@ -107,7 +107,7 @@ mPaint = new Paint();//初始化
        canvas.drawCircle(250,250,250,mPaint);
 
 
-2. RadialGradient 环形渲染
+* 2. RadialGradient 环形渲染
 
         构造方法:
         RadialGradient(float centerX,float cententY,float radius,int centerColor,int edgeColr,ileMode tileMode)
@@ -125,7 +125,7 @@ mPaint = new Paint();//初始化
         mPaint.setShader(mShader);
         canvas.drawCircle(250,250,250,mPaint);
         
-  3. SweepGradient扫描渲染
+ * 3. SweepGradient扫描渲染
    
          构造方法:
          SweepGradient(float cx,float cy,int color0,int color1)
@@ -140,7 +140,7 @@ mPaint = new Paint();//初始化
          mPaint.setShader(mShader);
          canvas.drawCircle(250,250,250,mPaint);
          
-4. 位图渲染
+* 4. 位图渲染
  
          构造方法
          BitmapShader(Bitmap bitmap,Shader.TileMode titleX,Shader.TileMode tileY)
@@ -154,7 +154,7 @@ mPaint = new Paint();//初始化
          mShader = new BitmapShader(mBitmap,Shader.TileMode.CLAMP,Shader.TileMode.CLAMP);
          mPaint.setShader(mShader);
          canvas.drawCircle(250,250,250,mPaint);
-5. 组合渲染
+* 5. 组合渲染
 
          构造方法：
          ComposeShader(Shader shaderA,Shader shaderB,PorterDuff.Mode mode)
