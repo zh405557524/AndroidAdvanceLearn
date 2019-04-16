@@ -96,6 +96,10 @@ mPaint = new Paint();//初始化
        z1,z2 颜色在布局中开始的比例
        tile：端点范围之外的着色规则，类型是TileMode
        
+       TileMode.CLAMP:绘制区域超过渲染区的部分，重复排版
+       TileMode.CLAMP:绘制区域超过渲染区的部分，会以最后一个像素拉伸排版
+       TileMode.MIRROR:绘制区域超过渲染区的部分,镜像翻转排版
+       
        使用：
        mShader = new LinearGradient(0,0,500,500,new int[]{Color.RED,Color.BLUe},
        null,Shader.TileMode.CLAMP);
@@ -103,9 +107,72 @@ mPaint = new Paint();//初始化
        canvas.drawCircle(250,250,250,mPaint);
 
 
+2. RadialGradient 环形渲染
 
+        构造方法:
+        RadialGradient(float centerX,float cententY,float radius,int centerColor,int edgeColr,ileMode tileMode)
+        
+        参数:
+        centerX centerY:辐射中心的坐标
+        radius:辐射半径
+        centerColor:辐射中心的颜色
+        edgeColor:辐射边缘的颜色
+        tileMode:辐射范围之外的着色规则，类型是TIleMode
+        
+        使用:
+        mShader = new RadialGradient(250, 250, 250, new int[]{Color.GREEN, Color.YELLOW, Color.RED},
+                null, Shader.TileMode.CLAMP)
+        mPaint.setShader(mShader);
+        canvas.drawCircle(250,250,250,mPaint);
+        
+  3. SweepGradient扫描渲染
+   
+         构造方法:
+         SweepGradient(float cx,float cy,int color0,int color1)
+         
+         参数:
+         cx cy :扫描中心
+         color0:扫描的其实颜色
+         color1:扫描的终止颜色
+         
+         使用:
+         mShader  = new SweepGradient(250,250,Color.RED,Color.GREEN);
+         mPaint.setShader(mShader);
+         canvas.drawCircle(250,250,250,mPaint);
+         
+4. 位图渲染
+ 
+         构造方法
+         BitmapShader(Bitmap bitmap,Shader.TileMode titleX,Shader.TileMode tileY)
+         
+         参数
+         bitmap:用来做模板的bitmap对象
+         tileX:横向着色规则，类型是TileMode
+         tileY:纵向着色规则，类型是TileMode
+         
+         使用：
+         mShader = new BitmapShader(mBitmap,Shader.TileMode.CLAMP,Shader.TileMode.CLAMP);
+         mPaint.setShader(mShader);
+         canvas.drawCircle(250,250,250,mPaint);
+5. 组合渲染
 
-
+         构造方法：
+         ComposeShader(Shader shaderA,Shader shaderB,PorterDuff.Mode mode)
+         
+         参数
+         shaderA,shaderB:两个相继使用的Shader
+         mode:两个Shader的叠加模式，即ShaderA和ShaderB 应该怎样共同绘制。它的类型是PorterDuff.Mode
+         
+         使用：
+         BitmapShader bitmapShader = new BitmapShader(mBItmap,
+         Shader.Tile.REPEAT,Shader.TileMode.REPEAT);
+         LinearGradient linearGradient = new LInearGradient(0,0,1000,16000,new 
+         int[]{Color.RED,Color.GREEN,Color.BLUE},null,Shader.TileMode.CLAMP);
+         mShader = new ComposeShader(bitmapShader,linearGradient,PorterDuff.Mode.MULTIPLY);
+          mPaint.setShader(mShader);
+         canvas.drawCircle(250,250,250,mPaint);
+         
+         
 
 
 
