@@ -261,6 +261,23 @@ mPaint = new Paint();//初始化
        paint.setColorFilter(lighting);
        canvas.drawBitmap(bitmap,0,0,paint);
 
+2. PorterDuffColorFilter 滤镜
+
+       PorterDuffColorFilter
+       构造方法:
+       PorterDuffColorFilter(int color,PorterDuff.Mode mode)
+       
+       参数:
+       color,具体的颜色值，例如Color.RED
+       mode ,指定PorterDuff.Mode 混合模式
+
+
+
+
+
+
+
+
 
 
 
