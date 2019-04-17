@@ -242,9 +242,24 @@ mPaint = new Paint();//初始化
         setLayerType(LAYER_TYPE_HARDWARE)使用GPU来缓冲，
         setLayerTYpe(LAYER_TYPE_SOFTWARE) 使用一个bitmap来缓冲
 
+## 4、 paint详解-效果相关
 
+1. LightingColorFilter滤镜
 
+       LightingColorFilter
+       构造方法：
+       LightingColorFilter(int mul,int add)
 
+       参数:
+       mul 和 add 都是和颜色值格式相同的int值，其中mul用来和目标像素相乘，add用来和目标像素相加:
+       R` = R*mul.R/0xff+add.R
+       G` = G*mul.G/0xff+add.G
+       B` = B*mul.B/0xff+add.B
+       
+       使用:
+       ColorFilter lighting = new LightingColorFilter(0x00ffff,0x000000);
+       paint.setColorFilter(lighting);
+       canvas.drawBitmap(bitmap,0,0,paint);
 
 
 
