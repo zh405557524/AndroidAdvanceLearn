@@ -271,6 +271,33 @@ mPaint = new Paint();//初始化
        color,具体的颜色值，例如Color.RED
        mode ,指定PorterDuff.Mode 混合模式
 
+       使用:
+       PorterDuffColorFilter porterDuffColorFilter = new 
+       PorterDuffColorFilter(Color.RED,PorterDuff.Mode.DARKEN);
+       paint.setColorFilter(porterDuffColorFilter);
+       cavans.drawBitmap(mBitmap,100,0,paint);
+
+3. ColorMatrixColorFilter 滤镜
+
+       ColorMatrixColorFilter
+       构造方法:
+       ColorMatrixColorFilter(float[] colorMatrix);
+       
+       参数:
+       colorMatrix 矩阵数组 
+       
+       使用:
+       float[] colorMatrix = {
+            1,0,0,0,0,//red
+            0,1,0,0,0,//green
+            0,0,1,0,0,//blue
+            0,0,0,1,0 //alpha
+       }
+       mColorMatrixColorFilter = new ColorMatrixColorFilter(colorMatrix);
+       mPaint.setColorFilter(mColorMatrixColorFilter);
+       canvas.drawBitmap(mBitmap,100,0,mPaint);
+    ![色彩矩阵分析](https://raw.githubusercontent.com/zh405557524/AndroidAdvanceLearn/master/1_ui/0_ui_core/2_paint/1_paint/1671555555375.jpg)         
+
 
 
 
