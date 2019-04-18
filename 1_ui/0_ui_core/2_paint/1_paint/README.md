@@ -296,7 +296,9 @@ mPaint = new Paint();//初始化
        mColorMatrixColorFilter = new ColorMatrixColorFilter(colorMatrix);
        mPaint.setColorFilter(mColorMatrixColorFilter);
        canvas.drawBitmap(mBitmap,100,0,mPaint);
-    ![色彩矩阵分析](https://raw.githubusercontent.com/zh405557524/AndroidAdvanceLearn/master/1_ui/0_ui_core/2_paint/1_paint/1671555555375.jpg)         
+    ![色彩矩阵分析](https://raw.githubusercontent.com/zh405557524/AndroidAdvanceLearn/master/1_ui/0_ui_core/2_paint/1_paint/1671555555375.jpg)  
+    
+    
 
 
 
