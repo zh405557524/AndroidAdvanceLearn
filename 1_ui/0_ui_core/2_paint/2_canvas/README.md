@@ -36,8 +36,19 @@
        void clipOutXXX(...);反向切割操作，参数指定区域内部不可以绘制
        
        void setMatrix(Matrix matrix);可通过matrix实现平移，缩放，旋转等操作。
+    
+3. 状态保存和恢复
 
-
+       Canvas 调用了translate,scale,rotate,skew,clipRect等变化后，后续的操作都是基于变化后的Canvas,都会收到影响，对于后续的操作很不方便。Canvas提供了save，saveLayer,saveLayerAlpha,restore,restoreToCount来保存和恢复状态。
+       
+       int state = canvas.save();//保存状态1 
+       canvas.translate(70,50);
+       canvas.drawRect(0,0,400,400,mPaint);
+       canvas.save();//保存状态2 
+       canvas.restore();//返回最新状态(状态2)
+       mPaint.setColor(Color.BLUE);
+       canvas.drawRect(0,0,400,400,mPaint);
+       canvas.restoreToCount(state);//手动指定的返回到状态1
 
 
 
