@@ -175,7 +175,6 @@ public class PathMeasureView extends View {
         pathMeasure.getSegment(200, 600, dst, true);
         //将截取的片段绘制出来
         canvas.drawPath(dst, mPaint);
-
     }
 
     /**
@@ -204,8 +203,6 @@ public class PathMeasureView extends View {
         canvas.drawPath(path, mPaint);
 
     }
-
-
 
 
     /**
@@ -250,8 +247,6 @@ public class PathMeasureView extends View {
         invalidate();
 
     }
-
-
 
 
 }
