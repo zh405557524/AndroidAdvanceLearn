@@ -27,8 +27,6 @@
 ## 事件分发-Activity
 * Activity的事件分发
 ~~~
-
-
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
@@ -42,7 +40,6 @@
         }
         return onTouchEvent(ev);
     }
-
 ~~~
 
 
