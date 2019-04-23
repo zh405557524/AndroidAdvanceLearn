@@ -19,10 +19,31 @@
 * ViewGroudp:一组View的集合（含多个子View）
 * View:   所有ui组件的基类
 
+## 事件分发主要方法
+* dispatchTouchEvent(MotionEvent ev):用来进行事件分发
+* onInterceptTouchEvent(MotionEvent ev):判断是否拦截事件(只存在于ViewGroup中)
+* onTouchEvent(MotionEvent ev):处理点击事件
+
+## 事件分发-Activity
+* Activity的事件分发
+~~~
 
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            //空方法，子类可重写
+            onUserInteraction();
+        }
+        //getWindow 是PhoneWindow对象
+        //最终调用 ViewGroup.dispatchTouchEvent()
+        if (getWindow().superDispatchTouchEvent(ev)) {
+            return true;
+        }
+        return onTouchEvent(ev);
+    }
 
-
+~~~
 
 
 
