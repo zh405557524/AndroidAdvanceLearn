@@ -77,8 +77,7 @@ public boolean dispatchTouchEvent(MotionEvent ev){
 
 }
 ~~~
-
-
+![事件分发](https://raw.githubusercontent.com/zh405557524/AndroidAdvanceLearn/master/1_ui/0_ui_core/3_touch/%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E6%A8%A1%E5%9E%8B.png)
 
 
 
