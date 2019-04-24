@@ -41,6 +41,48 @@
         return onTouchEvent(ev);
     }
 ~~~
+ ## 事件分发-ViewGroup
+ * ViewGroup的事件分发，可以用一下伪代码表示
+ ~~~
+ public boolean dispatchTouchEvent(MotionEvent et){
+    boolean concume = false;
+    //调用oninterceptTouchEvent 判断是否拦截
+    if(onInterceptTouchEvent ev){
+        //拦截则调用自身的onToucheEvent
+        consume = onTouchEvent(ev);
+    }else{
+        //不拦截，将事件分发给子View
+        consume = child.dispatchTouchEvent(ev);
+    }
+
+ }
+ ~~~
+* ViewGroup的事件分发，dispatchTouchEvent()
+~~~
+public boolean dispatchTouchEvent(MotionEvent ev){
+     final boolean intercepted;
+     //down事件或者子view消费了事件，判断是否拦截
+     if(actionMasked == MotionEvent.ACTION_DOWN||mFirstTouchTarget!=null){
+          final boolean disallowintercept = (mGroupFlags&FLAG_DISALLOW_INTERCEPT)!=0;
+          if(!disallowintercept){//允许拦截
+               intercepted = onInterceptTouchEvent(ev);
+               ev.setAction(action);
+          }else{
+               intercepted =false;
+          }
+     
+     }else{
+          intercepted = true;//没有找到消费事件的子View并且不是down事件
+     }
+
+}
+~~~
+
+
+
+
+
+
 
 
 
