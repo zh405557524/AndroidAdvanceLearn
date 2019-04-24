@@ -81,25 +81,25 @@ public boolean dispatchTouchEvent(MotionEvent ev){
 
 ## 事件分发结论
 
-    一个事件序列从手指接触屏幕到手指离开屏幕，在这个过程中产生一系列事件，以down事件开始，中间含有不定数的move事件，以up事件结束
+* 一个事件序列从手指接触屏幕到手指离开屏幕，在这个过程中产生一系列事件，以down事件开始，中间含有不定数的move事件，以up事件结束
     
-    正常情况下，一个事件序列只能被一个View拦截并且消耗
+*  正常情况下，一个事件序列只能被一个View拦截并且消耗
     
-    某个View一旦决定拦截，那么这个事件序列都将由它的onTouchEvent处理，并且它的onInterceptTouchEvent不会再调用。
+*  某个View一旦决定拦截，那么这个事件序列都将由它的onTouchEvent处理，并且它的onInterceptTouchEvent不会再调用。
     
-    某个View一旦开始处理事件，如果它不消耗ACTION_DOWN事件(onTouchEvent返回false)，那么同一事件序列中其他事件都不会再交给它处理。并且重新郊游它的父元素处理(父元素onTouchEvent被调用)
+*  某个View一旦开始处理事件，如果它不消耗ACTION_DOWN事件(onTouchEvent返回false)，那么同一事件序列中其他事件都不会再交给它处理。并且重新郊游它的父元素处理(父元素onTouchEvent被调用)
     
-    事件的传递过程是由外向内的，即事件总是先传递给父元素，然后再由父元素分发给子View，通过requestDisallowInterceptTouchEvent方法可以在子View中干预父元素的事件分发过程，但ACTION_DOWN除外
+*  事件的传递过程是由外向内的，即事件总是先传递给父元素，然后再由父元素分发给子View，通过requestDisallowInterceptTouchEvent方法可以在子View中干预父元素的事件分发过程，但ACTION_DOWN除外
     
-    ViewGroup默认不拦截任何事件，即onInterceptTouchEvent默认返回false。View没有onInterceptTouchEvent方法，一旦有点击事件传递给它，那么它的onTouchEvent方法就会被调用。
+*  ViewGroup默认不拦截任何事件，即onInterceptTouchEvent默认返回false。View没有onInterceptTouchEvent方法，一旦有点击事件传递给它，那么它的onTouchEvent方法就会被调用。
     
-    View的onTouchEvent默认会消耗事件(返回ture)，除非它是不可点击的(clickable和longClickable同时为false)。View的longClickable默认都为false，clickble要分情况，比如button的clickble默认为ture，TextView的clickable默认为false。
+*  View的onTouchEvent默认会消耗事件(返回ture)，除非它是不可点击的(clickable和longClickable同时为false)。View的longClickable默认都为false，clickble要分情况，比如button的clickble默认为ture，TextView的clickable默认为false。
 
-    View的enable属性不影响onTouchEvent的默认返回值。哪怕一个View是disable状态，只要它的clickable或者longClickable有一个为true，那么它的onTouchEvent就返回true。
+*  View的enable属性不影响onTouchEvent的默认返回值。哪怕一个View是disable状态，只要它的clickable或者longClickable有一个为true，那么它的onTouchEvent就返回true。
     
-    onClick会影响的前提是当前View是可点击的，并且收到了ACTION_DOWN和ACTION_UP的事件，并且受长按事件影响，当长按事件返回true时，onClick不会响应。
+*  onClick会影响的前提是当前View是可点击的，并且收到了ACTION_DOWN和ACTION_UP的事件，并且受长按事件影响，当长按事件返回true时，onClick不会响应。
     
-    onLongClick在ACTION_DOWN里判断是否进行响应，要想执行长按事件该View必须是longClickable的并且设置了OnLongClickListener。
+* onLongClick在ACTION_DOWN里判断是否进行响应，要想执行长按事件该View必须是longClickable的并且设置了OnLongClickListener。
 
 
 
