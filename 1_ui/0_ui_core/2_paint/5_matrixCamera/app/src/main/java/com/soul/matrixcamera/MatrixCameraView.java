@@ -23,6 +23,7 @@ import android.widget.ImageView;
  * 五 setLocation,getLocationX getLocationY ,getLocationZ设置与获取相机的位置
  */
 public class MatrixCameraView extends FrameLayout {
+
     public MatrixCameraView(Context context) {
         this(context, null);
     }
