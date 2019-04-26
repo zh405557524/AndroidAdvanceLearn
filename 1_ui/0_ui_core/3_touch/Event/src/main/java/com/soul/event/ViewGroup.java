@@ -42,6 +42,11 @@ public class ViewGroup extends View {
         //TouchTarget 模式 内存缓存
         TouchTarget newTouchTarget = null;
 
+
+        if (actionMasked == MotionEvent.ACTION_DOWN) {
+            clearTouchTargets();
+        }
+
         if (actionMasked != MotionEvent.ACTION_CANCEL && !intercepted) {
             //down事件
             if (actionMasked == MotionEvent.ACTION_DOWN) {
@@ -62,31 +67,38 @@ public class ViewGroup extends View {
                     }
                 }
             }
-            //当前的ViewGroup -->
-            if (mFirstTouchTarget == null) {//down 事件未被消费
-                handled = dispatchTransformedToucheEvent(event, null);
-            } else {
-                //down被消费或者move中
-                //拿到View直接进行分发
-                TouchTarget predecessor = null;
-                TouchTarget target = mFirstTouchTarget;
-                while (target != null) {
-                    final TouchTarget next = target.next;
+        }
 
-                    if (target == new TouchTarget()) {
-                        //当时down事件时,只分发一次
+
+
+        //当前的ViewGroup -->
+        if (mFirstTouchTarget == null) {//down 事件未被消费
+            handled = dispatchTransformedToucheEvent(event, null);
+        } else {
+            //down被消费或者move中
+            //拿到View直接进行分发
+            TouchTarget predecessor = null;
+            TouchTarget target = mFirstTouchTarget;
+            while (target != null) {
+                final TouchTarget next = target.next;
+
+                if (target == new TouchTarget()) {
+                    //当时down事件时,只分发一次
+                    handled = true;
+                } else {
+                    //move 事件,进行分发
+                    if (dispatchTransformedToucheEvent(event, target.child)) {
                         handled = true;
-                    } else {
-                        //move 事件,进行分发
-                        if (dispatchTransformedToucheEvent(event, target.child)) {
-                            handled = true;
-                        }
                     }
-                    //将当前的对象，指向next的内存地址
-                    target = next;
                 }
-
+                //将当前的对象，指向next的内存地址
+                target = next;
             }
+
+        }
+
+        if (actionMasked == MotionEvent.ACTION_CANCEL) {
+            clearTouchTargets();
         }
         return handled;
     }
@@ -127,6 +139,21 @@ public class ViewGroup extends View {
         return "ViewGroup{" +
                 "name='" + name + '\'' +
                 '}';
+    }
+
+    /**
+     * Clears all touch targets.
+     */
+    private void clearTouchTargets() {
+        TouchTarget target = mFirstTouchTarget;
+        if (target != null) {
+            do {
+                TouchTarget next = target.next;
+                target.recycle();
+                target = next;
+            } while (target != null);
+            mFirstTouchTarget = null;
+        }
     }
 
     private static final class TouchTarget {
