@@ -1,5 +1,8 @@
 package com.soul.animator.animator;
 
+import android.view.View;
+
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 
 /**
@@ -17,13 +20,26 @@ public class MyFloatPropertyValuesHolder {
     //float
     Class mValueType;
 
+    MyKeyFrameSet mKeyFrameSets;
     Method mSetter = null;
 
 
     public MyFloatPropertyValuesHolder(String propertyName, float... values) {
         this.mPropertyName = propertyName;
         mValueType = float.class;
-        mkeyframes = MyKeyFrameSet.ofFLoat(values);
+        mKeyFrameSets = MyKeyFrameSet.ofFloat(values);
+    }
+
+
+    public void setupSetter(WeakReference<View> target) {
+        final char firstLetter = Character.toUpperCase(mPropertyName.charAt(0));
+        final String theRest = mPropertyName.substring(1);
+        String methodName = "set" + firstLetter + theRest;
+        try {
+            mSetter = View.class.getMethod(methodName, float.class);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
     }
 
 

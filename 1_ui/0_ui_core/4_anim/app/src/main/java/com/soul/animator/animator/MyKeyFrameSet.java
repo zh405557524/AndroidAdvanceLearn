@@ -1,7 +1,9 @@
 package com.soul.animator.animator;
 
+import android.animation.FloatEvaluator;
 import android.animation.TypeEvaluator;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,5 +22,40 @@ class MyKeyFrameSet {
     MyFloatKeyFrame mFirstKeyframe;
 
     List<MyFloatKeyFrame> mKeyframes;
+
+
+    public MyKeyFrameSet(MyFloatKeyFrame... keyFrames) {
+
+        mKeyframes = Arrays.asList(keyFrames);
+        mFirstKeyframe = keyFrames[0];
+        mEvaluator = new FloatEvaluator();
+
+    }
+
+
+    public static MyKeyFrameSet ofFloat(float[] values) {
+
+        final int numKeyframes = values.length;
+
+        final MyFloatKeyFrame[] keyframes = new MyFloatKeyFrame[numKeyframes];
+        keyframes[0] = new MyFloatKeyFrame(0, values[0]);
+        for (int i = 1; i < numKeyframes; i++) {
+            keyframes[i] = new MyFloatKeyFrame((float) i / (numKeyframes - 1), values[i]);
+        }
+
+        return new MyKeyFrameSet(keyframes);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

@@ -10,4 +10,26 @@ package com.soul.animator.animator;
  */
 public class MyFloatKeyFrame {
 
+    float mFraction;
+    Class mValueType;
+    float mValue;
+
+
+    public MyFloatKeyFrame(float fraction, float value) {
+        mFraction = fraction;
+        mValue = value;
+        mValueType = float.class;
+    }
+
+    public float getFraction() {
+        return mFraction;
+    }
+
+    public void setValue(float value) {
+        mValue = value;
+    }
+
+    public Class getValueType() {
+        return mValueType;
+    }
 }
