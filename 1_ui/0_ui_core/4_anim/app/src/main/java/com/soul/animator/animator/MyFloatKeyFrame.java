@@ -29,6 +29,10 @@ public class MyFloatKeyFrame {
         mValue = value;
     }
 
+    public float getValue() {
+        return mValue;
+    }
+
     public Class getValueType() {
         return mValueType;
     }

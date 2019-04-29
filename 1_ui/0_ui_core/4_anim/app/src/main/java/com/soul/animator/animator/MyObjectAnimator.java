@@ -22,7 +22,10 @@ public class MyObjectAnimator implements VSYNCManger.AnimationFrameCallback {
     MyFloatPropertyValuesHolder mMyFloatPropertyValuesHolder;
     private long mStartTime1;
 
-    private int index;
+    private float index;
+
+    private TimeInterpolator mTimeInterpolator;
+
 
     public MyObjectAnimator(View view, String propertyName, float... values) {
         target = new WeakReference<View>(view);
@@ -45,16 +48,29 @@ public class MyObjectAnimator implements VSYNCManger.AnimationFrameCallback {
 
     }
 
+    public void setDuration(long duration) {
+        mDuration = duration;
+    }
 
     //每隔16ms 执行一次
     @Override
     public boolean doAnimationFrame(long currentTime) {
         final long total = mDuration / 16;
-
         //执行百分比
-
+        float fraction = (index++) / total;
+        if (mTimeInterpolator != null) {
+            fraction = mTimeInterpolator.getInterpolation(fraction);
+        }
+        if (index >= total) {
+            index = 0;
+        }
+        mMyFloatPropertyValuesHolder.setAnimatedValue(target.get(), fraction);
 
         return false;
+    }
+
+    public void setTimeInterpolator(TimeInterpolator timeInterpolator) {
+        mTimeInterpolator = timeInterpolator;
     }
 }
 
