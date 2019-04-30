@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Description:
  * Author: 祝明
@@ -17,6 +20,8 @@ import android.view.ViewGroup;
  * UpdateRemark:
  */
 public class ParallaxFragment extends Fragment {
+
+    private List<View> parallaxViews = new ArrayList<>();
 
 
     @Nullable
@@ -29,4 +34,11 @@ public class ParallaxFragment extends Fragment {
 
         return parallaxLayoutInflater.inflate(layoutId, null);
     }
+
+
+    public List<View> getParallaxViews() {
+
+        return parallaxViews;
+    }
+
 }
