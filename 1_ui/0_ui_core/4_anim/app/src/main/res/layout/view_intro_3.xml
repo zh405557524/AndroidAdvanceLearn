@@ -13,9 +13,9 @@
         android:src="@drawable/intro3_item_0"
         app:x_in="1.2"
         app:x_out="1.2" />
-    <com.soul.animator.MyView
+    <com.soul.animator.parallax.MyView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.soul.animator.MyView>
+        android:layout_height="match_parent"></com.soul.animator.parallax.MyView>
     <ImageView
         android:id="@+id/iv_1"
         android:layout_width="98dp"
@@ -55,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.soul.animator.MyView
+    <com.soul.animator.parallax.MyView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     <ImageView

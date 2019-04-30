@@ -1,12 +1,11 @@
-package com.soul.animator;
+package com.soul.animator.animator;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.soul.animator.animator.LineInterpolator;
-import com.soul.animator.animator.MyObjectAnimator;
+import com.soul.animator.R;
 
 public class AnimatorActivity extends AppCompatActivity {
 

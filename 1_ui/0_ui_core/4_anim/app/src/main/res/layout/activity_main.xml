@@ -4,19 +4,4 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-<com.soul.animator.ParallaxContainer
-    android:id="@+id/parallax_container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
-</com.soul.animator.ParallaxContainer>
-    <ImageView
-        android:id="@+id/iv_man"
-        android:layout_width="67dp"
-        android:layout_height="202dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/intro_item_manrun_1"/>
 </RelativeLayout>

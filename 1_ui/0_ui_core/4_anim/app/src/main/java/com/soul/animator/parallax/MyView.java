@@ -1,4 +1,4 @@
-package com.soul.animator;
+package com.soul.animator.parallax;
 
 import android.content.Context;
 import android.util.AttributeSet;

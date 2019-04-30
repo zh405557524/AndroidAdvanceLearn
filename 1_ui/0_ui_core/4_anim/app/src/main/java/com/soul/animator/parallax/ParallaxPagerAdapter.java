@@ -1,4 +1,4 @@
-package com.soul.animator;
+package com.soul.animator.parallax;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

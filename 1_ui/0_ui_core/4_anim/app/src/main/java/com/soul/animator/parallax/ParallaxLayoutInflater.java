@@ -1,4 +1,4 @@
-package com.soul.animator;
+package com.soul.animator.parallax;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -6,6 +6,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import com.soul.animator.R;
 
 /**
  * Description:

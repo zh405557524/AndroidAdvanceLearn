@@ -1,4 +1,4 @@
-package com.soul.animator;
+package com.soul.animator.parallax;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.nineoldandroids.view.ViewHelper;
+import com.soul.animator.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +55,7 @@ public class ParallaxContainer extends FrameLayout implements ViewPager.OnPageCh
         final ViewPager viewPager = new ViewPager(getContext());
         viewPager.setId(R.id.parallax_pager);
 
-        final MainActivity activity = (MainActivity) getContext();
+        final SplashActivity activity = (SplashActivity) getContext();
         mAdapter = new ParallaxPagerAdapter(activity.getSupportFragmentManager(), mFragments);
         viewPager.setAdapter(mAdapter);
         viewPager.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
