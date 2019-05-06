@@ -1,4 +1,4 @@
-package com.soul.adaptive;
+package com.soul.adaptive.ui;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
@@ -69,6 +69,10 @@ public class UIUtils {
         return ((float) displayMetricsWidth) / standard_width;
     }
 
+    public float getVerticalScaleValue() {
+        return (displayMetricsHeight) / (standard_height - mSystemBarHeight);
+    }
+
 
     private int getSystemBarHeight(Context context) {
         return getValue(context, "com.android.internal.R$dimen",
@@ -91,4 +95,12 @@ public class UIUtils {
     }
 
 
+    public int getWidth(int width) {
+
+        return Math.round((float) width * displayMetricsWidth / standard_width);
+    }
+
+    public int getHeight(int height) {
+        return Math.round((float) height * displayMetricsHeight / (standard_height - mSystemBarHeight));
+    }
 }
