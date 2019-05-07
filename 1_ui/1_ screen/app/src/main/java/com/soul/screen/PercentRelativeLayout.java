@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 /**
- * Description:
+ * Description:百分比适配
  * Author: 祝明
  * CreateDate: 2019/5/6 下午6:57
  * UpdateUser:
