@@ -7,54 +7,29 @@
 ## 屏幕适配常见方式
 
 * 布局适配
-
-
-
-​		-避免写死控件尺寸，使用wrap_content,match_parent
-
-​        -LinearLayout xxx:layout_weight = "0.5"
-
-​	    -RelativeLayout xxx:layout_centerInParent = "true"
-
-​		-ContraintLayout xxxx:layout_constraintLeft_toLeftOf = "parent"
-
-​		-Percent-support-lib xxx:layout_widthPercent = "30%"
-
-
+  - 避免写死控件尺寸，使用wrap_content,match_parent
+  - LinearLayout xxx:layout_weight = "0.5"
+  - RelativeLayout xxx:layout_centerInParent = "true"
+  - ContraintLayout xxxx:layout_constraintLeft_toLeftOf = "parent"
+  - Percent-support-lib xxx:layout_widthPercent = "30%"
 
 * 图片资源适配
 
+  * .9图或者svg图实现缩放
+  * 备用位图匹配不同分辨率		
 
-
-​		-.9图或者svg图实现缩放
-
-​		-备用位图匹配不同分辨率		
-
-
+  
 
 * 用户流程适配
-
-
-
-​		-根据业务逻辑执行不同的跳转逻辑
-
-​		-根据别名展示不同的界面
-
-
+  * 根据业务逻辑执行不同的跳转逻辑
+  * 根据别名展示不同的界面
 
 * 限定符适配
 
-
-
-​		-分辨率限定符 drawable-hdpi,drawable-xdpi,..
-
-​		-尺寸限定符 layout-small，layout-large,...
-
-​		-最小宽度限定符values-sw360dp,vlues-sw384dp,...
-
-​		-屏幕方向限定符layout-land,layout-port
-
-
+  - 分辨率限定符 drawable-hdpi,drawable-xdpi,..
+  - 尺寸限定符 layout-small，layout-large,...
+  - 最小宽度限定符values-sw360dp,vlues-sw384dp,...
+  - 屏幕方向限定符layout-land,layout-port
 
 ## 屏幕适配-自定义View
 
