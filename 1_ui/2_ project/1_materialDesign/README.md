@@ -106,12 +106,58 @@
   
     
   
-  - NavigationView/BottomNavigationView
+  - NavigationView
   
     ~~~java
-            //侧滑菜单中使用navigationView
+    //侧滑菜单中使用navigationView
             NavigationView navigationView = findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);//设置监听
+    ~~~
+  
+    
+  
+  - BottomNavigationView
+  
+       ~~~xml
+    <android.support.design.widget.BottomNavigationView
+            android:id="@+id/navigation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:background="?android:attr/windowBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:menu="@menu/navigation"/>
+       ~~~
+  
+    ~~~xml
+    <?xml version="1.0" encoding="utf-8"?>
+    <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    
+        <item
+            android:id="@+id/navigation_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/title_home"/>
+    
+        <item
+            android:id="@+id/navigation_dashboard"
+            android:icon="@drawable/ic_dashboard_black_24dp"
+            android:title="@string/title_dashboard"/>
+    
+        <item
+            android:id="@+id/navigation_notifications"
+            android:icon="@drawable/ic_notifications_black_24dp"
+            android:title="@string/title_notifications"/>
+    
+    </menu>
+    
+    ~~~
+  
+    ~~~java
+    BottomNavigationView navigation = findViewById(R.id.navigation);
+    navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     ~~~
   
     
@@ -165,16 +211,115 @@
   
   - AppBarLayout
   
+    ~~~java
+     appBarLayout.addOnOffsetChangedListener()
+    ~~~
+  
+    ~~~xml
+    
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/appBar"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                android:fitsSystemWindows="true">
+    
+                <!-- AppBarLayout的直接子控件可以设置的属性:layout_scrollFlags(滚动模式) -->
+                <!-- 1.scroll|exitUntilCollapsed:如果AppBarLayout的直接子控件设置该属性,该子控件可以滚动,向上滚动NestedScrollView出父布局(一般为CoordinatorLayout)时,会折叠到顶端,向下滚动时NestedScrollView必须滚动到最上面的时候才能拉出该布局
+                     2.scroll|enterAlways:只要向下滚动该布局就会显示出来,只要向上滑动该布局就会向上收缩
+                     3.scroll|enterAlwaysCollapsed:向下滚动NestedScrollView到最底端时该布局才会显示出来
+                     4.scroll|snap:表示一个吸附效果，可以确保childView不会滑动停止在中间的状态
+                     5.如果不设置该属性,则该布局不能滑动 -->
+                <android.support.design.widget.CollapsingToolbarLayout
+                    android:id="@+id/collapsingToolbarLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fitsSystemWindows="true"
+                    app:contentScrim="?attr/colorPrimary"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
+    ~~~
+  
+    
+  
   - CollapsingToolbarLayout
+  
+    ~~~java
+      //通过collapsingToolbarLayout修改字体颜色
+            collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);//设置还没有收缩时状下字体颜色
+            collapsingToolbarLayout.setCollapsedTitleTextColor(Color.BLACK);//设置收缩后Toolbar上字体的颜色
+    
+    ~~~
+  
+    ~~~xml
+            <android.support.design.widget.CollapsingToolbarLayout
+                    android:id="@+id/collapsingToolbarLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fitsSystemWindows="true"
+                    app:contentScrim="?attr/colorPrimary"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
+    
+                    <!-- CollapsingToolbarLayout的直接子布局可以使用的属性:layout_collapseMode(折叠模式) -->
+                    <!-- 1.pin:在滑动过程中,此自布局会固定在它所在的位置不动,直到CollapsingToolbarLayout全部折叠或者全部展开
+                         2.parallax:视差效果,在滑动过程中,不管上滑还是下滑都会有视察效果,不知道什么事视察效果自己看gif图(layout_collapseParallaxMultiplier视差因子 0~1之间取值,当设置了parallax时可以配合这个属性使用,调节自己想要的视差效果)
+                         3.不设置:跟随NestedScrollView的滑动一起滑动,NestedScrollView滑动多少距离他就会跟着走多少距离 -->
+                    <ImageView
+                        android:id="@+id/iv_movie_icon"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fitsSystemWindows="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic"
+                        android:transitionName="basic"
+                        app:layout_collapseMode="parallax"/>
+    
+                    <android.support.v7.widget.Toolbar
+                        android:id="@+id/tb_amd_toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        app:layout_collapseMode="pin"
+                        app:subtitleTextColor="#ff4081"
+                        app:titleTextColor="#ff4081"/>
+    
+                </android.support.design.widget.CollapsingToolbarLayout>
+    ~~~
+  
+    
   
   - NestedSrollView
   
 *  常用动画
   * Fade淡入
   
+    ~~~java
+    final Intent intent = new Intent(this, VipActivity.class);
+                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    
+    ~~~
+  
+    ~~~java
+    //允许transitions
+       getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+     //淡入动画
+       getWindow().setEnterTransition(new Fade());
+    ~~~
+  
+    
+  
   * Slide滑动
   
+    ~~~java
+    getWindow().setEnterTransition(new Slide());
+    ~~~
+  
+    
+  
   * Explode分解
+  
+    ~~~java
+    getWindow().setEnterTransition(new Explode());
+    ~~~
+  
+    
   
   * 共享元素
   

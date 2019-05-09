@@ -1,5 +1,6 @@
 package com.soul.materialdesign;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -64,6 +65,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (id) {
             case R.id.nav_camera:
                 startActivity(new Intent(MainActivity.this, ToolbarActivity.class));
+                break;
+            case R.id.nav_gallery:
+                startActivity(new Intent(MainActivity.this, MovieDetailActivity.class));
+                break;
+            case R.id.nav_slideshow:
+                startActivity(new Intent(MainActivity.this, FloatTabActivity.class));
+                break;
+            case R.id.nav_vip:
+                //过度动画
+                final Intent intent = new Intent(this, VipActivity.class);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+                break;
+            case R.id.nav_bottom_navigation:
+                startActivity(new Intent(MainActivity.this, BottomNavigationViewActivity.class));
                 break;
         }
 

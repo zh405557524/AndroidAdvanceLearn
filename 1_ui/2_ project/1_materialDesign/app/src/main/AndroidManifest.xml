@@ -9,9 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MovieDetailActivity"
+        <activity android:name=".FloatTabActivity"
                   android:theme="@style/AppTheme.NoActionBar"
         >
+        </activity>
+        <activity android:name=".BottomNavigationViewActivity">
+        </activity>
+        <activity
+            android:name=".VipActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".MovieDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".ToolbarActivity"
