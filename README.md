@@ -17,7 +17,7 @@
 ### [屏幕适配](https://github.com/zh405557524/AndroidAdvanceLearn/tree/master/1_ui/1_%20screen)
 
 ### [项目实战]
-#### [Material Design](https://github.com/zh405557524/AndroidAdvanceLearn/tree/master/1_ui/2_%20project/1_materialDesign)
+* [Material Design](https://github.com/zh405557524/AndroidAdvanceLearn/tree/master/1_ui/2_%20project/1_materialDesign)
 
 
 
