@@ -130,7 +130,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:menu="@menu/navigation"/>
-       ~~~
+    ~~~
   
     ~~~xml
     <?xml version="1.0" encoding="utf-8"?>
@@ -208,6 +208,69 @@
     
   
   - CoordinatorLayout
+  
+       ~~~xml
+           <android.support.design.widget.CoordinatorLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent">
+       
+               <android.support.design.widget.AppBarLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content">
+       
+                   <android.support.v7.widget.Toolbar
+                       android:id="@+id/tb_at_toolbar"
+                       android:layout_width="match_parent"
+                       android:layout_height="?attr/actionBarSize"
+                       android:background="@color/colorPrimary"
+                       android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                       app:layout_scrollFlags="scroll|enterAlways"
+                       app:logo="@mipmap/ic_launcher"
+                       app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                       app:subtitle="副标题"
+                       app:subtitleTextColor="#fff"
+                       app:title="标题"
+                       app:titleTextColor="#fff">
+       
+                       <TextView
+                           android:layout_width="match_parent"
+                           android:layout_height="?attr/actionBarSize"
+                           android:gravity="center"
+                           android:text="View"
+                           android:textColor="@color/white"/>
+       
+                   </android.support.v7.widget.Toolbar>
+               </android.support.design.widget.AppBarLayout>
+       
+       
+               <android.support.v4.widget.SwipeRefreshLayout
+                   android:id="@+id/srl_refresh"
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   app:layout_behavior="@string/appbar_scrolling_view_behavior">
+       
+                   <android.support.v7.widget.RecyclerView
+                       android:id="@+id/rv_at_list"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"/>
+       
+               </android.support.v4.widget.SwipeRefreshLayout>
+       
+               <android.support.design.widget.FloatingActionButton
+                   android:id="@+id/fab_at_action"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="bottom|end"
+                   android:layout_margin="16dp"
+                   android:src="@drawable/add"
+                   app:elevation="8dp"/>
+       
+               <!-- 使用popupTheme是为了兼容5.0以下的系统-->
+           </android.support.design.widget.CoordinatorLayout>
+       
+       ~~~
+  
+       
   
   - AppBarLayout
   
