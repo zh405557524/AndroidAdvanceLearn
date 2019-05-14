@@ -414,13 +414,130 @@
   
     
 
+* Behavior 子父view滑动联动
+
+  ~~~ java
+  
+  public class ScaleBehavior<V extends View> extends CoordinatorLayout.Behavior<V> {
+  
+      private FastOutLinearInInterpolator mFastOutLinearInInterpolator = new FastOutLinearInInterpolator();
+      private LinearOutSlowInInterpolator mLinearOutSlowInInterpolator = new LinearOutSlowInInterpolator();
+  
+      public ScaleBehavior(Context context, AttributeSet attrs) {
+          super(context, attrs);
+      }
+  
+      @Override
+      public boolean onStartNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull V child, @NonNull View directTargetChild, @NonNull View target, int axes, int type) {
+          return axes == ViewCompat.SCROLL_AXIS_VERTICAL; //垂直滚动
+      }
+  
+      @Override
+      public void onNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull V child, @NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type) {
+          super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type);
+          if (dyConsumed > 0 && !isRunning && child.getVisibility() == View.VISIBLE){//向下滑动，缩放隐藏控件
+              scaleHide(child);
+          }else if (dyConsumed < 0 && !isRunning && child.getVisibility() == View.INVISIBLE){ //向上滑动，缩放显示控件
+              scaleShow(child);
+          }
+      }
+      private boolean isRunning;
+  }
+  
+  
+  ~~~
+
+  
+
+## 沉浸式体验
+
+* 修改styles文件
+
+  ~~~xml
+   <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+          <!-- Customize your theme here. -->
+          <item name="colorPrimary">@color/colorPrimary</item>
+          <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+          <item name="colorAccent">@color/colorAccent</item>
+          <item name="android:statusBarColor">@android:color/transparent</item>
+          <item name="android:windowTranslucentStatus">true</item>
+          <item name="android:windowTranslucentNavigation">true</item>
+      </style>
+  ~~~
+
+* 修改代码
+
+~~~java
+ if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT){
+            return;
+        }   
+if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            //设置状态栏颜色透明
+            window.setStatusBarColor(Color.TRANSPARENT);
+
+            int visibility = window.getDecorView().getSystemUiVisibility();
+            //布局内容全屏展示
+            visibility |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+            //隐藏虚拟导航栏
+            visibility |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+            //防止内容区域大小发生变化
+            visibility |= View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+
+            window.getDecorView().setSystemUiVisibility(visibility);
+        }else {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+~~~
+
+~~~java
+   public int getStatusBarHeight(Context context){
+        int resId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resId > 0){
+            return context.getResources().getDimensionPixelSize(resId);
+        }
+        return 0;
+    }
+~~~
 
 
 
+## CaredView
 
+~~~xml
+    <!--app:cardBackgroundColor="@color/colorPrimary"  设置cardView背景色 -->
+    <!--app:cardPreventCornerOverlap="false" 取消Lollipop以下版本的padding -->
+    <!--app:cardUseCompatPadding="true" 为 Lollipop 及其以上版本增加一个阴影padding内边距-->
+    <!--app:cardCornerRadius="8dp" 设置cardView圆角效果-->
+    <!--app:cardElevation="10dp" 设置cardView Z轴阴影大小-->
+    <!--app:cardMaxElevation="6dp" 设置cardView Z轴最大阴影-->
+    <!--app:contentPadding="10dp" 设置内容的内边距-->
+    <!--app:contentPaddingBottom="12dp" 设置内容的底部内边距-->
+    <!--app:contentPaddingLeft="12dp" 设置内容的左边内边距-->
+    <!--app:contentPaddingRight="12dp" 设置内容的右边内边距-->
+    <!--app:contentPaddingTop="12dp" 设置内容的顶部内边距-->
+    <android.support.v7.widget.CardView android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="8dp"
+        app:contentPadding="10dp"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardElevation="10dp">
 
+        <TextView android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="cardView"
+            android:background="#ffff00"
+            android:gravity="center"/>
 
-
+    </android.support.v7.widget.CardView>
+~~~
 
 
 
