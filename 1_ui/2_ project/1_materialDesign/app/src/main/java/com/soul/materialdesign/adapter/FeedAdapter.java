@@ -33,13 +33,53 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedHolder> {
         Picasso.with(feedHolder.iv_avatar.getContext())
                 .load(getAvatarUri(i))
                 .into(feedHolder.iv_avatar);
-
+        //设置名称
+        feedHolder.tv_nickname.setText("nickname:" + i);
+        //设置图片
+        Picasso.with(feedHolder.iv_content.getContext())
+                .load(getContent(i))
+                .into(feedHolder.iv_content);
 
     }
 
     private int getAvatarUri(int position) {
+        final int i = position % 4;
+        int res = 0;
+        switch (i) {
+            case 0:
+                res = R.drawable.avatar1;
+                break;
+            case 1:
+                res = R.drawable.avatar2;
+                break;
+            case 2:
+                res = R.drawable.avatar3;
+                break;
+            case 3:
+                res = R.drawable.avatar4;
+                break;
+        }
+        return res;
+    }
 
-        return 0;
+    private int getContent(int position) {
+        final int i = position % 4;
+        int res = 0;
+        switch (i) {
+            case 0:
+                res = R.drawable.taeyeon_one;
+                break;
+            case 1:
+                res = R.drawable.taeyeon_two;
+                break;
+            case 2:
+                res = R.drawable.taeyeon_three;
+                break;
+            case 3:
+                res = R.drawable.taeyeon_four;
+                break;
+        }
+        return res;
     }
 
 
