@@ -284,7 +284,7 @@
                 android:id="@+id/appBar"
                 android:layout_width="match_parent"
                 android:layout_height="450dp"
-                android:fitsSystemWindows="true">
+                android:fitsSystemWindows="true">//是否不延伸至状态栏
     
                 <!-- AppBarLayout的直接子控件可以设置的属性:layout_scrollFlags(滚动模式) -->
                 <!-- 1.scroll|exitUntilCollapsed:如果AppBarLayout的直接子控件设置该属性,该子控件可以滚动,向上滚动NestedScrollView出父布局(一般为CoordinatorLayout)时,会折叠到顶端,向下滚动时NestedScrollView必须滚动到最上面的时候才能拉出该布局

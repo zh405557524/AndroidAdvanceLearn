@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,7 +39,6 @@ public class RecyclerViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_recycler_view);
         setStatusBar();
         final RecyclerView recyclerView = findViewById(R.id.recyclerView);
@@ -54,35 +54,35 @@ public class RecyclerViewActivity extends AppCompatActivity {
         mTitle = findViewById(R.id.rl_title);
 
         final Toolbar toolbar = findViewById(R.id.toolbar);
-//        setHeightAndPadding(RecyclerViewActivity.this, toolbar);
+        setHeightAndPadding(RecyclerViewActivity.this, toolbar);
 
-//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//                mMeasuredHeight = mTitle.getHeight();
-//
-//
-//            }
-//
-//            @Override
-//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                //获取下一个view
-//                //顶部如果小于或者等于条目的高度，则设置条目的位置
-//                final View nextView = linearLayoutManager.findViewByPosition(mPosition + 1);
-//                if (nextView != null && mMeasuredHeight >= nextView.getTop()) {
-//                    mTitle.setY(-(mMeasuredHeight - nextView.getTop()));
-//                } else {
-//                    mTitle.setY(0);
-//                }
-//
-//                if (mPosition != linearLayoutManager.findFirstVisibleItemPosition()) {
-//                    mPosition = linearLayoutManager.findFirstVisibleItemPosition();
-//                    upDataTitle();
-//                }
-//            }
-//        });
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                mMeasuredHeight = mTitle.getHeight();
+
+
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                //获取下一个view
+                //顶部如果小于或者等于条目的高度，则设置条目的位置
+                final View nextView = linearLayoutManager.findViewByPosition(mPosition + 1);
+                if (nextView != null && mMeasuredHeight >= nextView.getTop()) {
+                    mTitle.setY(-(mMeasuredHeight - nextView.getTop()));
+                } else {
+                    mTitle.setY(0);
+                }
+
+                if (mPosition != linearLayoutManager.findFirstVisibleItemPosition()) {
+                    mPosition = linearLayoutManager.findFirstVisibleItemPosition();
+                    upDataTitle();
+                }
+            }
+        });
         upDataTitle();
 
     }
