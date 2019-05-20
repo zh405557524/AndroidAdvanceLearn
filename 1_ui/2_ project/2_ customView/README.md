@@ -42,6 +42,61 @@
 
   
 
+## 手写recyclerViwe
+
+* recyclerView 架构中核心组件 
+
+  - 回收池:能回收任意item控件，并返回符合类型的item控件；比如 onBInderViewHodler方法中的第一个参数是从回收池返回的。
+
+  - 适配器:Adapter接口，经常辅助RecyclerView现实列表展示；适配器模式，将用户界面展示与交互分离。
+
+  - recyclerView：是做触摸事件的交互，主要实现边界值判断;根据用户的触摸反馈，协调回收池对象与适配器对象之间的工作。
+
+    
+
+* recyclerView的架构实现
+  - 加载
+  - 滑动
+  - 架构:充分利用传送带原理，只有用户看到的数据才会加载到内存，而看不到的在等待被加载。传送带能够源源不断的传送亿级货物，RecyclerView也能够显示加载亿级item。
+  - 传送带的工作机制可以比作生产者与消费者模式。
+
+* recyclerVIew的代码设计
+
+  - 代码(需要重写自定义的方法)
+    - onLayout
+    - onMeasure
+    - onInterceptTouchEvent
+    - onTouchEvent
+    - srcollyBy
+  - 成员变量
+    * List<View> viewlist: 缓存已经加载到屏幕上的View 这些View不存在回收池中，需要集合表示，方便后续查找和移除
+    * int curentY:: 记录在Y轴上滑动的距离
+    * int rowCount:记录在RecyClerView加载的总数据，比如1w条
+    * int firstRow:: 记录在屏幕中第一个View在数据内容中的位置，比如目前是第34个元素在屏幕的 一个位置。
+    * REcycler recycler:: 持有一个回收池的引用
+    * int srollY: RecyclerView中第一个VIew的左上顶点力离屏幕的距离
+  - 1
+  - 2
+  - 3
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
