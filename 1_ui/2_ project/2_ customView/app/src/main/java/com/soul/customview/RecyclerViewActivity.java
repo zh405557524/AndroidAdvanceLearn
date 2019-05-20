@@ -18,7 +18,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
         recyclerView.setAdapter(new RecyclerView.Adapter() {
             @Override
             public View onCreateViewHolder(int position, View convertView, ViewGroup parent) {
-                convertView = RecyclerViewActivity.this.getLayoutInflater().inflate(R.layout.item_table, parent);
+                convertView = RecyclerViewActivity.this.getLayoutInflater().inflate(R.layout.item_table, parent, false);
                 final TextView textView = convertView.findViewById(R.id.text1);
                 textView.setText("第" + position + "行");
                 return convertView;
@@ -26,7 +26,9 @@ public class RecyclerViewActivity extends AppCompatActivity {
 
             @Override
             public View onBinderViewHolder(int position, View convertView, ViewGroup parent) {
-                return null;
+                final TextView textView = convertView.findViewById(R.id.text1);
+                textView.setText("网易课堂" + position);
+                return convertView;
             }
 
             @Override
@@ -36,12 +38,17 @@ public class RecyclerViewActivity extends AppCompatActivity {
 
             @Override
             public int getVIewTypeCount() {
-                return 0;
+                return 1;
             }
 
             @Override
             public int getCount() {
-                return 0;
+                return 30;
+            }
+
+            @Override
+            public int getHeight(int index) {
+                return 100;
             }
         });
     }
