@@ -2,6 +2,7 @@ package com.soul.customview.view.recycler;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -148,8 +149,8 @@ public class RecyclerView extends ViewGroup {
             view = mAdapter.onBinderViewHolder(row, recyclerView, this);
         }
         view.setTag(R.id.tag_type_view, itemType);
-        view.measure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),
-                MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
+        view.measure(MeasureSpec.makeMeasureSpec(i, MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(i1, MeasureSpec.EXACTLY));
         addView(view, 0);
 
         return view;
@@ -176,7 +177,7 @@ public class RecyclerView extends ViewGroup {
     private int sumArray(int array[], int firstIndex, int count) {
         int sum = 0;
         count += firstIndex;
-        for (int i = 0; i < firstIndex; i++) {
+        for (int i = firstIndex; i < count; i++) {
             sum += array[i];
         }
         return sum;
@@ -190,8 +191,14 @@ public class RecyclerView extends ViewGroup {
             case MotionEvent.ACTION_DOWN:
                 currentY = (int) ev.getRawY();
                 break;
+            case MotionEvent.ACTION_MOVE:
+                int y2 = Math.abs(currentY - (int) ev.getRawY());
+                if (y2 > touchSlop) {
+                    intercept = true;
+                }
+                break;
         }
-        return false;
+        return intercept;
     }
 
 
@@ -203,34 +210,83 @@ public class RecyclerView extends ViewGroup {
                 //移动的距离 y方向
                 int y2 = (int) event.getRawY();
 
-
                 final int diffY = currentY - y2;
-                scrollBy(diffY, 0);
+                scrollBy(0, diffY);
                 break;
         }
 
 
-        return false;
+        return super.onTouchEvent(event);
     }
 
 
     @Override
     public void scrollBy(int x, int y) {
         scrollY += y;
-
+        //        scrollY = scrollBounds(scrollY);
+        Log.i("Tag", "scrollY:" + scrollY);
         if (scrollY > 0) {
             //上滑正 下滑负 边界值
-            if (scrollY > heights[firstRow]) {
+            while (scrollY > heights[firstRow]) {
                 //1 上滑移除 2 上滑加载  3 下滑移除 4 下滑加载
                 removeView(viewList.remove(0));
-                scrollY = 0;
+                scrollY -= heights[firstRow];
                 firstRow++;
             }
-        } else if (scrollY < 0) {
-            //下滑负
 
+            while (getFillHeight() < height) {
+                int addLast = firstRow + viewList.size();
+                final View view = obtainView(addLast, width, heights[addLast]);
+                viewList.add(viewList.size(), view);
+            }
+
+        } else if (scrollY < 0) {
+            //下滑加载
+            while (scrollY < 0) {
+                int firstAddRow = firstRow - 1;
+                final View view = obtainView(firstAddRow, width, heights[firstAddRow]);
+                viewList.add(0, view);
+                firstRow--;
+                scrollY += heights[firstRow + 1];
+            }
+
+            while (sumArray(heights, firstRow, viewList.size()) - scrollY - heights[firstRow + viewList.size()] >= height) {
+                removeView(viewList.remove(viewList.size() - 1));
+            }
 
         }
+
+        repositionViews();
+    }
+
+    private void repositionViews() {
+        int left, top, right, bottom, i;
+        top = -scrollY;
+        i = firstRow;
+        for (View view : viewList) {
+            bottom = top + heights[i++];
+            view.layout(0, top, width, bottom);
+            top = bottom;
+        }
+
+    }
+
+    private int getFillHeight() {
+
+
+        return sumArray(heights, firstRow, viewList.size()) - scrollY;
+    }
+
+    private int scrollBounds(int scrollY) {
+        //上滑
+        if (scrollY > 0) {
+
+
+        } else {
+            //极限值 会取零  非极限值的情况下 scrollY
+            scrollY = Math.max(scrollY, -sumArray(heights, 0, firstRow));
+        }
+        return scrollY;
 
     }
 
