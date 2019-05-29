@@ -36,7 +36,7 @@ public class RippleCircleView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        final int width = getWidth() / 2;
-        canvas.drawCircle(width, width, width - mRippleAnimationView.strokWidth, mRippleAnimationView.mPaint);
+        final int radius = (Math.min(getHeight(), getWidth())) / 2;
+        canvas.drawCircle(radius, radius, radius - mRippleAnimationView.strokWidth, mRippleAnimationView.mPaint);
     }
 }

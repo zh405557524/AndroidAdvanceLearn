@@ -70,11 +70,12 @@ public class RippleAnimationView extends RelativeLayout {
         //2 设置动画时间
         long rippleDuration = 5000;
         final long singleDelay = rippleDuration / 4;
-        float maxScale = 3;
+        float maxScale = 2;
         //3 创建view 并添加动画
         final RippleCircleView rippleCircleView = new RippleCircleView(this);
         final LayoutParams layoutParams = new LayoutParams(UIUtils.getInstance().getWidth(radius + strokWidth),
                 UIUtils.getInstance().getWidth(radius + strokWidth));
+        layoutParams.addRule(CENTER_IN_PARENT, TRUE);
         addView(rippleCircleView, layoutParams);
         ArrayList<Animator> animatorArrayList = new ArrayList<>();
         //透明度
