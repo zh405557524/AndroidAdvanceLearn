@@ -14,6 +14,8 @@ Button btn = findViewById(R.id.btn);
 ObjectAnimator anim = ObjectAnimator.ofFloat(btn,"alpha",0f,1f);//透明度
 ObjectAnimator anim = ObjectAnimator.ofFloat(btn,"translationY",0,100f);//移动
 ObjectAnimator anim = ObjectAnimator.ofFloat(btn,"scaleX",0,1.0f);//缩放
+anim.setRepeatCount(ObjectAnimator.INFINITE);//无限重复
+anim.setRepeatMode(ObjectAnimator.RESTART);
 anim.setDuration(1000);
 ObjectAnimator anim = ObjectAnimator.ofFloat(btn,"alpha",0f,1f);//透明度
 anim.start();
