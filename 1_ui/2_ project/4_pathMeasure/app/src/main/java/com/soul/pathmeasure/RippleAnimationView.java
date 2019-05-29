@@ -86,6 +86,7 @@ public class RippleAnimationView extends RelativeLayout {
         alpha.setDuration(rippleDuration);
         //        animatorArrayList.add(alpha);
 
+
         final ObjectAnimator scaleX = ObjectAnimator.ofFloat(rippleCircleView, "scaleX", 1.0f, maxScale);
         alpha.setRepeatCount(ObjectAnimator.INFINITE);//无限重复
         alpha.setRepeatMode(ObjectAnimator.RESTART);
