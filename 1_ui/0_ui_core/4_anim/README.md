@@ -11,9 +11,21 @@
 ## 属性动画使用
 ~~~
 Button btn = findViewById(R.id.btn);
-ObjectAnimator anim = ObjectAnimator.ofFloat(btn,"alpha",0f,1f);
+ObjectAnimator anim = ObjectAnimator.ofFloat(btn,"alpha",0f,1f);//透明度
+ObjectAnimator anim = ObjectAnimator.ofFloat(btn,"translationY",0,100f);//移动
+ObjectAnimator anim = ObjectAnimator.ofFloat(btn,"scaleX",0,1.0f);//缩放
+anim.setRepeatCount(ObjectAnimator.INFINITE);//无限重复
+anim.setRepeatMode(ObjectAnimator.RESTART);
 anim.setDuration(1000);
+ObjectAnimator anim = ObjectAnimator.ofFloat(btn,"alpha",0f,1f);//透明度
 anim.start();
+~~~
+## AnimatorSet的使用
+~~~
+    AnimatorSet animSet = new AnimatorSet();
+    animSet.playTogether(translationY, scaleX, scaleY);
+    animSet.setDuration(2000);
+    animSet.start();
 ~~~
 ## 动画本质
     本质：动画实际上是改变View在某一时间点的样式属性
