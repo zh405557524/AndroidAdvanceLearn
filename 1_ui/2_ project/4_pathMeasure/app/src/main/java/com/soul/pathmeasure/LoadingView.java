@@ -21,10 +21,25 @@ import android.view.animation.AccelerateDecelerateInterpolator;
  */
 public class LoadingView extends View {
 
+    /**
+     * 画笔
+     */
     private Paint mPaint;
+    /**
+     * 圆的路径
+     */
     private Path mPath;
+    /**
+     * 路径测量
+     */
     private PathMeasure mPathMeasure;
+    /**
+     * 绘制的路径
+     */
     private Path mDstPath;
+    /**
+     * 路径百分比
+     */
     private float mAnimatedValue;
 
     public LoadingView(Context context) {
@@ -48,9 +63,12 @@ public class LoadingView extends View {
         mPaint.setColor(Color.BLUE);
         mPaint.setStrokeWidth(4);
         mPath = new Path();
+        //2 创建圆
         mPath.addCircle(150, 150, 150, Path.Direction.CW);
+        //3 测量圆
         mPathMeasure = new PathMeasure(mPath, true);
         mDstPath = new Path();
+        //4 动画
         final ValueAnimator valueAnimator = ValueAnimator.ofFloat(1.0f);
         valueAnimator.setDuration(3000);
         valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
@@ -69,8 +87,11 @@ public class LoadingView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         mDstPath.reset();
+        //获取长度
         final float length = mPathMeasure.getLength() * mAnimatedValue;
+        //计算起点
         float start = (float) (length - (0.5 - Math.abs(mAnimatedValue - 0.5f)) * length);
+        //截取路径片段
         mPathMeasure.getSegment(start, length, mDstPath, true);
         canvas.drawPath(mDstPath, mPaint);
     }
