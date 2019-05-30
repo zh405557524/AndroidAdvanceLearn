@@ -72,35 +72,38 @@ public class RippleAnimationView extends RelativeLayout {
         final long singleDelay = rippleDuration / 4;
         float maxScale = 2;
         //3 创建view 并添加动画
-        final RippleCircleView rippleCircleView = new RippleCircleView(this);
         final LayoutParams layoutParams = new LayoutParams(UIUtils.getInstance().getWidth(radius + strokWidth),
                 UIUtils.getInstance().getWidth(radius + strokWidth));
-        layoutParams.addRule(CENTER_IN_PARENT, TRUE);
-        addView(rippleCircleView, layoutParams);
+
         ArrayList<Animator> animatorArrayList = new ArrayList<>();
-        //透明度
-        final ObjectAnimator alpha = ObjectAnimator.ofFloat(rippleCircleView, "Alpha", 1.0f, 0.f);
-        alpha.setRepeatCount(ObjectAnimator.INFINITE);//无限重复
-        alpha.setRepeatMode(ObjectAnimator.RESTART);
-        //        alpha.setStartDelay(singleDelay);
-        alpha.setDuration(rippleDuration);
-        //        animatorArrayList.add(alpha);
+        for (int i = 0; i < 4; i++) {
+            final RippleCircleView rippleCircleView = new RippleCircleView(this);
+            layoutParams.addRule(CENTER_IN_PARENT, TRUE);
+            addView(rippleCircleView, layoutParams);
+            //透明度
+            final ObjectAnimator alpha = ObjectAnimator.ofFloat(rippleCircleView, "Alpha", 1.0f, 0.f);
+            alpha.setRepeatCount(ObjectAnimator.INFINITE);//无限重复
+            alpha.setRepeatMode(ObjectAnimator.RESTART);
+            alpha.setStartDelay(i * singleDelay);
+            alpha.setDuration(rippleDuration);
+            animatorArrayList.add(alpha);
 
 
-        final ObjectAnimator scaleX = ObjectAnimator.ofFloat(rippleCircleView, "scaleX", 1.0f, maxScale);
-        alpha.setRepeatCount(ObjectAnimator.INFINITE);//无限重复
-        alpha.setRepeatMode(ObjectAnimator.RESTART);
-        //        alpha.setStartDelay(singleDelay);
-        alpha.setDuration(rippleDuration);
-        animatorArrayList.add(scaleX);
+            final ObjectAnimator scaleX = ObjectAnimator.ofFloat(rippleCircleView, "scaleX", 1.0f, maxScale);
+            scaleX.setRepeatCount(ObjectAnimator.INFINITE);//无限重复
+            scaleX.setRepeatMode(ObjectAnimator.RESTART);
+            scaleX.setStartDelay(i * singleDelay);
+            scaleX.setDuration(rippleDuration);
+            animatorArrayList.add(scaleX);
 
 
-        final ObjectAnimator scaleY = ObjectAnimator.ofFloat(rippleCircleView, "scaleY", 1.0f, maxScale);
-        alpha.setRepeatCount(ObjectAnimator.INFINITE);//无限重复
-        alpha.setRepeatMode(ObjectAnimator.RESTART);
-        //        alpha.setStartDelay(singleDelay);
-        alpha.setDuration(rippleDuration);
-        animatorArrayList.add(scaleY);
+            final ObjectAnimator scaleY = ObjectAnimator.ofFloat(rippleCircleView, "scaleY", 1.0f, maxScale);
+            scaleY.setRepeatCount(ObjectAnimator.INFINITE);//无限重复
+            scaleY.setRepeatMode(ObjectAnimator.RESTART);
+            scaleY.setStartDelay(i * singleDelay);
+            scaleY.setDuration(rippleDuration);
+            animatorArrayList.add(scaleY);
+        }
 
 
         //缩放 x轴

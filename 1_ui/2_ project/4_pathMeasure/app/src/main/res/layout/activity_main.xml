@@ -1,25 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
-
-    <com.soul.pathmeasure.RippleAnimationView
-        android:id="@+id/rippleAnimationView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        app:radius="200"
-        app:ripple_anim_color="@color/colorPrimaryDark"
-        app:ripple_anim_type="strokeRipple"
-        app:strokWidth="18"/>
     <Button
-        android:id="@+id/bt_startAnimal"
+        android:id="@+id/bt_ripple"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="启动动画"/>
+        android:layout_height="wrap_content" android:text="水波纹"/>
+    <Button
+        android:id="@+id/bt_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:text="加载状态"/>
 
-</RelativeLayout>
+</LinearLayout>
