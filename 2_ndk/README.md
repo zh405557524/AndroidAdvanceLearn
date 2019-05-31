@@ -1,15 +1,15 @@
 # NDK开发
 
-## 第一章 C/C++基础篇
+## [第一章 C/C++基础篇](https://github.com/zh405557524/AndroidAdvanceLearn/tree/master/2_ndk/1_c:c%2B%2B%E5%9F%BA%E7%A1%80s)
 
-* 第一节 基础知识
+* [第一节 基础知识](https://github.com/zh405557524/AndroidAdvanceLearn/tree/master/2_ndk/1_c:c%2B%2B%E5%9F%BA%E7%A1%80/1_%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86)
   * 1 函数
   * 2 linux内存布局原理
   * 3 指针数组
   * 4 结构体
   * 5 共用体
   * 6 动态库
-* 第二节 C++基础进阶
+* 第二节 [C++基础进阶](https://github.com/zh405557524/AndroidAdvanceLearn/tree/master/2_ndk/1_c:c%2B%2B%E5%9F%BA%E7%A1%80/2_c%2B%2B%E5%9F%BA%E7%A1%80%E8%BF%9B%E9%98%B6)
   * 1 类的构造
   * 2 单例对象，操作符重载
   * 3 继承多态 虚函数
