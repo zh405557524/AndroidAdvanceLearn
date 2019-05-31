@@ -19,7 +19,7 @@
 ### [项目实战]
 * [Material Design](https://github.com/zh405557524/AndroidAdvanceLearn/tree/master/1_ui/2_%20project/1_materialDesign)
 
-## NDK开发
+## [NDK开发](https://github.com/zh405557524/AndroidAdvanceLearn/tree/master/2_ndk)
 
 ### [第一章 C/C++基础篇](https://github.com/zh405557524/AndroidAdvanceLearn/tree/master/2_ndk/1_c:c%2B%2B%E5%9F%BA%E7%A1%80s)
 
