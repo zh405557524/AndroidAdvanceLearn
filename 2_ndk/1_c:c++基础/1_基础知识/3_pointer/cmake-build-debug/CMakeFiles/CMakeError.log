@@ -1,0 +1,10 @@
+Detecting C [-std=c11] compiler features failed to compile with the following output:
+Change Dir: /Users/hillliao/github/AndroidAdvanceLearn/2_ndk/1_c:c++基础/1_基础知识/3_pointer/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_a5497/fast 
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_a5497.dir/build.make CMakeFiles/cmTC_a5497.dir/build
+CMakeFiles/cmTC_a5497.dir/build.make:64: *** target pattern contains no `%'.  Stop.
+make: *** [cmTC_a5497/fast] Error 2
+
+
+

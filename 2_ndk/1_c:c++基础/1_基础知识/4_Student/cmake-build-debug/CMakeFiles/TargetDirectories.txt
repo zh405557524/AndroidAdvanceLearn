@@ -1,0 +1,3 @@
+/Users/hillliao/github/AndroidAdvanceLearn/2_ndk/1_c:c++基础/1_基础知识/4_Student/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/hillliao/github/AndroidAdvanceLearn/2_ndk/1_c:c++基础/1_基础知识/4_Student/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/hillliao/github/AndroidAdvanceLearn/2_ndk/1_c:c++基础/1_基础知识/4_Student/cmake-build-debug/CMakeFiles/4_Student.dir

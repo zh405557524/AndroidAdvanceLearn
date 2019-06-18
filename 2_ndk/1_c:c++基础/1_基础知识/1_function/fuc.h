@@ -5,12 +5,8 @@
 #ifndef INC_1_FUNCTION_FUC_H
 #define INC_1_FUNCTION_FUC_H
 
+int func(void);
 
-
-class fuc {
-
-};
-
-
+int func1(void *pathName, int a);
 
 #endif //INC_1_FUNCTION_FUC_H

@@ -1,0 +1,20 @@
+Detecting C [-std=c11] compiler features failed to compile with the following output:
+Change Dir: /Users/hillliao/github/AndroidAdvanceLearn/2_ndk/1_c:c++基础/2_c++基础进阶/1_类的构造/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_89698/fast 
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_89698.dir/build.make CMakeFiles/cmTC_89698.dir/build
+CMakeFiles/cmTC_89698.dir/build.make:64: *** target pattern contains no `%'.  Stop.
+make: *** [cmTC_89698/fast] Error 2
+
+
+
+Detecting CXX [-std=c++1z] compiler features failed to compile with the following output:
+Change Dir: /Users/hillliao/github/AndroidAdvanceLearn/2_ndk/1_c:c++基础/2_c++基础进阶/1_类的构造/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_5fee6/fast 
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_5fee6.dir/build.make CMakeFiles/cmTC_5fee6.dir/build
+CMakeFiles/cmTC_5fee6.dir/build.make:64: *** target pattern contains no `%'.  Stop.
+make: *** [cmTC_5fee6/fast] Error 2
+
+
+
