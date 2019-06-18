@@ -28,7 +28,7 @@
 
   > A类持有B类的引用，这种关系称为依赖关系
 
-  ![依赖](https://github.com/zh405557524/AndroidAdvanceLearn/blob/master/3_架构师/第一章 架构师入门/第一节 UML建模/res/依赖.jpg)
+  ![依赖](https://github.com/zh405557524/AndroidAdvanceLearn/blob/master/3_%E6%9E%B6%E6%9E%84%E5%B8%88/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E6%9E%B6%E6%9E%84%E5%B8%88%E5%85%A5%E9%97%A8/%E7%AC%AC%E4%B8%80%E8%8A%82%20UML%E5%BB%BA%E6%A8%A1/res/%E4%BE%9D%E8%B5%96.jpg)
 
 * 泛化(Generalization)
 
