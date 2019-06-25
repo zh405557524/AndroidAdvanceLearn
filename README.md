@@ -57,7 +57,7 @@
   * 1 CMake语法详解
   * 2 CMakeList.txt文件详解
 
-### [第三章项目实战](https://github.com/zh405557524/AndroidAdvanceLearn/tree/master/2_ndk/3_%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98)
+### [第三章 项目实战](https://github.com/zh405557524/AndroidAdvanceLearn/tree/master/2_ndk/3_%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98)
 
 * [visualstudio环境搭建](https://github.com/zh405557524/AndroidAdvanceLearn/tree/master/2_ndk/3_%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98/0_visualstudio%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA)
 * [第一节 一线互联网核心技术](https://github.com/zh405557524/AndroidAdvanceLearn/tree/master/2_ndk/3_%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98/1_%E4%B8%80%E7%BA%BF%E4%BA%92%E8%81%94%E7%BD%91%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF)
@@ -86,6 +86,55 @@
   * 2 点对点通信原理(实现内网间直接通信)
   * 3 手写视频通话
   * 4 网易案例-云信音视频通话技术
+
+
+
+# [架构师]([https://github.com/zh405557524/AndroidAdvanceLearn/tree/master/3_%E6%9E%B6%E6%9E%84%E5%B8%88](https://github.com/zh405557524/AndroidAdvanceLearn/tree/master/3_架构师))
+
+# [第一章 架构师入门]([https://github.com/zh405557524/AndroidAdvanceLearn/tree/master/3_%E6%9E%B6%E6%9E%84%E5%B8%88/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E6%9E%B6%E6%9E%84%E5%B8%88%E5%85%A5%E9%97%A8](https://github.com/zh405557524/AndroidAdvanceLearn/tree/master/3_架构师/第一章 架构师入门))
+
+* [第一节 UML建模]([https://github.com/zh405557524/AndroidAdvanceLearn/tree/master/3_%E6%9E%B6%E6%9E%84%E5%B8%88/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E6%9E%B6%E6%9E%84%E5%B8%88%E5%85%A5%E9%97%A8/%E7%AC%AC%E4%B8%80%E8%8A%82%20UML%E5%BB%BA%E6%A8%A1](https://github.com/zh405557524/AndroidAdvanceLearn/tree/master/3_架构师/第一章 架构师入门/第一节 UML建模))
+  * PowerDesigner安装
+  * 正向工程与逆向工程在UML图中的应用
+  * 关系(依赖、泛化、关联、实现)画法
+  * AOP面向切面架构设计
+  * 集中式登录架构设计
+
+* [第二节 设计模式]([https://github.com/zh405557524/AndroidAdvanceLearn/tree/master/3_%E6%9E%B6%E6%9E%84%E5%B8%88/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E6%9E%B6%E6%9E%84%E5%B8%88%E5%85%A5%E9%97%A8/%E7%AC%AC%E4%B8%89%E8%8A%82%20%E6%97%A0%E6%AD%BB%E8%A7%92%E5%88%86%E6%9E%90Android%20%E7%B3%BB%E7%BB%9F%E6%BA%90%E7%A0%81](https://github.com/zh405557524/AndroidAdvanceLearn/tree/master/3_架构师/第一章 架构师入门/第三节 无死角分析Android 系统源码))
+  * MVC架构设计与三层模型
+  * MVP思想精髓与解耦
+  * MVP思想实现项目基础框架搭建
+  * 更节省的设计模式之MVVM实现数据双向绑定
+  * MVVM与DataBInding
+
+* [第三节 无死角分析Android系统源码]([https://github.com/zh405557524/AndroidAdvanceLearn/tree/master/3_%E6%9E%B6%E6%9E%84%E5%B8%88/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E6%9E%B6%E6%9E%84%E5%B8%88%E5%85%A5%E9%97%A8/%E7%AC%AC%E4%B8%89%E8%8A%82%20%E6%97%A0%E6%AD%BB%E8%A7%92%E5%88%86%E6%9E%90Android%20%E7%B3%BB%E7%BB%9F%E6%BA%90%E7%A0%81](https://github.com/zh405557524/AndroidAdvanceLearn/tree/master/3_架构师/第一章 架构师入门/第三节 无死角分析Android 系统源码))
+  * Handler源码分析及手写实现
+  * BInder核心原理
+  * binder架构设计
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

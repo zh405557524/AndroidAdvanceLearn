@@ -343,15 +343,212 @@ include foo.make a.mk b.mk c.mk e.mk f.mk
     输出：hello world
   ~~~
 
-  
+
+* make的工作流程
+
+  > GNU的make 工作时的执行步骤如下：
+  >
+  > 1.读入所有的makefile。
+  >
+  > 2.读入被include的其他makefile。
+  >
+  > 3.初始化文件中的变量。
+  >
+  > 4.推导隐晦规则，并分析所有规则。
+  >
+  > 5.为所有的目标文件创建依赖关系链。
+  >
+  > 6.根据依赖关系，决定哪些目标要重新生成。
+  >
+  > 7.执行生成命令。
 
 
 
+## 三、Android.mk基础
 
+* 简介
 
+  > Android.mk是一个像Android NDK构建系统描述NDK项目的GNU makefile片段。主要用来编译生成以下几种：
+  >
+  > * APK程序：一般的Android应用程序，系统级别的直接push即可。
+  > * JAVA库：JAVA类库，编译打包生成JAR文件。
+  > * C\C++应用程序：可执行的C\C++应用程序。
+  > * C\C++静态库：编译生成C\C++静态库，并打包成.a文件。
+  > * C\C++共享库：编译生成共享库，并打包.so文件。
 
+* 基本格式
 
+  * 这是一个简单的android.mk文件的内容
 
+    ~~~C++
+    # 定义模块当前路径(必须定义在文件开头，只需定义一次)
+    LOCAL_PATH := $(call my-dir)
+    # 清空当前环境变量(LOCAL_PATH除外)
+    include $(CLEAR_VARS)
+    # 当前模块名(这里会生成libhello-jni.so)
+     LOCAL_MODULE := hellp-jni
+    # 当前模块包含的源代码文件
+    LOCAL_SRC_FILES : = hello-jni.c
+    # 表示当前模块将编译成一个共享库
+    include $(BUILE_SHARED_LIBRARY)
+    ~~~
+
+  * 一个Android.mk可能编译产生多个共享库模块。这里会产生libmodule1.so和libmodule2.so两个动态库。
+
+    ~~~C++
+    LOCAL_PATH := $(call my-dir)
+    # 模块1
+    include $(CLEAR_VARS)
+    LOCAL_MODULE := module1
+    LOCAL_SRC_FILES := module1.c
+    include $(BUILD_SHARED_LIBRARY)
+      
+    # 模块2
+    include $(CLEAR_VARS)
+    LOCAL_MODULE := module2
+    LOCAL_SRC_FILES := module2.c
+    include $(BUILD_SHARED_LIBRARY)
+    ~~~
+
+    
+
+* 编译静态库
+  * 虽然Android应用程序不能直接使用静态库，静态库可以用来编译动态库。比如在将第三方代码添加到原生项目中，可以不用直接将第三方源码包括在原生项目中，而是将第三方源码编译成静态库，然后并入共享库。
+
+~~~C++
+LOCAL_PATH:=$(call my-dir)
+# 第三方AVI库
+include $(CLEAR_VARS)
+LOCAL_MODULE := avilib
+LOCAL_SRC_FILES := avilib.c platform_posix.c
+include $(BUILD_STATIC_LIBRARY)
+# 原生模块
+include $(CLERA_VARS)
+LOCAL_MODULE := module
+LOCAL_SRC_FILES := module.c
+# 将静态库模块名添加到LOCAL_STATIC_LIBRARIES变量
+LOCAL_STATIC_LIBRARIES := avilib
+include $(BUILD_SHARED_LIBRARY) 
+~~~
+
+* 使用共享库共享通用模块
+
+  * 静态库可以保证源代码模块化，但是当静态库与共享库相连时，它就变成了共享库的一部分。在多个共享库的情况下，多个共享库与静态库连接时，需要将通用模块的多个副本与不同的共享库重复相连，这样就增加了app的大小。这种情况，可以将通用模块作为共享库。
+
+    ~~~C++
+    LOCAL_PATH := $(call my-dir)
+    # 第三方AVI库
+    include $(CLEAR_VARS)
+    LOCAL_MODULE := avilib
+    LOCAL_SRC_FILES := avilib.c platform_posix.c
+    include $(BUILD_SHARED_LIBRARY)
+    
+    # 原生模块1
+    include $(CLEAR_VARS)
+    LOCAL_MODULE := module1
+    LOCAL_SRC_FILES := module1.c
+    LOCAL_SHARED_LIBRARIES := avilib
+    include $(BUILD_SHARED_LIBRARY)
+      
+    # 原生模块2
+      include $(CLEAR_VARS
+      LOCAL_MODULE : = module2
+      LOCAL_SRC_FILES := module2.c
+      LOCAL_SHARED_LIBRARIES := avilib
+      include $(BUILD_SHARED_LIBRARY)
+    ~~~
+
+    
+
+* 在多个NDK项目间共享模块
+
+  * 首先将aviib源代码移动到ndk项目以外的位置，比如：C:\android\shared-modules\transcode\avilib.
+
+  * 作为共享模块，avilib需要有自己的Android.mk文件。
+
+  * 以transcode/avilib为参数调用函数宏 import-module添加到NDK项目的Android.mk文档末尾。
+
+    ~~~C++
+    
+    #avilib模块自己的android.mk文件
+    LOCAL_PATH := $(call my-dir)
+    include $(CLEAR_VARS)
+    LOCAL_MODULE := avilib
+    LOCAL_SRC_FILES := avilib.c platform_posix.c
+    include $(BUILD_SHARED_LIBRARY)
+     ---------------------------------
+    #使用共享模块的NDK项目1的Android.mk文件
+      LOCAL_PATH := $(call my-dir)
+      include $(CLEAR_VARS)
+      LOCAL_MODULE := module1
+      LOCAL_SRC_FILES := module1.c
+      LOCAL_SHARED_LIBRARIES := avilib
+      include $(BUILD_SHRAED_LIBRARY)
+      $(call import-module,transcode/avilib)
+      ---------------------------------------
+      #使用共享模块的NDK项目2的Android.mk文件
+       LOCAL_PATH := (call my-dir)
+       include $(CLEAR_VARS)
+       LOCAL_MODULE := module2
+       LOCAL_SRC_FILES := module2.c
+       include $(BUILD_SHARED_LIBRARY)
+       $(call import-module,transcode/avilib)
+    ~~~
+
+    
+
+* 使用预编译库
+
+  * 想在不发布源代码的情况下将模块发布给他人。
+
+  * 想使用共享模块的预编译版来加速编译过程
+
+    ~~~C++
+    #预编译共享模块的Android.mk文件
+    LOCAL_PATH := $(call my-dir)
+    #第三方预编译的库
+    include $(CLEAR_VARS)
+    LOCAL_MODULE := avilib
+    LOCAL_SRC_FILES := libavilib.so
+    include $(PREBUILE_SHARED_LIBRARY)
+    ~~~
+
+    
+
+* 编译独立的可执行文件
+
+  * 为了方便测试和进行快速开发，可以编译成可执行文件。不用打包成apk就可以复制到Android设备上直接执行。
+
+    ~~~C++
+    # 独立可执行模块Android.mk文件
+    LOCAL_PATH := $(call my-dir)
+    include $(CLEAR_VARS)
+    LOCAL_MODULE := module
+    LOCAL_SRC_FILES := module.c
+    LOCAL_STATIC_LIBRARIES := avilib
+    include $(BUILD_EXECUABLE)
+    ~~~
+
+    
+
+* 注意事项
+
+  * 假如我们本地库libhello-jni.so依赖于libTest.so(可以使用NDK下的ndk-depends查看so的依赖关系)
+
+  * 在Android6.0版本之前，需要在加载本地库前先加载被依赖的so
+
+  * 在android6.0版本之后，不能再使用 预编译的动态库。
+
+    ~~~C++
+    # android 6.0 版本之前：
+    System.loadLibrary("Test");
+    System.loadLibrary("hello-jni");
+    
+    #Android 6.0版本之后：
+    System.loadLibrary("hello-jni")
+    ~~~
+
+    
 
 
 
