@@ -267,14 +267,60 @@
                库路径/${ANDROID_ABI}/libtest.so #导入库的路径
      ~~~
 
+* 常用命令-set
+   * 设置CMake变量
+   ~~~
+   #设置可执行文件的输出路径(EXCUTABLE_OUTPUT_PATH是全局变量)
+   set(EXECUTABLE_OUTPUT_PATH [output_path])
+   
+   #设置库文件的输出路径(LIBRARY_OUTPUT_PATH是全局变量)
+   set(LIBRARY_OUTPUT_PATH [output_path])
+   
+   #设置C++编译参数(CMAKE_CXX_FLAGS是全局变量)
+   set(CMAKE_CXX_FLAGS "-Wall std=c++11")
+   
+   # 设置源文件集合(SOURCE_FILES是本地变量即自定义变量)
+   set(SOURCE_FILES main.cpp test.cpp....)
+   ~~~
 
+* 常用命令-include_directories
+   * 设置头文件目录
+   * 相当于g++选项中的-l参数
+   ~~~
+   # 可以用相对或绝对路径，也可以用自定义的变量值
+   include_directories(./include ${$MY_INCLUDE})
+   ~~~
 
+* 常用命令-target_link_libraries
+   * 将若干库连接到目标文件
+   * 连接的顺序应该符合gcc链接顺序规则，被链接的库放在依赖它的库的后面，即如果上面的命令中，lib1依赖lib2，lib2又依赖于1ib3，则在上面命令中必须严格按照lib1 lib2 lib3 的顺序排列，否则会报错
+   ~~~
+   target_link_libraries(<name> lib1 lib2 lib3)
+   
+   #如果出现相互依赖的静态库，CMake会允许依赖图中包含循环依赖，如：
+   add_library(A STATIC a.c)
+   add_library(B STATIC b.c)
+   target_link_libraries(A B)
+   target_link_libraries(B A)
+   add_executable(main main.c)
+   target_link_libraries(main A)
+   ~~~
 
+* 常用命令-add_definitions
+   * 为当前路径以及子目录的源文件加入由-D引入的define flag
+   ~~~
+   add_definitions(-DFOO -DDBUG ...)
+   ~~~
 
+* 常用命令-add_subdirectory
+   * 如果当前目录下还有子目录时可以使用add_subdirectory,子目录也需要包含有CMakeList.txt
+   ~~~
+   #sub_dir指定包含CMakeLists.txt和源码文件的子目录位置
+   #binary_dir是输出路径，一般可以不指定
+   add_subdirecroty(sub_dir [binary_dir])
+   ~~~
 
-
-
-
+* 常用命令-file
 
 
 
