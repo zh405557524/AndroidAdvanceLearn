@@ -68,6 +68,66 @@
 
 
 
+## 四、AOP面向切面架构设计
+
+* 两种方式
+
+  * 第一种方式
+
+    >  	view 				 view
+    >
+    > ​        Proxy not null
+    >
+    > ​		mVIew.method();
+
+  * 第二种方式
+
+    > ​       	  activity						activity
+    >
+    > ​			 Activity All Callback LIstener
+    >
+    > ​			 做Activity生命周期业务处理
+
+* 理解切面
+
+  ![切面](/Users/hillliao/github/AndroidAdvanceLearn/3_架构师/第一章 架构师入门/第一节 UML建模/res/切面.jpg)
+
+
+
+* 动态代码切面需求
+
+![切面](/Users/hillliao/github/AndroidAdvanceLearn/3_架构师/第一章 架构师入门/第一节 UML建模/res/切面动态代理.jpg)
+
+
+
+## 五、面向切面思想之集中式登录架构
+
+![切面](/Users/hillliao/github/AndroidAdvanceLearn/3_架构师/第一章 架构师入门/第一节 UML建模/res/登录.jpg)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
