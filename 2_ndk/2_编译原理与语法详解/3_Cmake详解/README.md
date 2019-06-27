@@ -91,6 +91,7 @@
             COMMAND(ARGS...)
        ~~~
      * break命令可以跳出整个循环，continue()可以跳出当前的循环。
+     
      ~~~
      set(a "")
      while(NOT a STREQUAL "xxx")
@@ -99,14 +100,172 @@
      endwhile
      ~~~
 
+* CMake流程控制-循环遍历一
+   * 语法格式：
+   ~~~
+   foreach(循环变量 参数1 参数2 ...参数N)
+         COMMAND(ARGS...)
+   endforeach(循环变量)
+   ~~~
+   * 每次迭代设置循环变量为参数
+   * foreach也支持break()和continue()命令跳出循环
+   
+   ~~~
+   foreach(item 1 2 3)
+         message("item = ${item}")
+    endforeach(item)
+   ~~~
+   
+ * Cmake流程控制-循环遍历二
+   * 语法格式
+   ~~~
+   foreach(循环变量 RANGE total)
+         COMMAND(ARGS...)
+   endforeach(循环变量)
+   ~~~
+   * 循环范围从0到total
+    ~~~
+   foreach(item RANGE 3)
+         message("item = ${item}")
+    endforeach(item)
+   ~~~
+   
+* CMake流程控制-循环遍历三
+   * 语法格式：
+   ~~~
+    foreach(循环变量 RANGE start stop stop)
+         COMMAND(ARGS...)
+   endforeach(循环变量)
+   ~~~
+   * 循环范围从start到stop，循环增量为step
+   
+   ~~~
+   foreach(item RANGE 1 5 2)
+          message("item = ${item}")
+    endforeach(item)
+   ~~~
+   
+* CMake流程控制-循环遍历四
+   * foreach还支持对列表的循环
+   * 语法格式
+   ~~~
+   foreach(循环遍历 IN LISTS 列表)
+         COMMAND(ARGS...)
+   endforeach(循环变量)
+   ~~~
+   
+   ~~~
+   set(list_var 1 2 3)
+   foreach(item IN LISTS list_var)
+      message("item = ${item}")
+    endforeach(item)
+   ~~~
+   
+* CMake自定义函数命令
+   * 自定义函数命令格式：
+   ~~~
+   function(<name>[arg1[arg2[grg3...]]]
+         COMMAND()
+   endfuntion(<name>)
+   ~~~
+   * 函数命令调用格式:name(实参列表)
+   ~~~
+   function(func x y z)
+      message("call function func")
+      message("x = ${x}")
+      message("y = ${y)")
+      message("z = ${z}")
+      message("ARGC = ${ARGC}")
+      message("arg1 = ${ARGV0} arg2 = ${ARGV1}
+      arg3 = ${ARGV2}")
+      message("all args = ${ARGV}")
+    endfunction(func)
+    func(1 2 3)
+   ~~~
 
+* CMake自定义洪命令
+   * 自定义宏命令格式：
+   ~~~
+  macro(<name>[arg1[arg2[grg3...]]]
+         COMMAND()
+   endfuntion(<name>)
+   ~~~
+   * 宏命令调用格式化: name(实参列表)
+   ~~~
+   macro(ma x y z)
+      message("call macro ma")
+      message("x = ${x}")
+      message("y = ${y}")
+      message("z = ${z}")
+   endmacro(ma)
+   
+   ma(1 2 3)
+   ~~~
 
+* CMake 变量的作用域
+   * 全局层：cache变量，在整个项目范围可见，一般在set定义变量时，指定CACHE参数就能定义为cache变量
+   * 目录层：在当前目录CMakeLists.txt中定义，以及在该文件包含的其他cmake源文件中定义的变量
+   * 函数层：在命令函数中定义的变量，属于函数作用域内的变量。
 
+## 二、CMakeLists.txt详解
 
+* CMakeLists.txt简析
+   * 使用androidstudio 3.4创建一个C/C++Support的项目，默认在app/src/main目录下会生成cpp目录，里面包含CMakeList.txt和native-lib.cpp。
+   ~~~
+   cmake_minimum_required(VERSION 3.4.1)
+   
+   add_library(
+            native-lib
+            SHARED
+            native-lib.cpp)
+   find_library(
+            log-lib
+            log)
+   
+   target_link_libraries(
+            native-lib
+            #{log-lib})
+   ~~~
 
-
-
-
+* 常用命令
+   * cmake_minimum_required
+   ~~~
+     cmake_minimum_required(VERSION 3.4.1)
+   ~~~
+    指定cmake最低支持的版本
+    
+    * aux_source_directory
+      * 查找当前目录所有源文件 并将源文件名称保存到 DIR_SRCS变量
+      * 不能查找子目录
+    ~~~
+    aux_sourec_directory(.DIR_SRCS)
+    ~~~
+   
+* 常用命令-add_library
+   * 添加一个库
+      * 添加一个库文件，名为 name
+      * 指定STATIC,SHARED,MODULE参数来指定库的类型。STATIC:静态库;SHARED:动态库;MODULE:在使用dyl的系统有效，若不支持dyld，等同于SHARED.
+      * EXCLUDE_FROM_ALL：表示该库不会被默认构建
+      * source1 source2.....sourceN:用来指定库的源文件
+      ~~~
+      add_library(<name> [STATIC|SHARED|MODULE] 
+      [EXCLUDE_FROM_ALL] source1 source2...sourceN)
+      ~~~
+      
+    * 导入预编译库
+      * 添加一个已存在的预编译库，名为 name
+      * 一般配合set_target_properties使用
+     ~~~
+     add_library(<name>)
+     <SHARED|STATIC|MODULE|UNKNOWN> IMPORTED)
+     
+     #比如
+     add_library(test SHARED IMPORTED)
+     set_target_properties(
+               test #指明目标库名
+               PROPERTIES IMPORTED_LOCATION #指明要设置的参数
+               库路径/${ANDROID_ABI}/libtest.so #导入库的路径
+     ~~~
 
 
 
