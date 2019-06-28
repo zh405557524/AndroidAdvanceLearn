@@ -1,1 +1,0 @@
-/Library/Developer/CommandLineTools/usr/bin/cc -g -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/1_function.dir/main.c.o  -o 1_function 
