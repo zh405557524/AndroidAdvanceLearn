@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.bt_loadGif).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                loadGif();
             }
         });
     }
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             final int nextFrame = mGifHandler.updateFrame(mBitmap);
+            Log.i("Tag", "nextFrame:" + nextFrame);
             handler.sendEmptyMessageDelayed(1, nextFrame);
             mImageView.setImageBitmap(mBitmap);
         }

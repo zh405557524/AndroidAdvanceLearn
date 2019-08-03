@@ -19,13 +19,8 @@ add_library( # Sets the name of the library.
         # Provides a relative path to your source file(s).
         native-lib.cpp
         dgif_lib.c
-        egif_lib.c
-        gif_err.c
-        gif_font.c
-        gif_hash.c
         gifalloc.c
-        openbsd-reallocarray.c
-        quantize.c
+
         )
 
 # Searches for a specified prebuilt library and stores the path as a
@@ -36,10 +31,18 @@ add_library( # Sets the name of the library.
 
 find_library( # Sets the name of the path variable.
         log-lib
-
         # Specifies the name of the NDK library that
         # you want CMake to locate.
         log)
+
+
+find_library( # Sets the name of the path variable.
+
+        jnigraphics-lib
+        jnigraphics
+        # Specifies the name of the NDK library that
+        # you want CMake to locate.
+        )
 
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in this
@@ -50,4 +53,7 @@ target_link_libraries( # Specifies the target library.
 
         # Links the target library to the log library
         # included in the NDK.
-        ${log-lib})
+
+        ${log-lib}
+        ${jnigraphics-lib}
+        )
