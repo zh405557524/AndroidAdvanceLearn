@@ -101,11 +101,6 @@ public class TransformView extends View {
         mPaint.setColor(Color.GRAY);
         canvas.drawRect(0, 0, 350, 350, mPaint);
 
-
-
-
-
-
     }
 
 }
