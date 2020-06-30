@@ -13,7 +13,7 @@ class AudioChannel : public BaseChannel {
 
 public:
 
-    AudioChannel(int channelId, AVCodecContext &avCodecContext);
+    AudioChannel(int channelId, AVCodecContext &avCodecContext, AVRational &time_base);
 
 public:
 

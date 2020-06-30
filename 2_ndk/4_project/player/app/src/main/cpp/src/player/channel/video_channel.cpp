@@ -5,8 +5,8 @@
 #include <unistd.h>
 #include "video_channel.h"
 
-VideoChannel::VideoChannel(int channelId, AVCodecContext &aVCodecContext)
-        : BaseChannel(channelId, aVCodecContext) {
+VideoChannel::VideoChannel(int channelId, AVCodecContext &aVCodecContext, AVRational &time_base)
+        : BaseChannel(channelId, aVCodecContext, time_base) {
 
 }
 
@@ -40,6 +40,8 @@ void VideoChannel::synchronizeFrame() {
                   dst_data, dst_linesize);
         renderFrame(dst_data[0], dst_linesize[0], m_avCodecContext->width,
                     m_avCodecContext->height);
+
+
 //        playListener->renderFrame(dst_data[0], dst_linesize[0], m_avCodecContext->width,
 //                                  m_avCodecContext->height);
 
@@ -54,7 +56,6 @@ void VideoChannel::synchronizeFrame() {
 
 
 void VideoChannel::renderFrame(uint8_t *data, int linesize, int w, int h) {
-    LOGE("begin renderFrame1");
 //    渲染
     //设置窗口属性
     ANativeWindow_setBuffersGeometry(m_aNativeWindow, w,

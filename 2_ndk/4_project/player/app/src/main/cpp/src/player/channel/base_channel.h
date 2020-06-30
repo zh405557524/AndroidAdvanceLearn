@@ -52,9 +52,10 @@ protected:
 
 public:
 
-    BaseChannel(int channelId, AVCodecContext &avCodecContext)
+    BaseChannel(int channelId, AVCodecContext &avCodecContext, AVRational &time_base)
             : m_pkt_msg(this), m_frame_msg(this) {
         m_avCodecContext = &avCodecContext;
+        this->time_base = time_base;
         m_channelId = channelId;
         pktQueue.setReleaseHandle(releaseAvPacket);
         frameQueue.setReleaseHandle(releaseAvFrame);
@@ -90,7 +91,7 @@ public:
     * 播放
     */
     void play() {
-        LOGE("begin play");
+        LOGE("channel begin play");
         isPlaying = true;
         pktQueue.setWork(1);
         frameQueue.setWork(1);

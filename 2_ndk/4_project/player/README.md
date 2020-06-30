@@ -769,6 +769,13 @@ target_link_libraries( # Specifies the target library.
   * 1、初始化输出参数 (ffmpeg)
 
     ~~~c++
+    
+       swr_ctx = swr_alloc_set_opts(0, AV_CH_LAYOUT_STEREO, AV_SAMPLE_FMT_S16, out_sample_rate,
+                                     avCodecContext.channel_layout,
+                                     avCodecContext.sample_fmt,
+                                     avCodecContext.sample_rate, 0, 0);
+        swr_init(swr_ctx);
+    
      //根据布局获取声道数  
         out_channels = av_get_channel_layout_nb_channels(AV_CH_LAYOUT_STEREO);
         out_samplesize = av_get_bytes_per_sample(AV_SAMPLE_FMT_S16);
@@ -815,6 +822,7 @@ target_link_libraries( # Specifies the target library.
         }
 
         //初始化混音器outputMixObject
+          result =  (*engineItfFace)->CreateOutputMix(engineItfFace, &outputMixObject, 0, 0, 0);
         result = (*outputMixObject)->Realize(outputMixObject, SL_BOOLEAN_FALSE);
         SLDataLocator_AndroidSimpleBufferQueue android_queue = {SL_DATALOCATOR_ANDROIDSIMPLEBUFFERQUEUE,
                                                                 2};

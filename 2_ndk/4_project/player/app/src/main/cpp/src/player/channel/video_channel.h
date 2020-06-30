@@ -13,7 +13,7 @@ class VideoChannel : public BaseChannel {
 private:
     ANativeWindow *m_aNativeWindow;
 public:
-    VideoChannel(int channelId, AVCodecContext &avCodecContext);
+    VideoChannel(int channelId, AVCodecContext &avCodecContext, AVRational &time_base);
 
 public:
     void prepare(ANativeWindow &aNativeWindow) {

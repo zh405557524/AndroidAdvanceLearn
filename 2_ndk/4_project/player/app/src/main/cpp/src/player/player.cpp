@@ -208,11 +208,14 @@ bool player::dealMsg(PlayMsg *playMsg) {
                 //找到解码器,并打开解码器
                 if (m_formatContext->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
                     //视频流
-                    m_videoChannel = new VideoChannel(i, *codecContext);
+                    m_videoChannel = new VideoChannel(i, *codecContext,
+                                                      m_formatContext->streams[i]->time_base);
                     m_videoChannel->prepare(*m_aNativeWindow);
                 } else if (m_formatContext->streams[i]->codecpar->codec_type ==
                            AVMEDIA_TYPE_AUDIO) {
-                    audioChannel = new AudioChannel(i, *codecContext);
+                    //音频流
+                    audioChannel = new AudioChannel(i, *codecContext,
+                                                    m_formatContext->streams[i]->time_base);
                 }
             }
         }
@@ -229,6 +232,10 @@ bool player::dealMsg(PlayMsg *playMsg) {
         {
             if (m_videoChannel == nullptr) {
                 LOGE("m_videoChannel is null");
+                return true;
+            }
+            if (audioChannel == nullptr) {
+                LOGE("audioChannel is null");
                 return true;
             }
 
@@ -254,15 +261,17 @@ bool player::dealMsg(PlayMsg *playMsg) {
                     }
 
                 } else if (ret == AVERROR_EOF) {
+                    LOGE("msg play error");
                     //读取完毕 不一定是播放完毕
                     if (m_videoChannel->pktQueue.empty() && m_videoChannel->frameQueue.empty()) {
-                        LOGE("播放完毕");
+                        LOGE("msg played");
                         break;
                     }
                 } else {
                     break;
                 }
             }
+            LOGE("msg play stop");
             isPlaying = 0;
             m_videoChannel->stop();
             audioChannel->stop();
