@@ -74,6 +74,8 @@ public class GradientLayout extends View {
         //        mPaint.measureText(str);//获取文本的宽
         //        mPaint.getFontMetrics();//获取字体度量对象
 
+
+
         //1 线性渲染
         mShader = new LinearGradient(0, 0, 250, 250, new int[]{Color.RED, Color.BLUE, Color.GREEN},
                 new float[]{0.1f, 0.5f, 1f}, Shader.TileMode.CLAMP);
@@ -96,6 +98,7 @@ public class GradientLayout extends View {
                 int[]{Color.RED, Color.GREEN, Color.BLUE}, null, Shader.TileMode.CLAMP);
 
         mShader = new ComposeShader(bitmapShader, linearGradient, PorterDuff.Mode.MULTIPLY);
+
 
     }
 
