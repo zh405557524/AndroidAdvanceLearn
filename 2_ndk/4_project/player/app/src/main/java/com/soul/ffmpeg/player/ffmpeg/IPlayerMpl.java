@@ -75,6 +75,8 @@ public interface IPlayerMpl {
      */
     void setProgressListener(OnProgressListener onProgressListener);
 
+    void audioDecode(String input, String output);
+
 
     /**
      * 准备监听

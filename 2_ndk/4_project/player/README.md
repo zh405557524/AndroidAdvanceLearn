@@ -370,6 +370,7 @@ target_link_libraries( # Specifies the target library.
 ## 一、播放流程
 
 ![1](md_res/视频播放流程.png)
+* 音/视频解码流程
 
 ## 二、视频解码
 

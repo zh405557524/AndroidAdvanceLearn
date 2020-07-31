@@ -40,11 +40,6 @@ void VideoChannel::synchronizeFrame() {
                   dst_data, dst_linesize);
         renderFrame(dst_data[0], dst_linesize[0], m_avCodecContext->width,
                     m_avCodecContext->height);
-
-
-//        playListener->renderFrame(dst_data[0], dst_linesize[0], m_avCodecContext->width,
-//                                  m_avCodecContext->height);
-
         usleep(1000 * 16);
         releaseAvFrame(frame);
     }

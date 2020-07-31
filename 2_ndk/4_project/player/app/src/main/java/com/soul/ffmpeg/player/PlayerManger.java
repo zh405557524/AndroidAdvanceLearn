@@ -42,6 +42,11 @@ public class PlayerManger implements SurfaceHolder.Callback, IPlayerManger {
         mIPlayerMpl.play();
     }
 
+    @Override
+    public void audioDecode(String input, String output) {
+        mIPlayerMpl.audioDecode(input,output);
+    }
+
     public void setSurfaceView(SurfaceView surfaceView) {
         if (null != this.surfaceHolder) {
             this.surfaceHolder.removeCallback(this);

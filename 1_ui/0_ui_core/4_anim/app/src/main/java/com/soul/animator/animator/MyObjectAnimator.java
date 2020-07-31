@@ -72,6 +72,7 @@ public class MyObjectAnimator implements VSYNCManger.AnimationFrameCallback {
     public void setTimeInterpolator(TimeInterpolator timeInterpolator) {
         mTimeInterpolator = timeInterpolator;
     }
+
 }
 
 

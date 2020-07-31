@@ -12,5 +12,7 @@ public interface IPlayerManger {
 
     void startPlay(String url);
 
+    void audioDecode(String input, String output);
+
     void setSurfaceView(SurfaceView surfaceView);
 }

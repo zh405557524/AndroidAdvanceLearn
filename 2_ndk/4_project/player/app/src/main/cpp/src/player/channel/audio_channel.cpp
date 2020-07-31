@@ -76,6 +76,10 @@ void AudioChannel::initOpenSl() {
     //初始化混音器outputMixObject
     result = (*engineItfFace)->CreateOutputMix(engineItfFace, &outputMixObject, 0, 0, 0);
     result = (*outputMixObject)->Realize(outputMixObject, SL_BOOLEAN_FALSE);
+    if (SL_RESULT_SUCCESS != result) {
+        return;
+    }
+
     SLDataLocator_AndroidSimpleBufferQueue android_queue = {SL_DATALOCATOR_ANDROIDSIMPLEBUFFERQUEUE,
                                                             2};
     //pcm数据格式

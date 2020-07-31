@@ -16,8 +16,10 @@ public class MainActivity extends AppCompatActivity {
 
     // Used to load the 'native-lib' library on application startup.
 
-    private static final String path = "/sdcard/[ttmeiju.com]The.Strain.S04E03.720p.HDTV.x264-BATV.mkv";
+    private static final String path = "/sdcard/v0200f7b0000bs317v789gpio61jkqhg.MP4";
 
+    private static final String input = "";
+    private static final String output = "";
 
 
     String[] permissions = new String[]{
@@ -38,6 +40,13 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+        findViewById(R.id.tv_audio_decode).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlayerManger.getInstance().audioDecode(input,output);
+            }
+        });
+
         new ArrayList<>();
         PermissionsUtils.lacksPermissions(this, permissions);
     }

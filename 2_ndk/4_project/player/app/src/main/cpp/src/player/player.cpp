@@ -194,8 +194,14 @@ bool player::dealMsg(PlayMsg *playMsg) {
                 AVCodecContext *codecContext = avcodec_alloc_context3(dec);
                 //讲解码器参数copy到解码器上下文
                 avcodec_parameters_to_context(codecContext, codecpar);
+
+
                 //打开解码器
-                avcodec_open2(codecContext, dec, NULL);
+                ret = avcodec_open2(codecContext, dec, 0);
+                if (ret != 0) {
+                    return false;
+                }
+
                 //读取包
                 AVPacket *packet = av_packet_alloc();
 

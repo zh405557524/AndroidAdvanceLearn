@@ -85,6 +85,12 @@ public class FFMPegPlayerMpl implements IPlayerMpl, OnPlayNativeCallBack {
     }
 
     @Override
+    public void audioDecode(String input, String output) {
+        nativeAudioDecode(input,output);
+    }
+
+
+    @Override
     public void onProgress(int progress) {
         if (mOnProgressListener != null) {
             mOnProgressListener.onProgress(progress);
@@ -129,6 +135,8 @@ public class FFMPegPlayerMpl implements IPlayerMpl, OnPlayNativeCallBack {
     private native void nativeStop(long nativePlayInstance);
 
     private native void nativeSeekTo(long nativePlayInstance, int progress);
+
+    private native void nativeAudioDecode(String input, String output);
 
 
 }

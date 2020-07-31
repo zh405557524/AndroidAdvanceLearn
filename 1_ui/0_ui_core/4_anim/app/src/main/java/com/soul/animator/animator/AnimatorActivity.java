@@ -22,6 +22,7 @@ public class AnimatorActivity extends AppCompatActivity {
             }
         });
     }
+
     public void scale(View view) {
         final MyObjectAnimator objectAnimator = MyObjectAnimator.ofFloat(view, "scaleX", 1f, 2f);
         objectAnimator.setTimeInterpolator(new LineInterpolator());
