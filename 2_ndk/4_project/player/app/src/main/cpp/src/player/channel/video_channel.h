@@ -35,9 +35,7 @@ public:
      */
     virtual void synchronizeFrame();
 
-
-
-
+    virtual void readPacket();
 
     /**
     * 停止

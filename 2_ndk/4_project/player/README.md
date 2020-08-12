@@ -371,6 +371,14 @@ target_link_libraries( # Specifies the target library.
 
 ![1](md_res/视频播放流程.png)
 * 音/视频解码流程
+    * 1、打开文件        -> AVFormatContext
+    * 2、寻找音视频数据
+    * 3、通过解码方式找到对于的解码器  -> AVCodecContext
+    * 4、打开解码器
+    * 5、读取音/视频包 -> AVPacket
+    * 6、将包的数据给解码器
+    * 7、从解码器得到原始数据包 -> AVFrame
+    * 8、视频开始绘制/音频播放声音
 
 ## 二、视频解码
 

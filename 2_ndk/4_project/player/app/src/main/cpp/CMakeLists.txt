@@ -15,6 +15,7 @@ include_directories(${CMAKE_SOURCE_DIR}/./src/player)
 include_directories(${CMAKE_SOURCE_DIR}/./src/player/channel)
 include_directories(${CMAKE_SOURCE_DIR}/./src/module)
 include_directories(${CMAKE_SOURCE_DIR}/./src/utils)
+include_directories(${CMAKE_SOURCE_DIR}/./src/text)
 include_directories(${CMAKE_SOURCE_DIR}/./thirdparty/ffmpeg/include/)
 
 # 三、设置日志输出

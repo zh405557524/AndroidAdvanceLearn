@@ -18,8 +18,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String path = "/sdcard/v0200f7b0000bs317v789gpio61jkqhg.MP4";
 
-    private static final String input = "";
-    private static final String output = "";
+    private static final String input = "/sdcard/v0200f7b0000bs317v789gpio61jkqhg.MP4";
+    private static final String output = "/sdcard/2.pcm";
 
 
     String[] permissions = new String[]{
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.tv_audio_decode).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PlayerManger.getInstance().audioDecode(input,output);
+                PlayerManger.getInstance().audioDecode(input, output);
             }
         });
 

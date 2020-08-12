@@ -1,20 +1,22 @@
 //
-// Created by admin on 2020/7/31.
+// Created by admin on 2020/8/12.
 //
 
-#ifndef FFMPEG_FFMPENG_TEXT_H
-#define FFMPEG_FFMPENG_TEXT_H
+#ifndef FFMPEG_FFMPEG_TEXT_H
+#define FFMPEG_FFMPEG_TEXT_H
 
 
-class FFMPegText {
+#include <string>
+
+class FFMpegText {
+
 public:
-    FFMPegText();
+    FFMpegText();
 
-public:
-    void audioDecode(const char &input, const char &output);
 
+    void decodeAudio(std::string input, std::string output);
 
 };
 
 
-#endif //FFMPEG_FFMPENG_TEXT_H
+#endif //FFMPEG_FFMPEG_TEXT_H

@@ -9,6 +9,7 @@
 #include <pthread.h>
 
 #include "macro.h"
+#include "log.h"
 //todo 是否使用c++11,玩玩而已。还是习惯posix标准的线程。。。。
 //#define C11
 #ifdef C11

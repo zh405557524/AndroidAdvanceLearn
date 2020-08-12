@@ -10,6 +10,43 @@ VideoChannel::VideoChannel(int channelId, AVCodecContext &aVCodecContext, AVRati
 
 }
 
+
+void VideoChannel::readPacket() {
+    if (m_avCodecContext == nullptr) {
+        return;
+    }
+    LOGE("begin readPacket");
+    AVPacket *packet = 0;
+
+    while (isPlaying) {
+
+        int ret = pktQueue.deQueue(packet);
+
+        if (!isPlaying) {
+            break;
+        }
+
+        avcodec_send_packet(m_avCodecContext, packet);
+        releaseAvPacket(packet);
+        if (ret == AVERROR(EAGAIN)) {
+            //需要更多数据
+            continue;
+        } else if (ret < 0) {
+            break;
+        }
+        AVFrame *frame = av_frame_alloc();
+        ret = avcodec_receive_frame(m_avCodecContext, frame);
+        frameQueue.enQueue(frame);
+        while (frameQueue.size() > 100 && isPlaying) {
+            usleep(1000 * 16);
+            continue;
+        }
+    }
+    //    保险起见
+    releaseAvPacket(packet);
+
+}
+
 void VideoChannel::synchronizeFrame() {
 
     LOGE("begin synchronizeFrame");
@@ -77,4 +114,5 @@ void VideoChannel::renderFrame(uint8_t *data, int linesize, int w, int h) {
 void VideoChannel::stop() {
 
 }
+
 

@@ -17,6 +17,8 @@ public:
 
 public:
 
+    virtual void readPacket();
+
     virtual void synchronizeFrame() {
         initOpenSl();
     };

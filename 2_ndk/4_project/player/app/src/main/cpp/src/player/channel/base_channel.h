@@ -137,46 +137,13 @@ public:
 
 protected:
 
-    virtual void readPacket() {
-        if (m_avCodecContext == nullptr) {
-            return;
-        }
-        LOGE("begin readPacket");
-        AVPacket *packet = 0;
-
-        while (isPlaying) {
-
-            int ret = pktQueue.deQueue(packet);
-
-            if (!isPlaying) {
-                break;
-            }
-
-            avcodec_send_packet(m_avCodecContext, packet);
-            releaseAvPacket(packet);
-            if (ret == AVERROR(EAGAIN)) {
-                //需要更多数据
-                continue;
-            } else if (ret < 0) {
-                break;
-            }
-            AVFrame *frame = av_frame_alloc();
-            ret = avcodec_receive_frame(m_avCodecContext, frame);
-            frameQueue.enQueue(frame);
-            while (frameQueue.size() > 100 && isPlaying) {
-                usleep(1000 * 16);
-                continue;
-            }
-        }
-    }
+    virtual void readPacket() = 0;
 
     virtual void synchronizeFrame() = 0;
 
     virtual void release() {
 
     }
-
-
 };
 
 #endif //FFMPEG_BASE_CHANNEL_H

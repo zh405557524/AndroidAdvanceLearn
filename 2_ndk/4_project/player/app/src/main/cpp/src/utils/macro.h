@@ -8,9 +8,6 @@
 
 #include <android/log.h>
 
-
-#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR,"FFMPEG",__VA_ARGS__)
-
 #define DELETE(obj) if(obj){ delete obj; obj = 0; }
 
 //标记线程 因为子线程需要attach

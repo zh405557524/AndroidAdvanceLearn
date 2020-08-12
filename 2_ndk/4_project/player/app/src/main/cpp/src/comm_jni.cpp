@@ -1,9 +1,9 @@
 #include <jni.h>
 #include <string>
 #include <module/play_module.h>
-#include <text/ffmpeg_text.h>
 #include "player.h"
 #include "utils/jni_simple_type.h"
+#include "ffmpeg_text.h"
 
 extern "C" JNIEXPORT jstring JNICALL
 Java_com_soul_ffmpeg_MainActivity_stringFromJNI(
@@ -133,9 +133,12 @@ Java_com_soul_ffmpeg_player_ffmpeg_FFMPegPlayerMpl_nativeAudioDecode(JNIEnv *env
     const char *input = env->GetStringUTFChars(input_, 0);
     const char *output = env->GetStringUTFChars(output_, 0);
 
-    FFMPegText *pText = new FFMPegText();
-    pText->audioDecode(*input, *output);
+    FFMpegText *pText = new FFMpegText();
+
+    pText->decodeAudio(input, output);
     delete pText;
+
+
     env->ReleaseStringUTFChars(input_, input);
     env->ReleaseStringUTFChars(output_, output);
 }

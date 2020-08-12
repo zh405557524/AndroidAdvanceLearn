@@ -8,11 +8,6 @@
 AudioChannel::AudioChannel(int channelId, AVCodecContext &avCodecContext, AVRational &time_base)
         : BaseChannel(channelId, avCodecContext, time_base) {
 
-    swr_ctx = swr_alloc_set_opts(0, AV_CH_LAYOUT_STEREO, AV_SAMPLE_FMT_S16, out_sample_rate,
-                                 avCodecContext.channel_layout,
-                                 avCodecContext.sample_fmt,
-                                 avCodecContext.sample_rate, 0, 0);
-    swr_init(swr_ctx);
 
     //根据布局获取声道数
     out_channels = av_get_channel_layout_nb_channels(AV_CH_LAYOUT_STEREO);
@@ -20,7 +15,14 @@ AudioChannel::AudioChannel(int channelId, AVCodecContext &avCodecContext, AVRati
     out_sample_rate = 44100;
     //cd 音频标准
     //44100 双声道  2 字节
-    buffer = (uint8_t *) malloc(out_sample_rate * out_sampleSize * out_channels);
+    int out_buffers_size = out_sample_rate * out_sampleSize * out_channels;
+    buffer = (uint8_t *) malloc(out_buffers_size);
+
+    swr_ctx = swr_alloc_set_opts(0, AV_CH_LAYOUT_STEREO, AV_SAMPLE_FMT_S16, out_sample_rate,
+                                 avCodecContext.channel_layout,
+                                 avCodecContext.sample_fmt,
+                                 avCodecContext.sample_rate, 0, 0);
+    swr_init(swr_ctx);
 }
 
 
@@ -33,6 +35,47 @@ void bqPlayerCallback(SLAndroidSimpleBufferQueueItf bq, void *context) {
     }
 //pcm数据   原始音频数据
 }
+
+
+void AudioChannel::readPacket() {
+
+    AVPacket *packet = 0;
+    while (isPlaying) {
+//        音频packet
+        int ret = pktQueue.deQueue(packet);
+        if (!isPlaying) {
+            break;
+        }
+        if (!ret) {
+            continue;
+        }
+
+        ret = avcodec_send_packet(m_avCodecContext, packet);
+        releaseAvPacket(packet);
+        if (ret == AVERROR(EAGAIN)) {
+            //需要更多数据
+            continue;
+        } else if (ret < 0) {
+            //失败
+            break;
+        }
+        AVFrame *frame = av_frame_alloc();
+        ret = avcodec_receive_frame(m_avCodecContext, frame);
+        if (ret == AVERROR(EAGAIN)) {
+            //需要更多数据
+            continue;
+        } else if (ret < 0) {
+            break;
+        }
+//
+        while (frameQueue.size() > 100 && isPlaying) {
+            av_usleep(1000 * 10);
+            continue;
+        }
+        frameQueue.enQueue(frame);
+    }
+}
+
 
 /**
  * 初始化 openSL

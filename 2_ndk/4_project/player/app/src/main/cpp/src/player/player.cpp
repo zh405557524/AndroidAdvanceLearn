@@ -2,6 +2,7 @@
 // Created by soul on 2020/5/28.
 //
 
+#include <utils/log.h>
 #include "player.h"
 
 
@@ -110,6 +111,17 @@ void player::play(std::string uri, ANativeWindow &aNativeWindow) {
 
 }
 
+
+/**
+ * 音频播放
+ * @param input
+ * @param output
+ */
+void player::playAudio(std::string input, std::string output) {
+
+
+}
+
 void player::prepare() {
     PlayMsg *playMsg = new PlayMsg();
     playMsg->msgType = PlayMsg::MSG_TYPE_PREPARE;
@@ -199,6 +211,9 @@ bool player::dealMsg(PlayMsg *playMsg) {
                 //打开解码器
                 ret = avcodec_open2(codecContext, dec, 0);
                 if (ret != 0) {
+                    return false;
+                }
+                if (!codecContext) {
                     return false;
                 }
 
@@ -294,6 +309,7 @@ bool player::dealMsg(PlayMsg *playMsg) {
     }
     return true;
 }
+
 
 
 
