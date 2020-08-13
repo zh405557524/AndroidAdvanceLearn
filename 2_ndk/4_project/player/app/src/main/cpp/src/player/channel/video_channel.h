@@ -7,6 +7,7 @@
 
 #include <android/native_window_jni.h>
 #include "base_channel.h"
+#include "audio_channel.h"
 
 
 class VideoChannel : public BaseChannel {
@@ -14,10 +15,16 @@ private:
     ANativeWindow *m_aNativeWindow;
 public:
     VideoChannel(int channelId, AVCodecContext &avCodecContext, AVRational &time_base);
-
+    AudioChannel *m_audioChannel;
 public:
     void prepare(ANativeWindow &aNativeWindow) {
         m_aNativeWindow = &aNativeWindow;
+        //设置窗口属性
+        ANativeWindow_setBuffersGeometry(m_aNativeWindow, m_avCodecContext->width,
+                                         m_avCodecContext-> height,
+                                         WINDOW_FORMAT_RGBA_8888);
+
+
     }
 
     /**
@@ -41,6 +48,15 @@ public:
     * 停止
     */
     virtual void stop();
+
+    /**
+     * 设置帧数
+     * @param fps
+     */
+    void setFps(int fps);
+
+private:
+    int fps;
 };
 
 

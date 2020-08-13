@@ -195,10 +195,14 @@ bool player::dealMsg(PlayMsg *playMsg) {
                 return true;
             }
 
+
             //2 获取数据流
             avformat_find_stream_info(m_formatContext, NULL);
 
             for (int i = 0; i < m_formatContext->nb_streams; ++i) {
+
+                //3、获取对应的解码器并打开
+                AVStream *stream = m_formatContext->streams[i];
                 //找到解码参数
                 AVCodecParameters *codecpar = m_formatContext->streams[i]->codecpar;
                 //找到解码器
@@ -206,7 +210,6 @@ bool player::dealMsg(PlayMsg *playMsg) {
                 AVCodecContext *codecContext = avcodec_alloc_context3(dec);
                 //讲解码器参数copy到解码器上下文
                 avcodec_parameters_to_context(codecContext, codecpar);
-
 
                 //打开解码器
                 ret = avcodec_open2(codecContext, dec, 0);
@@ -217,20 +220,16 @@ bool player::dealMsg(PlayMsg *playMsg) {
                     return false;
                 }
 
-                //读取包
-                AVPacket *packet = av_packet_alloc();
-
-                // 从媒体中读取音频、视频包
-                ret = av_read_frame(m_formatContext, packet);
-                if (ret) {
-                    LOGE("read packet fail");
-                }
-
                 //找到解码器,并打开解码器
                 if (m_formatContext->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
+                    AVRational frame_rate = stream->avg_frame_rate;
+//视频
+//            int fps = frame_rate.num / (double)frame_rate.den;
+                    int fps = av_q2d(frame_rate);
                     //视频流
                     m_videoChannel = new VideoChannel(i, *codecContext,
                                                       m_formatContext->streams[i]->time_base);
+                    m_videoChannel->setFps(fps);
                     m_videoChannel->prepare(*m_aNativeWindow);
                 } else if (m_formatContext->streams[i]->codecpar->codec_type ==
                            AVMEDIA_TYPE_AUDIO) {
@@ -241,14 +240,7 @@ bool player::dealMsg(PlayMsg *playMsg) {
             }
         }
             break;
-        case PlayMsg::MSG_TYPE_RELEASE://释放资源
-        {
-            if (m_videoChannel != nullptr) {
-                m_videoChannel->stop();
-                delete m_videoChannel;
-            }
-        }
-            break;
+
         case PlayMsg::MSG_TYPE_PLAY://播放
         {
             if (m_videoChannel == nullptr) {
@@ -260,18 +252,26 @@ bool player::dealMsg(PlayMsg *playMsg) {
                 return true;
             }
 
+            m_videoChannel->m_audioChannel = audioChannel;
             LOGE("msg begin play");
             m_videoChannel->play();
             audioChannel->play();
+            int ret = 0;
             while (isPlaying) {
 
-                if (m_videoChannel != nullptr && m_videoChannel->pktQueue.size() > 100) {
+                if (m_videoChannel->pktQueue.size() > 100) {
                     usleep(1000 * 16);
                     continue;
                 }
-                //读取包
+
+                if (audioChannel->pktQueue.size() > 100) {
+                    usleep(1000 * 16);
+                    continue;
+                }
+
+                //4、读取数据包
                 AVPacket *packet = av_packet_alloc();
-                int ret = av_read_frame(m_formatContext, packet);
+                ret = av_read_frame(m_formatContext, packet);
                 if (ret == 0) {
                     //将数据包添加到队列中
                     if (packet->stream_index == m_videoChannel->m_channelId) {
@@ -303,6 +303,14 @@ bool player::dealMsg(PlayMsg *playMsg) {
         case PlayMsg::MSG_TYPE_STOP://停止
             break;
         case PlayMsg::MSG_TYPE_SEEKTO://滑动指定的地方
+            break;
+        case PlayMsg::MSG_TYPE_RELEASE://释放资源
+        {
+            if (m_videoChannel != nullptr) {
+                m_videoChannel->stop();
+                delete m_videoChannel;
+            }
+        }
             break;
 
 

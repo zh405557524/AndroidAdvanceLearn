@@ -95,8 +95,8 @@ public:
         isPlaying = true;
         pktQueue.setWork(1);
         frameQueue.setWork(1);
-        m_pkt_msg.sendMsg(new ChannelMsg(ChannelMsg::MSG_TYPE_PACKET));
         m_frame_msg.sendMsg(new ChannelMsg(ChannelMsg::MSG_TYPE_FRAME));
+        m_pkt_msg.sendMsg(new ChannelMsg(ChannelMsg::MSG_TYPE_PACKET));
     }
 
     /**

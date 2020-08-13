@@ -6,6 +6,7 @@ import android.view.SurfaceView;
 import android.view.View;
 
 import com.soul.ffmpeg.player.PlayerManger;
+import com.soul.ffmpeg.system.Global;
 import com.soul.ffmpeg.utils.PermissionsUtils;
 
 import java.util.ArrayList;
@@ -30,12 +31,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Global.setContext(getApplicationContext());
         setContentView(R.layout.activity_main);
         SurfaceView surfaceView = findViewById(R.id.surfaceView);
         PlayerManger.getInstance().setSurfaceView(surfaceView);
         findViewById(R.id.start_play).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                SystemManager.getInstance().requestAudioFocus();
                 PlayerManger.getInstance().startPlay(path);
             }
 
@@ -51,4 +54,9 @@ public class MainActivity extends AppCompatActivity {
         PermissionsUtils.lacksPermissions(this, permissions);
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+//        SystemManager.getInstance().abandonAudioFocus();
+    }
 }

@@ -7,7 +7,6 @@
 
 VideoChannel::VideoChannel(int channelId, AVCodecContext &aVCodecContext, AVRational &time_base)
         : BaseChannel(channelId, aVCodecContext, time_base) {
-
 }
 
 
@@ -16,33 +15,39 @@ void VideoChannel::readPacket() {
         return;
     }
     LOGE("begin readPacket");
+    //子线程
     AVPacket *packet = 0;
-
     while (isPlaying) {
-
+//        流 --packet  ---音频 视频     可以   单一
         int ret = pktQueue.deQueue(packet);
-
         if (!isPlaying) {
             break;
         }
-
-        avcodec_send_packet(m_avCodecContext, packet);
+        if (!ret) {
+            continue;
+        }
+        //5、将数据包发送给解码器
+        ret = avcodec_send_packet(m_avCodecContext, packet);
         releaseAvPacket(packet);
         if (ret == AVERROR(EAGAIN)) {
             //需要更多数据
             continue;
         } else if (ret < 0) {
+            //失败  直播  端
             break;
         }
         AVFrame *frame = av_frame_alloc();
+        //6、解码获取到原始数据 yuv数据 转换为 rgb8888
+//       AVFrame  yuvi420   nv21  --->rgb8888
         ret = avcodec_receive_frame(m_avCodecContext, frame);
+//        压缩数据        要解压
         frameQueue.enQueue(frame);
         while (frameQueue.size() > 100 && isPlaying) {
-            usleep(1000 * 16);
+            av_usleep(1000 * 10);
             continue;
         }
     }
-    //    保险起见
+//    保险起见
     releaseAvPacket(packet);
 
 }
@@ -75,9 +80,53 @@ void VideoChannel::synchronizeFrame() {
                   reinterpret_cast<const uint8_t *const *>(frame->data), frame->linesize, 0,
                   frame->height,
                   dst_data, dst_linesize);
+        frame->pts;
+        //当前视频时间戳
+        clock = frame->pts * av_q2d(time_base);
+
         renderFrame(dst_data[0], dst_linesize[0], m_avCodecContext->width,
                     m_avCodecContext->height);
-        usleep(1000 * 16);
+
+
+//        解码时间算进去
+        double frame_delays = 1.0 / fps;
+
+        //当前音频时间戳
+        double audioClock = m_audioChannel->clock;
+//        将解码所需要的时间算进去  因为配置差的手机 解码耗时需要多一些
+        double extra_delay = frame->repeat_pict / (2 * fps);
+        double delay = extra_delay + frame_delays;
+
+        double diff = clock - audioClock;
+        LOGI("video_channel_diff:%f   clock:%f  audioClock:%f ", diff, clock, audioClock);
+        do {
+
+            if (clock > audioClock) {//视频超前
+//        视频超前
+                if (diff > 1) {
+                    //差的太久了， 那只能慢慢赶 不然就是卡好久
+                    av_usleep((delay * 2) * 1000000);
+                    break;
+                }
+                av_usleep((delay + diff) * 1000000);
+                break;
+            }
+
+            //视频延后
+            if (diff > 1) {
+//                不休眠
+            } else if (diff >= 0.05) {
+//                救一下
+//视频需要追赶     丢帧  同步
+                releaseAvFrame(frame);
+                frameQueue.sync();
+//                减少延迟时间
+                //执行同步操作 删除到最近的key frame
+                break;
+            }
+
+        } while (false);
+
         releaseAvFrame(frame);
     }
     av_freep(&dst_data[0]);
@@ -89,10 +138,6 @@ void VideoChannel::synchronizeFrame() {
 
 void VideoChannel::renderFrame(uint8_t *data, int linesize, int w, int h) {
 //    渲染
-    //设置窗口属性
-    ANativeWindow_setBuffersGeometry(m_aNativeWindow, w,
-                                     h,
-                                     WINDOW_FORMAT_RGBA_8888);
 
     ANativeWindow_Buffer window_buffer;
     if (ANativeWindow_lock(m_aNativeWindow, &window_buffer, 0)) {
@@ -113,6 +158,10 @@ void VideoChannel::renderFrame(uint8_t *data, int linesize, int w, int h) {
 
 void VideoChannel::stop() {
 
+}
+
+void VideoChannel::setFps(int fps) {
+    this->fps = fps;
 }
 
 
