@@ -6,122 +6,6 @@
 #include "player.h"
 
 
-void player::play(std::string uri, ANativeWindow &aNativeWindow) {
-    //1、打开视频文件
-    avformat_network_init();
-    AVFormatContext *formatContext = avformat_alloc_context();
-
-    //打开 URL
-    AVDictionary *opts = NULL;
-    //设置超时3秒
-    av_dict_set(&opts, "timeout", "3000000", 0);
-
-    int ret = avformat_open_input(&formatContext, uri.c_str(), NULL, &opts);
-    if (ret) {//ret为 0 则表示成功
-        return;
-    }
-    //2、获取数据流
-    avformat_find_stream_info(formatContext, NULL);
-    //3、找到视频流和对应的解码器
-    int video_stream_idx = -1;
-
-    for (int i = 0; i < formatContext->nb_streams; ++i) {
-        if (formatContext->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
-            video_stream_idx = i;
-            break;
-        }
-    }
-    //找到解码参数
-    AVCodecParameters *codecPar = formatContext->streams[video_stream_idx]->codecpar;
-    //找到解码器
-    AVCodec *dec = avcodec_find_decoder(codecPar->codec_id);
-    AVCodecContext *codecContext = avcodec_alloc_context3(dec);
-    //将解码器参数copy到解码器上下文
-    avcodec_parameters_to_context(codecContext, codecPar);
-    //打开解码器
-    avcodec_open2(codecContext, dec, NULL);
-
-    //4、通过解码器读取数据 得到yuv数据
-
-    //转化的上下文
-    SwsContext *sws_ctx = sws_getContext(
-            codecContext->width, codecContext->height,
-            codecContext->pix_fmt,
-            codecContext->width, codecContext->height,
-            AV_PIX_FMT_RGBA,
-            SWS_BICUBIC,//转化的模式，有质量优先，跟速度优先
-            0, 0, 0);
-    //设置窗口
-    //视频缓冲区
-    ANativeWindow_Buffer outBuffer;
-    //创建新的窗口用于视频显示
-    int frameCount = 0;
-    ANativeWindow_setBuffersGeometry(&aNativeWindow, codecContext->width,
-                                     codecContext->height,
-                                     WINDOW_FORMAT_RGBA_8888);
-
-    //读取包
-    AVPacket *packet = av_packet_alloc();
-    while (av_read_frame(formatContext, packet) >= 0) {
-        avcodec_send_packet(codecContext, packet);
-        AVFrame *frame = av_frame_alloc();
-        ret = avcodec_receive_frame(codecContext, frame);
-
-        if (ret == AVERROR(EAGAIN)) {
-            //需要更多数据
-            continue;
-        } else if (ret < 0) { break; }
-
-        //5、将yuv数据转化成grb数据
-        //设置容器大小
-        uint8_t *dst_data[0];
-        int dst_line_size[0];
-        //分配内存
-        av_image_alloc(dst_data, dst_line_size, codecContext->width, codecContext->height,
-                       AV_PIX_FMT_RGBA, 1);
-
-        if (packet->stream_index == video_stream_idx && ret == 0) {
-            //转化
-            sws_scale(sws_ctx, reinterpret_cast<const uint8_t *const *>(frame->data),
-                      frame->linesize, 0, frame->height, dst_data, dst_line_size);
-            //渲染
-            //6、将grb数据通过内存拷贝绘制在surfaceView中
-
-            ANativeWindow_lock(&aNativeWindow, &outBuffer, NULL);
-            //rgb_frame是有画面数据
-            uint8_t *dst = (uint8_t *) outBuffer.bits;
-            // 拿到一行有多少个字节 RGBA
-            int destStride = outBuffer.stride * 4;
-            uint8_t *src_data = dst_data[0];
-            int src_line_size = dst_line_size[0];
-            uint8_t *firstWindow = static_cast<uint8_t *>(outBuffer.bits);
-            for (int i = 0; i < outBuffer.height; ++i) {
-                //内存拷贝 来进行渲染
-                memcpy(firstWindow + i * destStride, src_data + i * src_line_size, destStride);
-            }
-            ANativeWindow_unlockAndPost(&aNativeWindow);
-            usleep(1000 * 16);
-            av_frame_free(&frame);
-        }
-    }
-
-    //7、释放资源
-    avcodec_close(codecContext);
-    avformat_free_context(formatContext);
-
-}
-
-
-/**
- * 音频播放
- * @param input
- * @param output
- */
-void player::playAudio(std::string input, std::string output) {
-
-
-}
-
 void player::prepare() {
     PlayMsg *playMsg = new PlayMsg();
     playMsg->msgType = PlayMsg::MSG_TYPE_PREPARE;
@@ -179,6 +63,11 @@ bool player::dealMsg(PlayMsg *playMsg) {
             avformat_network_init();
             //创建数据流的上下文
             m_formatContext = avformat_alloc_context();
+            if (m_formatContext) {
+                playerListener->onPrepare(0);
+            } else {
+                playerListener->onPrepare(-1);
+            }
         }
             break;
         case PlayMsg::MSG_TYPE_SETPLAYURL://设置地址

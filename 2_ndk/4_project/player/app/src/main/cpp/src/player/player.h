@@ -97,10 +97,6 @@ public:
 
     void release();
 
-    void play(std::string uri, ANativeWindow &aNativeWindow);
-
-    void playAudio(std::string input, std::string output);
-
 public:
     /**
       * 播放

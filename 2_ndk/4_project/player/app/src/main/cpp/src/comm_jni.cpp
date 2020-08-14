@@ -5,13 +5,27 @@
 #include "utils/jni_simple_type.h"
 #include "ffmpeg_text.h"
 
-extern "C" JNIEXPORT jstring JNICALL
-Java_com_soul_ffmpeg_MainActivity_stringFromJNI(
-        JNIEnv *env,
-        jobject /* this */) {
-    std::string hello = "Hello from C++";
-    return env->NewStringUTF(hello.c_str());
+JavaVM* JNIJavaVM::s_jvm = nullptr;
+
+JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
+#ifdef NATIVE_CLIENT_VERSION_INFO
+    LOGD("VersionInfo : %s", NATIVE_CLIENT_VERSION_INFO);
+#endif
+    LOGD("JNI_OnLoad");
+
+    JNIEnv *env = NULL;
+    jint result = -1;
+
+    JNIJavaVM::setJVM(vm);
+
+    if (vm->GetEnv((void **) &env, JNI_VERSION_1_6) != JNI_OK) {
+        return result;
+    }
+
+    // 返回jni的版本
+    return JNI_VERSION_1_6;
 }
+
 
 //初始化
 extern "C"
@@ -31,7 +45,7 @@ Java_com_soul_ffmpeg_player_ffmpeg_FFMPegPlayerMpl_setNativeCallBack(JNIEnv *env
                                                                      jobject callback) {
     PlayModule *playModule = (PlayModule *) native_play_instance;
     if (playModule != nullptr) {
-        playModule->setNativeCallBack(callback);
+        playModule->setNativeCallBack(env, callback);
         return;
     }
 }

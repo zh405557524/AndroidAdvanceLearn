@@ -33,24 +33,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Global.setContext(getApplicationContext());
         setContentView(R.layout.activity_main);
-        SurfaceView surfaceView = findViewById(R.id.surfaceView);
-        PlayerManger.getInstance().setSurfaceView(surfaceView);
+        final SurfaceView surfaceView = findViewById(R.id.surfaceView);
+
         findViewById(R.id.start_play).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                PlayerManger.getInstance().setSurfaceView(surfaceView);
 //                SystemManager.getInstance().requestAudioFocus();
                 PlayerManger.getInstance().startPlay(path);
             }
-
-        });
-        findViewById(R.id.tv_audio_decode).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PlayerManger.getInstance().audioDecode(input, output);
-            }
         });
 
-        new ArrayList<>();
+
+        new ArrayList();
         PermissionsUtils.lacksPermissions(this, permissions);
     }
 

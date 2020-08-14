@@ -80,7 +80,6 @@ void VideoChannel::synchronizeFrame() {
                   reinterpret_cast<const uint8_t *const *>(frame->data), frame->linesize, 0,
                   frame->height,
                   dst_data, dst_linesize);
-        frame->pts;
         //当前视频时间戳
         clock = frame->pts * av_q2d(time_base);
 

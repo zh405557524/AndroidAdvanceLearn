@@ -1,5 +1,6 @@
 package com.soul.ffmpeg.player;
 
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -15,6 +16,7 @@ import com.soul.ffmpeg.player.ffmpeg.IPlayerMpl;
 public class PlayerManger implements SurfaceHolder.Callback, IPlayerManger {
 
 
+    private static final String TAG = PlayerManger.class.getSimpleName();
     private IPlayerMpl mIPlayerMpl;
     private SurfaceHolder surfaceHolder;
 
@@ -31,6 +33,12 @@ public class PlayerManger implements SurfaceHolder.Callback, IPlayerManger {
         mIPlayerMpl = new FFMPegPlayerMpl();
         mIPlayerMpl.init();
         mIPlayerMpl.prepare();
+        mIPlayerMpl.setPrepareListener(new IPlayerMpl.OnPrepareListener() {
+            @Override
+            public void onPrepare(int code) {
+                Log.i(TAG, "onPrepare:" + code);
+            }
+        });
     }
 
     public void startPlay(String url) {
@@ -40,11 +48,17 @@ public class PlayerManger implements SurfaceHolder.Callback, IPlayerManger {
         mIPlayerMpl.setPlayWindow(surfaceHolder.getSurface());
         mIPlayerMpl.setPlayUrl(url);
         mIPlayerMpl.play();
-    }
+        mIPlayerMpl.setProgressListener(new IPlayerMpl.OnProgressListener() {
+            @Override
+            public void onProgress(int progress) {
+                Log.i(TAG, "progress:" + progress);
+            }
 
-    @Override
-    public void audioDecode(String input, String output) {
-        mIPlayerMpl.audioDecode(input,output);
+            @Override
+            public void onTotal(int total) {
+                Log.i(TAG, "onTotal:" + total);
+            }
+        });
     }
 
     public void setSurfaceView(SurfaceView surfaceView) {

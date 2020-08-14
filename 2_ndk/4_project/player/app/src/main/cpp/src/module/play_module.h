@@ -4,6 +4,7 @@
 #include <jni.h>
 #include <string>
 #include <player/player.h>
+#include <utils/jni_simple_type.h>
 
 #ifndef FFMPEG_PLAY_MODULE_H
 #define FFMPEG_PLAY_MODULE_H
@@ -25,6 +26,11 @@ private://成员变量
     jobject m_javaListener;
     ANativeWindow *aNativeWindow;
 
+    jmethodID onProgressMethodID;
+    jmethodID onTotalMethodID;
+    jmethodID onPrepareMethodID;
+    jmethodID onErrorMethodID;
+
 public://构造方法
 
     PlayModule() {
@@ -36,6 +42,11 @@ public://构造方法
         if (aNativeWindow != nullptr) {
             ANativeWindow_release(aNativeWindow);
         }
+        if (m_javaListener != nullptr) {
+            JNIExtEnv env;
+            env->DeleteGlobalRef(m_javaListener);
+        }
+
     }
 
 public://公共方法
@@ -44,8 +55,13 @@ public://公共方法
      * 设置java层回调
      * @param nativeCallBack
      */
-    void setNativeCallBack(jobject nativeCallBack) {
-        m_javaListener = nativeCallBack;
+    void setNativeCallBack(JNIEnv *env, jobject nativeCallBack) {
+        m_javaListener = env->NewGlobalRef(nativeCallBack);
+        jclass pJclass = env->GetObjectClass(nativeCallBack);
+        onProgressMethodID = env->GetMethodID(pJclass, "onProgress", "(I)V");
+        onTotalMethodID = env->GetMethodID(pJclass, "onTotal", "(I)V");
+        onPrepareMethodID = env->GetMethodID(pJclass, "onPrepare", "(I)V");
+        onErrorMethodID = env->GetMethodID(pJclass, "onError", "(I)V");
     }
 
     /**
@@ -70,7 +86,6 @@ public://公共方法
      */
     void setPlayUrl(std::string url) {
         m_player->setPlayUrl(url.c_str());
-//        m_player->play(url, *aNativeWindow);
     }
 
 public:
@@ -106,13 +121,25 @@ public:
 
 public://回调参数
 
-    virtual void onError(int errorCode);
+    virtual void onProgress(int progress) {
+        JNIExtEnv env;
+        env->CallVoidMethod(m_javaListener, onPrepareMethodID, progress);
+    }
 
-    virtual void onProgress(int progress);
+    virtual void onError(int errorCode) {
+        JNIExtEnv env;
+        env->CallVoidMethod(m_javaListener, onErrorMethodID, errorCode);
+    }
 
-    virtual void onTotal(int total);
+    virtual void onTotal(int total) {
+        JNIExtEnv env;
+        env->CallVoidMethod(m_javaListener, onTotalMethodID, total);
+    }
 
-    virtual void onPrepare();
+    virtual void onPrepare(int code) {
+        JNIExtEnv env;
+        env->CallVoidMethod(m_javaListener, onPrepareMethodID, code);
+    }
 };
 
 

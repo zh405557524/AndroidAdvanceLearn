@@ -9,8 +9,8 @@
 
     <SurfaceView
         android:id="@+id/surfaceView"
-        android:layout_width="300dp"
-        android:layout_height="200dp"/>
+        android:layout_width="200dp"
+        android:layout_height="300dp"/>
 
     <TextView
         android:id="@+id/start_play"

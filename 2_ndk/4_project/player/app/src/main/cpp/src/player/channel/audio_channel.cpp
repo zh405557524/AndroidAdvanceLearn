@@ -32,7 +32,9 @@ void bqPlayerCallback(SLAndroidSimpleBufferQueueItf bq, void *context) {
 //pcm数据   原始音频数据
 }
 
-
+/**
+ * 读取包
+ */
 void AudioChannel::readPacket() {
 
     AVPacket *packet = 0;
