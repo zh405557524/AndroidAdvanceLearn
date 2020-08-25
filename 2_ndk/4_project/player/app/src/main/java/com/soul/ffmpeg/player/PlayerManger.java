@@ -32,13 +32,14 @@ public class PlayerManger implements SurfaceHolder.Callback, IPlayerManger {
     private void init() {
         mIPlayerMpl = new FFMPegPlayerMpl();
         mIPlayerMpl.init();
-        mIPlayerMpl.prepare();
         mIPlayerMpl.setPrepareListener(new IPlayerMpl.OnPrepareListener() {
             @Override
             public void onPrepare(int code) {
                 Log.i(TAG, "onPrepare:" + code);
             }
         });
+        mIPlayerMpl.prepare();
+
     }
 
     public void startPlay(String url) {

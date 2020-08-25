@@ -13,14 +13,20 @@ class AudioChannel : public BaseChannel {
 
 public:
 
-    AudioChannel(int channelId, AVCodecContext &avCodecContext, AVRational &time_base);
+    AudioChannel();
 
 public:
 
     virtual void readPacket();
 
     virtual void synchronizeFrame() {
+        swr_ctx = swr_alloc_set_opts(0, AV_CH_LAYOUT_STEREO, AV_SAMPLE_FMT_S16, out_sample_rate,
+                                     m_avCodecContext->channel_layout,
+                                     m_avCodecContext->sample_fmt,
+                                     m_avCodecContext->sample_rate, 0, 0);
+        swr_init(swr_ctx);
         initOpenSl();
+
     };
 
     /**
@@ -30,9 +36,15 @@ public:
 
     int getPcm();
 
-    virtual void stop() {
 
+    void stop() {
+        isPlaying = false;
+        pktQueue.clear();
+        frameQueue.clear();
+        swr_free(&swr_ctx);
+        av_free(buffer);
     }
+
 
 public:
     uint8_t *buffer;

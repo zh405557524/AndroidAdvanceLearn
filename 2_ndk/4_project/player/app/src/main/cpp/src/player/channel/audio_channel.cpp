@@ -5,8 +5,8 @@
 #include <locale>
 #include "audio_channel.h"
 
-AudioChannel::AudioChannel(int channelId, AVCodecContext &avCodecContext, AVRational &time_base)
-        : BaseChannel(channelId, avCodecContext, time_base) {
+AudioChannel::AudioChannel()
+        : BaseChannel() {
     out_channels = av_get_channel_layout_nb_channels(AV_CH_LAYOUT_STEREO);
     out_sampleSize = av_get_bytes_per_sample(AV_SAMPLE_FMT_S16);
     out_sample_rate = 44100;
@@ -14,11 +14,6 @@ AudioChannel::AudioChannel(int channelId, AVCodecContext &avCodecContext, AVRati
     //44100 双声道 2字节    out_samplesize  16位  2个字节   out_channels  2
     buffer = (uint8_t *) malloc(out_sample_rate * out_sampleSize * out_channels);
 
-    swr_ctx = swr_alloc_set_opts(0, AV_CH_LAYOUT_STEREO, AV_SAMPLE_FMT_S16, out_sample_rate,
-                                 avCodecContext.channel_layout,
-                                 avCodecContext.sample_fmt,
-                                 avCodecContext.sample_rate, 0, 0);
-    swr_init(swr_ctx);
 }
 
 
@@ -88,6 +83,7 @@ void AudioChannel::initOpenSl() {
 
     //播放器
     SLObjectItf bqPlayerObject = NULL;
+
 //    回调接口
     SLPlayItf bqPlayerInterface = NULL;
 //    缓冲队列

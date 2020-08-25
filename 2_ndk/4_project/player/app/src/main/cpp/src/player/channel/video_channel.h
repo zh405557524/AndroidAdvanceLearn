@@ -14,14 +14,17 @@ class VideoChannel : public BaseChannel {
 private:
     ANativeWindow *m_aNativeWindow;
 public:
-    VideoChannel(int channelId, AVCodecContext &avCodecContext, AVRational &time_base);
+    VideoChannel();
+
     AudioChannel *m_audioChannel;
+
 public:
+
     void prepare(ANativeWindow &aNativeWindow) {
         m_aNativeWindow = &aNativeWindow;
         //设置窗口属性
         ANativeWindow_setBuffersGeometry(m_aNativeWindow, m_avCodecContext->width,
-                                         m_avCodecContext-> height,
+                                         m_avCodecContext->height,
                                          WINDOW_FORMAT_RGBA_8888);
 
 
@@ -44,16 +47,18 @@ public:
 
     virtual void readPacket();
 
-    /**
-    * 停止
-    */
-    virtual void stop();
 
     /**
      * 设置帧数
      * @param fps
      */
     void setFps(int fps);
+
+    void stop() {
+        isPlaying = false;
+        pktQueue.clear();
+        frameQueue.clear();
+    }
 
 private:
     int fps;

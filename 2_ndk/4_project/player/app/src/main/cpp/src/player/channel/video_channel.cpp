@@ -5,10 +5,11 @@
 #include <unistd.h>
 #include "video_channel.h"
 
-VideoChannel::VideoChannel(int channelId, AVCodecContext &aVCodecContext, AVRational &time_base)
-        : BaseChannel(channelId, aVCodecContext, time_base) {
-}
 
+VideoChannel::VideoChannel() {
+
+
+}
 
 void VideoChannel::readPacket() {
     if (m_avCodecContext == nullptr) {
@@ -97,7 +98,6 @@ void VideoChannel::synchronizeFrame() {
         double delay = extra_delay + frame_delays;
 
         double diff = clock - audioClock;
-        LOGI("video_channel_diff:%f   clock:%f  audioClock:%f ", diff, clock, audioClock);
         do {
 
             if (clock > audioClock) {//视频超前
@@ -155,12 +155,10 @@ void VideoChannel::renderFrame(uint8_t *data, int linesize, int w, int h) {
     ANativeWindow_unlockAndPost(m_aNativeWindow);
 }
 
-void VideoChannel::stop() {
-
-}
 
 void VideoChannel::setFps(int fps) {
     this->fps = fps;
 }
+
 
 

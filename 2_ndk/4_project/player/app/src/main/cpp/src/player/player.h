@@ -68,6 +68,7 @@ class player : public MsgDispatcher<PlayMsg>, public IPlay {
 private:
     ANativeWindow *m_aNativeWindow;
     AVFormatContext *m_formatContext;
+    AVCodecContext *codecContext;
     VideoChannel *m_videoChannel;
     AudioChannel *audioChannel;
     PlayerListener *playerListener;

@@ -52,14 +52,17 @@ protected:
 
 public:
 
-    BaseChannel(int channelId, AVCodecContext &avCodecContext, AVRational &time_base)
+    BaseChannel()
             : m_pkt_msg(this), m_frame_msg(this) {
+
+    }
+
+    void init(int channelId, AVCodecContext &avCodecContext, AVRational &time_base) {
         m_avCodecContext = &avCodecContext;
         this->time_base = time_base;
         m_channelId = channelId;
-        pktQueue.setReleaseHandle(releaseAvPacket);
-        frameQueue.setReleaseHandle(releaseAvFrame);
     }
+
 
     static void releaseAvPacket(AVPacket *&packet) {
         if (packet) {
@@ -92,6 +95,8 @@ public:
     */
     void play() {
         LOGE("channel begin play");
+        pktQueue.setReleaseHandle(releaseAvPacket);
+        frameQueue.setReleaseHandle(releaseAvFrame);
         isPlaying = true;
         pktQueue.setWork(1);
         frameQueue.setWork(1);

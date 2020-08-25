@@ -14,6 +14,10 @@
 #define THREAD_MAIN 1
 #define THREAD_CHILD 2
 
+
+#define FFMPEG_CREATE_FORMAT_FAIL -1
+#define FFMPEG_CREATE_FORMAT_SUCCEED 0
+
 //错误代码
 //打不开视频
 #define FFMPEG_CAN_NOT_OPEN_URL 1
@@ -29,7 +33,6 @@
 #define FFMPEG_OPEN_DECODER_FAIL 7
 //没有音视频
 #define FFMPEG_NOMEDIA 8
-
 
 
 #endif //DNPLAYER_MACRO_H
