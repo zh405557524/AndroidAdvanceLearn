@@ -959,7 +959,10 @@ int AudioChannel::getPcm() {
   ~~~
 
   
-
+# 七、增量更新
+    * 如何看一个so的方法
+      > arm-linux-androideabi-nm:查看动态库所有函数
+      >  ../ arm-linux-androideabi-nm -d  d://../xx.so
   
 
 
