@@ -28,7 +28,7 @@
 
   > A类持有B类的引用，这种关系称为依赖关系,例如房子里面有车，车依赖房子
 
-  ![依赖](https://github.com/zh405557524/AndroidAdvanceLearn/blob/master/3_%E6%9E%B6%E6%9E%84%E5%B8%88/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E6%9E%B6%E6%9E%84%E5%B8%88%E5%85%A5%E9%97%A8/%E7%AC%AC%E4%B8%80%E8%8A%82%20UML%E5%BB%BA%E6%A8%A1/res/%E4%BE%9D%E8%B5%96.jpg)
+  ![依赖](res/依赖.jpg)
 
 * 泛化(Generalization)
 
@@ -36,7 +36,7 @@
   >
   > B 类 具有A类 所有的属性和方法，并具有自己特有的属性和方法。
 
-  ![泛化](https://github.com/zh405557524/AndroidAdvanceLearn/blob/master/3_%E6%9E%B6%E6%9E%84%E5%B8%88/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E6%9E%B6%E6%9E%84%E5%B8%88%E5%85%A5%E9%97%A8/%E7%AC%AC%E4%B8%80%E8%8A%82%20UML%E5%BB%BA%E6%A8%A1/res/%E6%B3%9B%E5%8C%96.jpg)
+  ![泛化](res/泛化.jpg)
 
 * 关联(Association)
 
@@ -46,25 +46,25 @@
   >
   > 3 自关联   
 
-![关联](https://github.com/zh405557524/AndroidAdvanceLearn/blob/master/3_%E6%9E%B6%E6%9E%84%E5%B8%88/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E6%9E%B6%E6%9E%84%E5%B8%88%E5%85%A5%E9%97%A8/%E7%AC%AC%E4%B8%80%E8%8A%82%20UML%E5%BB%BA%E6%A8%A1/res/%E5%85%B3%E8%81%94.jpg)
+![关联](res/关联.jpg)
 
 * 实现(Realization)
 
   > 类似java中的接口实现  usb（断开，连接） ->u盘、键盘、鼠标 
 
-  ![实现](https://github.com/zh405557524/AndroidAdvanceLearn/blob/master/3_%E6%9E%B6%E6%9E%84%E5%B8%88/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E6%9E%B6%E6%9E%84%E5%B8%88%E5%85%A5%E9%97%A8/%E7%AC%AC%E4%B8%80%E8%8A%82%20UML%E5%BB%BA%E6%A8%A1/res/%E5%AE%9E%E7%8E%B0.jpg)
+  ![实现](res/实现.jpg)
 
 * 聚合(Aggregation)  
 
   > 表示整体和部分的关系，可以分开。单独存在  ; 学生 既可以是学校，也可以在网吧打游戏
 
-![聚合](https://github.com/zh405557524/AndroidAdvanceLearn/blob/master/3_%E6%9E%B6%E6%9E%84%E5%B8%88/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E6%9E%B6%E6%9E%84%E5%B8%88%E5%85%A5%E9%97%A8/%E7%AC%AC%E4%B8%80%E8%8A%82%20UML%E5%BB%BA%E6%A8%A1/res/%E8%81%9A%E5%90%88.jpg)
+![聚合](res/聚合.jpg)
 
 * 组合(Composition)
 
   > 与聚合类似，但是整体跟部分不能分开。 例如ViewGroup 与View 的关系
 
-![组合](https://github.com/zh405557524/AndroidAdvanceLearn/blob/master/3_%E6%9E%B6%E6%9E%84%E5%B8%88/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E6%9E%B6%E6%9E%84%E5%B8%88%E5%85%A5%E9%97%A8/%E7%AC%AC%E4%B8%80%E8%8A%82%20UML%E5%BB%BA%E6%A8%A1/res/%E7%BB%84%E5%90%88.jpg)
+![组合](res/组合.jpg)
 
 
 
@@ -92,19 +92,19 @@
 
 * 理解切面
 
-  ![切面](/Users/hillliao/github/AndroidAdvanceLearn/3_架构师/第一章 架构师入门/第一节 UML建模/res/切面.jpg)
+  ![切面](./res/切面.jpg)
 
 
 
 * 动态代码切面需求
 
-![切面](/Users/hillliao/github/AndroidAdvanceLearn/3_架构师/第一章 架构师入门/第一节 UML建模/res/切面动态代理.jpg)
+![切面](./res/切面动态代理.jpg)
 
 
 
 ## 五、面向切面思想之集中式登录架构
 
-![切面](/Users/hillliao/github/AndroidAdvanceLearn/3_架构师/第一章 架构师入门/第一节 UML建模/res/登录.jpg)
+![切面](./res/登录.jpg)
 
 * AspectJ
 

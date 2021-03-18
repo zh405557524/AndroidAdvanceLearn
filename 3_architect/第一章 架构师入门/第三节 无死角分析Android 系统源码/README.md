@@ -8,13 +8,13 @@
 
 * 架构图
 
-  ![pms架构.png](/res_pic/pms架构.png)
+  ![pms架构.png](./res_pic/pms架构.png)
 
   * 通过context 获取到PMS的的代理类，通过操作 代理类，获取到pms的数据
 
 ## 四、apk安装原理
 
-* ![apk安装原理.png](/res_pic/apk安装原理.png)
+* ![apk安装原理.png](./res_pic/apk安装原理.png)
 * 有界面安装
 * 无界面安装
 
@@ -22,10 +22,10 @@
 
 * 关系图
 
-  ![ams关系图.png](/res_pic/ams关系图.png)
+  ![ams关系图.png](./res_pic/ams关系图.png)
 
 * startService
-  ![startService.png](/res_pic/startService.png)
+  ![startService.png](./res_pic/startService.png)
 
 
 
