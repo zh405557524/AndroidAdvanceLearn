@@ -106,7 +106,191 @@
 
 ![切面](./res/登录.jpg)
 
-* AspectJ
+* AspectJrt  （Ioc 容器）
+
+  * 5.1、gradle 配置 
+
+    ~~~java
+    //在buildscript中添加该编织器，gradle构建时就会对class文件进行编织
+    classpath 'org.aspectj:aspectjweaver:1.8.9'
+    //在dependencies中添加该依赖，提供@AspectJ语法
+    compile 'org.aspectj:aspectjrt:1.8.9'
+        
+    版权声明：本文为CSDN博主「David-Kuper」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+    原文链接：https://blog.csdn.net/woshimalingyi/article/details/73252013
+    ~~~
+
+  * 5.2、连接点- **JoinPoint**   
+
+    ![连接点](./res/join_points.jpg)
+
+  * 5.3、切入点 - **PointCut**
+
+    示例代码
+
+    ~~~java
+     @Pointcut("execution(@com.netease.aop.login.annotation.LoginCheck * *(..))")
+     public void methodPointCut() {}
+    ~~~
+
+    直接选择
+
+    ![切入点](./res/切入点.jpg)
+
+    间接选择
+
+    ![切入点](./res/切入点2.jpg)
+
+  * 5.4、 **匹配规则** 
+
+    * 5.4.1、**类型匹配语法** 
+
+      >  *：匹配任何数量字符；
+      > ..：匹配任何数量字符的重复，如在类型模式中匹配任何数量子包；而在方法参数模式中匹配任何数量参数。
+      > +：匹配指定类型的子类型；仅能作为后缀放在类型模式后边。
+      > AspectJ使用 且（&&）、或（||）、非（！）来组合切入点表达式。 
+
+    * 5. 4.2、**匹配模式** 
+
+       call(<注解？> <修饰符?> <返回值类型> <类型声明?>.<方法名>(参数列表) <异常列表>？) 
+
+      * 精确匹配
+
+        ~~~java
+        //表示匹配 com.davidkuper.MainActivity类中所有被@Describe注解的public void方法。
+        @Pointcut("call(@Describe public void com.davidkuper.MainActivity.init(Context))")
+        public void pointCut(){}
+        ~~~
+
+      * 单一模糊匹配
+
+        ~~~java
+        //表示匹配 com.davidkuper.MainActivity类中所有被@Describe注解的public void方法。
+        @Pointcut("call(@Describe public void com.davidkuper.MainActivity.*(..)) ")
+        public void pointCut(){}
+        
+        //表示匹配调用Toast及其子类调用的show方法，不论返回类型以及参数列表，并且该子类在以com.meituan或者com.sankuai开头的包名内
+        @Pointcut("call(* android.widget.Toast+.show(..)) && (within(com.meituan..*)|| within(com.sankuai..*))")
+        public void toastShow() {
+        }
+        ~~~
+
+      * 组合模糊匹配
+
+        ~~~java
+        //表示匹配任意Activity或者其子类的onStart方法执行，不论返回类型以及参数列表，且该类在com.meituan.hotel.roadmap包名内
+        @Pointcut("execution(* *..Activity+.onStart(..))&& within(com.meituan.hotel.roadmap.*)")
+        public void onStart(){}
+        ~~~
+
+      * 
+
+    * 5.4.3、 **获取参数** 
+
+      * 通过声明参数语法arg()显示获取参数
+
+        ~~~java
+        @Around(value = "execution(* BitmapFacade.picasso.init(java.lang.String,java.lang.String)) && args(arg1,arg2)"
+        public Object aroundArgs(String arg1,String arg2,ProceedingJoinPoint joinPoint){
+           System.out.println("aspects arg = " + arg1.toString()+" " + arg2);
+           Object resutObject = null;
+           try {
+              resutObject = joinPoint.proceed(new Object[]{arg1,arg2});
+           } catch (Throwable e) {
+              e.printStackTrace();
+           }
+           return resutObject;
+        }
+        ~~~
+
+      * 通过joinPoint.getArg()获取参数列表
+
+        ~~~java
+        @Around("execution(static * tBitmapFacade.picasso.init(..)) && !within(aspectj.*) ")
+        public void pointCutAround(ProceedingJoinPoint joinPoint){
+           Object resutObject = null;
+           try {
+              //获取参数列表
+              Object[] args = joinPoint.getArgs();
+              resutObject = joinPoint.proceed(args);
+           } catch (Throwable e) {
+              e.printStackTrace();
+           }
+           return resutObject;
+        };
+        ~~~
+
+    * 5.4.4、 **异常匹配** 
+
+      ~~~java
+      /**
+      * 截获Exception及其子类报出的异常。
+      * @param e 异常参数
+      */
+      @Pointcut("handler(java.lang.Exception+)&&args(e)")
+      public void handle(Exception e) {}
+      ~~~
+
+  * 5.5、**通知——Advise**
+
+    *  **@Before、@After** 
+
+      ~~~java
+      //所有实例方法调用截获
+      private static final String INSTANCE_METHOD_CALL =
+      "call(!static * com.meituan.hotel.roadmap..*.*(..))&&target(Object)";
+      @Pointcut(INSTANCE_METHOD_CALL) public void instanceMethodCall() {
+      }
+      //实例方法调用前后Advice
+      @Before("instanceMethodCall()") public void beforInstanceCall(JoinPoint joinPoint) {
+      printLog(joinPoint, "before instance call");
+      }
+      @After("instanceMethodCall()") public void afterInstanceCall(JoinPoint joinPoint) {
+      printLog(joinPoint, "after instance call");
+      }
+      ~~~
+
+    *  **@Around** 
+
+      ~~~java
+      //横切项目中所有Activity的子类，以Layout命名、以及它的子类的所有方法的执行
+      private static final String POINTCUT_METHOD =
+      "(execution(* android.app.Activity+.*(..)) ||execution(* *..Layout+.*(..)))&& within(com.meituan.hotel.roadmap.*)";
+      @Pointcut(POINTCUT_METHOD) public void methodAnnotated() {
+      }
+      
+      @Around("methodAnnotated()") public Object weaveJoinPoint(ProceedingJoinPoint joinPoint)throws Throwable{
+         //调用原方法的执行。
+         Object result = joinPoint.proceed();
+         return result;
+      }
+      ~~~
+
+    *  **@AfterThrowing** 
+
+      ~~~java
+      /**
+      * 在异常抛出后，该操作优先于下一个切点的@Before()
+      * @param joinPoint
+      * @param e 异常参数
+      */
+      @AfterThrowing(pointcut = "afterThrow()",throwing = "e")
+      public void afterThrowing(JoinPoint joinPoint,Exception e){
+      Log.e(TAG,joinPoint.getTarget().getClass().getSimpleName() + " afterThrowing() :" + e.toString());
+      }
+      ~~~
+
+      
+
+  * 
+
+    
+
+​           
+
+​	  
+
+
 
 
 
