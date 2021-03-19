@@ -7,13 +7,13 @@ import com.soul.aop.R;
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
- * 动态代理
+ * 切面编程
  */
-public class InvocationHandlerActivity extends AppCompatActivity {
+public class AspectjActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_invocation_handler);
+        setContentView(R.layout.activity_aspectj);
     }
 }
