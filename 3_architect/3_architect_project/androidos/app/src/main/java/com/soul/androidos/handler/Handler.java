@@ -10,6 +10,8 @@ package com.soul.androidos.handler;
  */
 public class Handler {
 
+    public static String TAG = Handler.class.getSimpleName();
+
     /**
      * 循环器
      */
@@ -29,7 +31,8 @@ public class Handler {
 
 
     public Handler() {
-
+        mLooper = Looper.myLooper();
+        mQueue = mLooper.mQueue;
     }
 
     /**
@@ -38,19 +41,23 @@ public class Handler {
      * @param message 消息
      */
     public void sendMessage(Message message) {
-
+        sendMessageAtTime(message, System.currentTimeMillis());
     }
 
     public void sendMessage(Message message, long delayMillis) {
-
+        sendMessageAtTime(message, System.currentTimeMillis() + delayMillis);
     }
 
     public void post(Runnable r) {
-
+        Message message = new Message();
+        message.callback = r;
+        sendMessage(message);
     }
 
     public void postDelayed(Runnable r, long delayMillis) {
-
+        Message message = new Message();
+        message.callback = r;
+        sendMessageAtTime(message, delayMillis);
     }
 
     /**
@@ -59,7 +66,11 @@ public class Handler {
      * @param msg
      */
     public void dispatchMessage(Message msg) {
-
+        if (msg.callback != null) {
+            msg.callback.run();
+        } else {
+            handlerMessage(msg);
+        }
     }
 
     /**
@@ -67,7 +78,7 @@ public class Handler {
      *
      * @param msg 消息
      */
-    public void HandlerMessage(Message msg) {
+    public void handlerMessage(Message msg) {
 
     }
 
@@ -78,8 +89,7 @@ public class Handler {
      * @param uptimeMillis 发送的时间
      */
     private void sendMessageAtTime(Message message, long uptimeMillis) {
-        //todo 加入消息队列中
-
+        boolean b = mQueue.enqueueMessage(message, uptimeMillis);
     }
 
 

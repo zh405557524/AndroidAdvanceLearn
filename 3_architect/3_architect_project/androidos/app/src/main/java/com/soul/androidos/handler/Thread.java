@@ -15,7 +15,7 @@ public class Thread {
     /**
      * 多线程共享变量 存储对象
      */
-    ThreadLocal.ThreadLocalMap threadLocals = null;
+   static ThreadLocal.ThreadLocalMap threadLocals = null;
 
 
     public static synchronized Thread currentThread() {
