@@ -22,7 +22,7 @@ public class Looper {
     /**
      * 消息队列
      */
-    MessageQueue mQueue;
+    static MessageQueue mQueue;
 
 
     public Looper(boolean quitAllowed) {
@@ -66,7 +66,7 @@ public class Looper {
     /**
      * 开启循环
      */
-    public void loop() {
+    public static void loop() {
         for (; ; ) {
             Message next = mQueue.next();
             Handler target = next.target;

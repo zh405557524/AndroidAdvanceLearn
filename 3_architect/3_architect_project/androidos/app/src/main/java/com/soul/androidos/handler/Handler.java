@@ -89,6 +89,7 @@ public class Handler {
      * @param uptimeMillis 发送的时间
      */
     private void sendMessageAtTime(Message message, long uptimeMillis) {
+        message.target = this;
         boolean b = mQueue.enqueueMessage(message, uptimeMillis);
     }
 

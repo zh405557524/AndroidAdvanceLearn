@@ -36,7 +36,12 @@ public class ThreadLocal<T> {
      */
     public T get() {
         ThreadLocalMap map = getMap();
+        if (map == null) {
+            map = new ThreadLocalMap(this, null);
+            Thread.threadLocals = map;
+        }
         ThreadLocalMap.Entry entry = map.getEntry(this);
+
         return (T) entry.value;
     }
 
@@ -47,6 +52,10 @@ public class ThreadLocal<T> {
      */
     public void set(T value) {
         ThreadLocalMap map = getMap();
+        if (map == null) {
+            map = new ThreadLocalMap(this, value);
+            Thread.threadLocals = map;
+        }
         map.set(this, value);
     }
 
@@ -123,6 +132,7 @@ public class ThreadLocal<T> {
             if (entry != null && entry.get() == key) {
                 return entry;
             }
+            //todo 继续查询
             return null;
         }
 
@@ -148,7 +158,7 @@ public class ThreadLocal<T> {
                     return;
                 }
                 if (k == null) {
-                    //todo 替换无效的条目
+
                     replaceStaleEntry(key, value, i);
                     return;
                 }
@@ -170,8 +180,9 @@ public class ThreadLocal<T> {
          * @param i
          */
         private void replaceStaleEntry(ThreadLocal<?> key, Object value, int i) {
-            // 2)、如果key为null 则 1、向数组前面获取key值，如果为null 则记录该角标 记作 slotToExpunge 。
+            //todo 替换无效的条目
 
+            // 2)、如果key为null 则 1、向数组前面获取key值，如果为null 则记录该角标 记作 slotToExpunge 。
             //   2、数组向后 获取k值，a、如果k与当前的key 值 相同，则 做新旧元素 替换 旧索引指向新值(新值为null) 新索引指向旧值，并删除旧索引 cleanSomeSlots()。
             //                                        b、如果k为null 并且  slotToExpunge 与 staleSlot 相同(就是1 记录的值 与 当前的索引相同 ) 则slotToExpunge 设置成为当前的index。
             //   3、
@@ -192,7 +203,7 @@ public class ThreadLocal<T> {
          * 对数据组进行扩容
          */
         private void resize() {
-
+            //todo 扩容
 
         }
 

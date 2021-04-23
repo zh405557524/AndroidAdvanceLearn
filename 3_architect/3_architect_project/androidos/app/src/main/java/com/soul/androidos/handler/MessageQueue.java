@@ -1,5 +1,7 @@
 package com.soul.androidos.handler;
 
+import android.os.SystemClock;
+
 /**
  * Description: 消息队列
  * Author: 祝明
@@ -9,6 +11,13 @@ package com.soul.androidos.handler;
  * UpdateRemark:
  */
 public class MessageQueue {
+
+
+    /**
+     * native对象
+     */
+    private final long mPtr;
+
 
     // True if the message queue can be quit.
     private final boolean mQuitAllowed;
@@ -20,6 +29,7 @@ public class MessageQueue {
 
     public MessageQueue(boolean quitAllowed) {
         mQuitAllowed = quitAllowed;
+        mPtr = nativeInit();
     }
 
     /**
@@ -34,9 +44,15 @@ public class MessageQueue {
         msg.when = when;
         msg.next = mMessages;
         mMessages = msg;
-        notify();
+        nativeWake(mPtr);
         return true;
     }
+
+
+    /**
+     * 线程下一次 被唤醒的时间；不需要唤醒 则为-1
+     */
+    private int nextPollTimeoutMillis = -1;
 
     /**
      * 获取消息
@@ -46,12 +62,9 @@ public class MessageQueue {
     Message next() {
         Message message;
         if (mMessages == null) {
-            //todo 等待被唤醒
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            nextPollTimeoutMillis = -1;
+            isSloop = true;
+            nativePollOnce(mPtr, nextPollTimeoutMillis);
         }
         message = mMessages;
         mMessages = mMessages.next;
@@ -68,5 +81,36 @@ public class MessageQueue {
 
     }
 
+    /**
+     * 初始化
+     *
+     * @return
+     */
+    private static long nativeInit() {
+        return 0;
+    }
+
+    private boolean isSloop;
+
+    /**
+     * 等待下一次消息
+     *
+     * @param ptr
+     * @param timeoutMillis 等待的时间，-1 就一直等待
+     */
+    private void nativePollOnce(long ptr, int timeoutMillis) {
+        while (isSloop) {
+            SystemClock.sleep(1);
+        }
+    }
+
+    /**
+     * 将线程唤醒
+     *
+     * @param ptr
+     */
+    private void nativeWake(long ptr) {
+        isSloop = false;
+    }
 
 }
