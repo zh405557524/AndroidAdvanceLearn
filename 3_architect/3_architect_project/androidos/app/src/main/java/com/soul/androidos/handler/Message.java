@@ -51,7 +51,7 @@ public class Message {
      *
      * @hide
      */
-    public static final Object sPoolSync = new Object();
+    private static final Object sPoolSync = new Object();
 
 
     /**
@@ -140,7 +140,7 @@ public class Message {
      * 释放message 资源
      */
     public void recycle() {
-
+        recycleUnchecked();
     }
 
     /**

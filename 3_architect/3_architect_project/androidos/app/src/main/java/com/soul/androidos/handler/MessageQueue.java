@@ -1,6 +1,7 @@
 package com.soul.androidos.handler;
 
 import android.os.SystemClock;
+import android.util.Log;
 
 /**
  * Description: 消息队列
@@ -50,25 +51,28 @@ public class MessageQueue {
 
 
     /**
-     * 线程下一次 被唤醒的时间；不需要唤醒 则为-1
-     */
-    private int nextPollTimeoutMillis = -1;
-
-    /**
      * 获取消息
      *
      * @return
      */
     Message next() {
-        Message message;
-        if (mMessages == null) {
-            nextPollTimeoutMillis = -1;
+        //        线程下一次 被唤醒的时间；不需要唤醒 则为 -1
+        int nextPollTimeoutMillis = 0;
+        for (; ; ) {
             isSloop = true;
             nativePollOnce(mPtr, nextPollTimeoutMillis);
+            Message message = mMessages;
+            if (message != null && message.target != null) {
+                nextPollTimeoutMillis = (int) (message.when - System.currentTimeMillis());
+                Log.i("TAG", "nextPollTimeoutMillis:" + nextPollTimeoutMillis);
+                if (nextPollTimeoutMillis <= 0) {
+                    mMessages = message.next;
+                    return message;
+                }
+            } else {
+                nextPollTimeoutMillis = -1;
+            }
         }
-        message = mMessages;
-        mMessages = mMessages.next;
-        return message;
     }
 
 
@@ -99,7 +103,12 @@ public class MessageQueue {
      * @param timeoutMillis 等待的时间，-1 就一直等待
      */
     private void nativePollOnce(long ptr, int timeoutMillis) {
+        long timeOut = System.currentTimeMillis() + timeoutMillis;
         while (isSloop) {
+            if (timeoutMillis != -1 && timeOut <= System.currentTimeMillis()) {
+                isSloop = false;
+                break;
+            }
             SystemClock.sleep(1);
         }
     }

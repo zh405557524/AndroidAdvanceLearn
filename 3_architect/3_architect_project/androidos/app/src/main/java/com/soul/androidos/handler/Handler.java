@@ -57,7 +57,7 @@ public class Handler {
     public void postDelayed(Runnable r, long delayMillis) {
         Message message = new Message();
         message.callback = r;
-        sendMessageAtTime(message, delayMillis);
+        sendMessageAtTime(message, System.currentTimeMillis() + delayMillis);
     }
 
     /**

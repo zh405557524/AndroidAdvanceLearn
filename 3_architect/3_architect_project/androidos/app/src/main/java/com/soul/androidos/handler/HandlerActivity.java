@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class HandlerActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static String TAG = HandlerActivity.class.getSimpleName();
-    private  static Handler mHandler;
+    private static Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +30,7 @@ public class HandlerActivity extends AppCompatActivity implements View.OnClickLi
         thread.setName("test_main");
         thread.start();
         findViewById(R.id.bt_sendMsg).setOnClickListener(this);
-
-
+        findViewById(R.id.bt_sendMsg_delay).setOnClickListener(this);
     }
 
     /**
@@ -61,6 +60,17 @@ public class HandlerActivity extends AppCompatActivity implements View.OnClickLi
                 Log.i(TAG, "onClick  bt_sendMsg 当前线程为:" + java.lang.Thread.currentThread().getName());
                 mHandler.sendMessage(obtain);
                 break;
+
+            case R.id.bt_sendMsg_delay://延时发送消息
+                Log.i(TAG, "onClick  延时发送消息 当前线程为:" + java.lang.Thread.currentThread().getName());
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.i(TAG, "延时消息，当前线程:" + java.lang.Thread.currentThread().getName());
+                    }
+                }, 3 * 1000);
+                break;
+
         }
     }
 }

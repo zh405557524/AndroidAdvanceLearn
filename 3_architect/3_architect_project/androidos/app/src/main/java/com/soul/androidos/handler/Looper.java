@@ -71,6 +71,7 @@ public class Looper {
             Message next = mQueue.next();
             Handler target = next.target;
             target.dispatchMessage(next);
+            next.recycle();
         }
     }
 
