@@ -104,10 +104,14 @@ public class ThreadLocal<T> {
 
 
         ThreadLocalMap(ThreadLocal<?> firstKey, Object firstValue) {
+            //1、创建数组
             table = new Entry[INITIAL_CAPACITY];
+            //2、通过ThreadLocal 的线性探测散列映射 值 & 数组长度 得到 当前key 的下标
             int i = firstKey.threadLocalHashCode & (INITIAL_CAPACITY - 1);
+            //3、赋值
             table[i] = new Entry(firstKey, firstValue);
             size = 1;
+            //4、设置扩容大小
             setThreshold(INITIAL_CAPACITY);
         }
 
