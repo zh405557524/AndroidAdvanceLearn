@@ -70,7 +70,7 @@ public class XFerModeView extends View {
         canvas.drawBitmap(createCircleBitmap(mWidth, mHeight), 0, 0, mPaint);
         //清除混合模式
         mPaint.setXfermode(null);
-                canvas.restoreToCount(layerId);
+        canvas.restoreToCount(layerId);
     }
 
 
