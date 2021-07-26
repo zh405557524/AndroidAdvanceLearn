@@ -8,6 +8,7 @@ import android.os.IBinder;
 import android.view.View;
 
 import com.soul.androidos.handler.HandlerActivity;
+import com.soul.androidos.os.ActivityThread;
 import com.soul.androidos.os.boot.SystemServer;
 import com.soul.androidos.os.service.ServiceManager;
 import com.soul.androidos.pms.PMSTestActivity;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onServiceConnected(ComponentName name, IBinder service) {
                 //系统启动
                 SystemServer.main(null);
+                ActivityThread.systemMain();
             }
 
             @Override

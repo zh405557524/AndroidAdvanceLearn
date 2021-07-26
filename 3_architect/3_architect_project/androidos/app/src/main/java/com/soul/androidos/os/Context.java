@@ -1,5 +1,8 @@
 package com.soul.androidos.os;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import com.soul.androidos.pms.ApplicationPackageManager;
 import com.soul.androidos.pms.PackageManager;
 
@@ -11,10 +14,28 @@ import com.soul.androidos.pms.PackageManager;
  * UpdateDate: 2021/5/12 9:29
  * UpdateRemark:
  */
-public class Context {
+public abstract class Context {
 
+    /**
+     * 获取PMS
+     *
+     * @return
+     */
     public PackageManager getPackageManager() {
         return new ApplicationPackageManager(ActivityThread.getPackageManager());
     }
 
+    /**
+     * 启动Activity
+     *
+     * @param intent
+     */
+    public abstract void startActivity(Intent intent);
+
+    /**
+     * 启动Activity
+     *
+     * @param intent
+     */
+    public abstract void startActivity(Intent intent, Bundle options);
 }

@@ -9,12 +9,13 @@ import android.util.Log;
 import android.view.View;
 
 import com.soul.androidos.R;
+import com.soul.androidos.os.ActivityThread;
 import com.soul.androidos.os.Context;
 import com.soul.androidos.os.service.ServiceManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class PMSTestActivity extends AppCompatActivity implements View.OnClickListener {
+public class PMSTestActivity extends AppCompatActivity implements View.OnClickListener  {
 
     public static String TAG = PMSTestActivity.class.getSimpleName();
 
@@ -41,8 +42,9 @@ public class PMSTestActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_getPackageInfo:
+
                 //仿写
-                Context context = new Context();
+                Context context = ActivityThread.getContext();
                 PackageManager packageManager = context.getPackageManager();
                 PackageInfo packageInfo = packageManager.getPackageInfo("com.soul.xxxx", 0);
                 Log.i(TAG, "packageInfo:" + packageInfo.packageName);

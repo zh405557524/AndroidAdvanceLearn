@@ -33,6 +33,10 @@ public class SystemServer {
      * 启动服务 创建 pms、ams等
      */
     private void startBootstrapServices() {
+        //pms 的创建
         mPackageManagerService = PackageManagerService.main(mSystemContext, mInstaller, false, mOnlyCore);
+
+
+
     }
 }
