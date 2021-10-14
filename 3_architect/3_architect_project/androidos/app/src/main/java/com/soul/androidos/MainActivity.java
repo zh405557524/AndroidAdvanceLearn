@@ -13,6 +13,8 @@ import com.soul.androidos.os.boot.SystemServer;
 import com.soul.androidos.os.service.ServiceManager;
 import com.soul.androidos.pms.PMSTestActivity;
 
+import java.util.LinkedList;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        new LinkedList<>();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViewById(R.id.bt_handler).setOnClickListener(this);
@@ -55,4 +58,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
 }

@@ -238,3 +238,90 @@
 
 ## 三、pms
 
+* 1、启动流程图。
+![startActivity](res/startAcivity.jpg)
+   * 1、发送启动activity通知(binder)
+   * 2、发送创建进程的请求(socket)
+   * 3、Zygote进程 fork新进程
+   * 4、新进程---attach application (binder)
+   * 5、ActvityManagerService -- relStartActivityLocke 启动activity
+   * 6、调用 scheduleLauncherActivity 
+   * 7、发送handler 消息 launch_activity  
+   * 8、Activity -->onCreate
+* 2、几个相关类。
+  * 1、ActivityManagerService
+  * 2、ActvityManagerNative
+  * 3、ActivityThread
+  * 4、ApplicationThread 
+  * 5、Activity
+  * 6、Instrumentation ( 监控Activity运行的一个类 )
+  * 7、 Process 
+  * 8、 Zygote 
+  * 9、ContextImpl
+
+* 3、启动步骤详细分析。
+
+  * 一、通知启动actvity
+
+    * 1、ContextImpl.startActivity() -->Instrumentation.execStartActivity()
+
+    * 2、ActivityManagerNative.getDefault() ->IActivityManager.startActivity()  ---binder---->  ActivityManagerService.startActivity()
+
+    * 3、ActivityManagerService.startActivity()->ActivityManagerService.startActivityAsUser()
+
+ *二、 ActivityManagerService 对activity进行校验、检测
+    * 4、ActivityStackSupervisor.startActivityMayWait()
+      > ```java
+      > //通过PackageManager得到ActivityInfo列表，每个ActivityInfo是一个Activity的档案对象，记录了Activity相关信息//这里获取到启动入口的Activity信息
+      >  ResolveInfo rInfo = AppGlobals.getPackageManager().resolveIntent();
+      > aInfo = rInfo != null ? rInfo.activityInfo : null;
+      > aInfo = mService.getActivityInfoForUser(aInfo, userId);
+      > 
+      > ```
+      >
+      > ```java
+      > //验证Intent、class等信息
+      > int res = startActivityLocked();
+      > ```
+      >
+      > 
+
+    * 5、ActivityStackSupervisor.startActivityLocked()   验证应用
+
+      > 1、描述应用进程
+      >
+      > ```java
+      > //ProcessRecord用来描述一个应用程序的进程，并保存在AMS内部
+      > ProcessRecord callerApp = null;
+      > //caller指向ApplicationThread，即让ProcessRecord指向所运行的应用程序
+      > callerApp = mService.getRecordForAppLocked(caller);
+      > callingPid = callerApp.pid;//获取进程pid
+      > callingUid = callerApp.info.uid;//获取进程uid
+      > ```
+      >
+      > 2、创建ActivityRecord，用来描述启动入口的MainActivity
+      >
+      > ```java
+      > ActivityRecord r = new ActivityRecord()
+      > ```
+      >
+      > 3、验证完成，开始启动模式判断
+      >
+      > ```java
+      > startActivityUncheckedLocked()
+      > ```
+
+    * 6、ActivityStackSupervisor.startActivityUncheckedLocked() 模式判断
+
+    * 
+
+  * 
+
+  * 
+
+    * 
+
+  
+
+
+

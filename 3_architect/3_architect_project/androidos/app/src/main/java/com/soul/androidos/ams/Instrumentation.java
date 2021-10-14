@@ -25,7 +25,7 @@ public class Instrumentation {
      */
     public android.app.Instrumentation.ActivityResult execStartActivity(Context who, IBinder contextThread, IBinder token, Activity target,
                                                                         Intent intent, int requestCode, Bundle options) {
-
+        
         return null;
     }
 
