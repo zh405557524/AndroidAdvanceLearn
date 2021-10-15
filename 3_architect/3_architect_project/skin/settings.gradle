@@ -1,2 +1,3 @@
 rootProject.name = "skin"
 include ':app'
+include ':oldskin'
