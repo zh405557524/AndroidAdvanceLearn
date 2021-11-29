@@ -36,7 +36,8 @@ public class SkinFactory implements LayoutInflater.Factory2, Observer {
 
     @Nullable
     @Override
-    public View onCreateView(@Nullable View parent, @NonNull String name, @NonNull Context context, @NonNull AttributeSet attrs) {
+    public View onCreateView(@Nullable View parent, @NonNull String name
+            , @NonNull Context context, @NonNull AttributeSet attrs) {
         return null;
     }
 
