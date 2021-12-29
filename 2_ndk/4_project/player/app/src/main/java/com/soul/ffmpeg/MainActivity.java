@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Used to load the 'native-lib' library on application startup.
 
-    private static final String path = "/sdcard/v0200f7b0000bs317v789gpio61jkqhg.MP4";
+    private static final String path = "/sdcard/陈一发儿 - 童话镇.flac";
 
     private static final String input = "/sdcard/v0200f7b0000bs317v789gpio61jkqhg.MP4";
     private static final String output = "/sdcard/2.pcm";

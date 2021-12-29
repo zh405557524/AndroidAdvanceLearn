@@ -7,4 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+
+    <!-- 背景 -->
+    <color name="skin_my_background">@android:color/holo_blue_light</color>
+    <color name="skin_my_textColor">@android:color/black</color>
+    <color name="skin_item_color">@android:color/white</color>
+    <color name="skin_icon_color">@android:color/holo_red_light</color>
 </resources>
