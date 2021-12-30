@@ -4,8 +4,10 @@ import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -31,7 +33,6 @@ public class SkinResources {
     private boolean isDefaultSkin = true; // 默认是 默认的皮肤(最原始的)
     private Resources mSkinResources;
     private String mSkinPkgName;
-    private boolean mIsDefaultSkin;
 
     private SkinResources(Context context) {
         mAppResources = context.getResources();
@@ -68,7 +69,7 @@ public class SkinResources {
             AssetManager assetManager = AssetManager.class.newInstance();
 
             // 由于AssetManager中的addAssetPath和setApkAssets方法都被@hide，目前只能通过反射去执行方法
-            Method addAssetPath = assetManager.getClass().getDeclaredMethod("", String.class);
+            Method addAssetPath = assetManager.getClass().getDeclaredMethod("addAssetPath", String.class);
             // 设置私有方法可访问
             addAssetPath.setAccessible(true);
             // 执行addAssetPath方法
@@ -81,7 +82,7 @@ public class SkinResources {
             mSkinPkgName = application.getPackageManager().getPackageArchiveInfo(skinPath, PackageManager.GET_ACTIVITIES).packageName;
 
             //是否使用默认皮肤
-            mIsDefaultSkin = TextUtils.isEmpty(mSkinPkgName);
+            isDefaultSkin = TextUtils.isEmpty(mSkinPkgName);
         } catch (Exception e) {
             e.printStackTrace();
             // 发生异常就证明 通过skinPath 获取 packageName 失败了
@@ -102,9 +103,66 @@ public class SkinResources {
         return null;
     }
 
-    public Object getBackground(int attrValueInt) {
 
-        return null;
+    /**
+     * 获取background 是特殊情况，因为：
+     * 可能是color
+     * 可能是drawable
+     * 可能是mipmap
+     * 所有得到当前属性的类型Resources.getResourceTypeName(resId); 进行判断
+     * @return
+     */
+    public Object getBackground(int resId) {
+        String resourceTypeName = mAppResources.getResourceTypeName(resId);
+
+        if (resourceTypeName.equals("color")) {
+            return getColor(resId);
+        } else if (resourceTypeName.equals("drawable") || resourceTypeName.equals("mipmap")) {
+            // drawable or mipmap
+            return getDrawable(resId);
+        }
+        return getColorStateList(resId);
+    }
+
+
+    public ColorStateList getColorStateList(int resId) {
+        if (isDefaultSkin) { // 如果没有皮肤，那就加载当前App运行的Apk资源
+            return mAppResources.getColorStateList(resId);
+        }
+        int skinId = getIdentifier(resId);
+        if (skinId == 0) { // 如果为0，那就加载当前App运行的Apk资源
+            return mAppResources.getColorStateList(resId);
+        }
+        // skinId不等于0 ，就加载 本地存储的 xxx.skin皮肤包资源
+        return mSkinResources.getColorStateList(skinId);
+    }
+
+    /**
+     * 此方法干了两件事：
+     * 1.如果没有皮肤，那就直接return resId;
+     * 2.如果有皮肤，那就通过mSkinResources读取本地xxx.skin皮肤包资源的id，如果没有读取到那就返回0，给外面判断
+     */
+    public int getIdentifier(int resId) {
+        // 如果没有皮肤，就直接返回resId
+        if (isDefaultSkin) {
+            return resId;
+        }
+
+        String resName = mAppResources.getResourceEntryName(resId); // ic_launcher
+        String resType = mAppResources.getResourceTypeName(resId); // drawable
+        return mSkinResources.getIdentifier(resName, resType, mSkinPkgName);
+    }
+
+    public int getColor(int resId) {
+        if (isDefaultSkin) { // 如果没有皮肤，那就加载当前App运行的Apk资源
+            return mAppResources.getColor(resId);
+        }
+        int skinId = getIdentifier(resId);
+        if (skinId == 0) { // 如果为0，那就加载当前App运行的Apk资源
+            return mAppResources.getColor(resId);
+        }
+        // skinId不等于0 ，就加载 本地存储的 xxx.skin皮肤包资源
+        return mSkinResources.getColor(skinId);
     }
 
     private String getString(int resId) {
@@ -117,6 +175,24 @@ public class SkinResources {
         }
         return "";
 
+    }
+
+    public Drawable getDrawable(int resId) {
+        //如果有皮肤  isDefaultSkin false 没有就是true
+        if (isDefaultSkin) {
+            return mAppResources.getDrawable(resId);
+        }
+        int skinId = getIdentifier(resId);
+        if (skinId == 0) {
+            return mAppResources.getDrawable(resId);
+        }
+        // skinId不等于0 ，就加载 本地存储的 xxx.skin皮肤包资源
+        return mSkinResources.getDrawable(skinId);
+    }
+
+
+    public boolean getDefaultSkin() {
+        return isDefaultSkin;
     }
 
 }
