@@ -7,7 +7,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 
-import com.soul.oldskin.SkinEngine;
+import com.soul.newskin.SkinManager;
 
 import java.io.File;
 
@@ -36,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
         String skinPath = Environment.getExternalStorageDirectory().getAbsolutePath()
                 + File.separator + "my.skin";
         try {
-            SkinEngine.getInstance().updateSkin(skinPath);
-        } catch (IllegalAccessException e) {
+            SkinManager.getInstance().loaderSkinResources(skinPath);
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
         long start = System.currentTimeMillis();
 
         try {
-            SkinEngine.getInstance().updateSkin("分身乏术分身乏术发放松放松放松");
-        } catch (IllegalAccessException e) {
+            SkinManager.getInstance().loaderSkinResources("分身乏术分身乏术发放松放松放松");
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

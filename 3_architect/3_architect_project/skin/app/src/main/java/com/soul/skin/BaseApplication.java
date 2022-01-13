@@ -2,7 +2,7 @@ package com.soul.skin;
 
 import android.app.Application;
 
-import com.soul.oldskin.SkinEngine;
+import com.soul.newskin.SkinManager;
 
 /**
  * Description: TODO
@@ -17,8 +17,8 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         try {
-            SkinEngine.getInstance().skinApplicationInit(this);
-        } catch (IllegalAccessException e) {
+            SkinManager.skinApplicationInit(this);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
