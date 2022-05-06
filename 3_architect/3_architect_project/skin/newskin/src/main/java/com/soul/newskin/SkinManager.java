@@ -1,9 +1,13 @@
 package com.soul.newskin;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -34,7 +38,6 @@ public class SkinManager {
 
     private Resources mSkinResources;
 
-    private String mSkinPackageName;
 
     private String skinPackageName;
 
@@ -71,7 +74,7 @@ public class SkinManager {
             SkinCache skinCache = cacheSkin.get(skinPath);
             if (skinCache != null) {
                 mSkinResources = skinCache.getSkinResources();
-                mSkinPackageName = skinCache.getSkinPackageName();
+                skinPackageName = skinCache.getSkinPackageName();
             }
         }
 
@@ -112,5 +115,100 @@ public class SkinManager {
 
     }
 
+    /**
+     * 获取颜色
+     *
+     * @param resourceId 资源id
+     * @return
+     */
+    public int getColor(int resourceId) {
+        int skinResourceIds = getSkinResourceIds(resourceId);
+        return isDefaultSkin ? mResources.getColor(resourceId) : mSkinResources.getColor(skinResourceIds);
+    }
+
+    /**
+     * 获取颜色列表
+     *
+     * @param resourceId 资源id
+     * @return
+     */
+    @SuppressLint("UseCompatLoadingForColorStateLists")
+    public ColorStateList getStateList(int resourceId) {
+        int skinResourceIds = getSkinResourceIds(resourceId);
+
+        return isDefaultSkin ? mResources.getColorStateList(resourceId) : mSkinResources.getColorStateList(skinResourceIds);
+    }
+
+    public String getString(int resourceId) {
+        int skinResourceIds = getSkinResourceIds(resourceId);
+        return isDefaultSkin ? mResources.getString(resourceId) : mSkinResources.getString(skinResourceIds);
+    }
+
+    /**
+     * 获取背景颜色
+     *
+     * @param resourceId 资源id
+     * @return 可能是 color/drawable/mipmap
+     */
+    public Object getBackgroundOrSrc(int resourceId) {
+        String resourceTypeName = mResources.getResourceTypeName(resourceId);
+        switch (resourceTypeName) {
+            case "color":
+                return getColor(resourceId);
+            case "mipmap":
+            case "drawable":
+                return getDrawableOrMipMap(resourceId);
+        }
+        return null;
+    }
+
+    /**
+     * 获取字体
+     *
+     * @param resourceId 资源id
+     * @return
+     */
+    public Typeface getTypeface(int resourceId) {
+        String skinTypefacePath = getString(resourceId);
+        //路径为空，使用系统默认字体
+        if (TextUtils.isEmpty(skinTypefacePath)) {
+            return Typeface.DEFAULT;
+        }
+        return isDefaultSkin ? Typeface.createFromAsset(mResources.getAssets(), skinTypefacePath) :
+                Typeface.createFromAsset(mSkinResources.getAssets(), skinTypefacePath);
+    }
+
+
+    /**
+     * 参考:resources.arsc 资源映射表
+     * 通过id获取资源Name 和 Type
+     *
+     * @param resourceId 资源ID值
+     * @return 如何没有皮肤包则加载app 内置资源ID,繁殖加载屁护宝指定资源ID
+     */
+    private int getSkinResourceIds(int resourceId) {
+        if (isDefaultSkin) {
+            return resourceId;
+        }
+        String resourceName = mResources.getResourceEntryName(resourceId);
+        String resourceType = mResources.getResourceTypeName(resourceId);
+
+        int skinResourceId = mSkinResources.getIdentifier(resourceName, resourceType, skinPackageName);
+        isDefaultSkin = skinResourceId == 0;
+
+        return skinResourceId == 0 ? resourceId : skinResourceId;
+    }
+
+    /**
+     * 获取图片资源
+     *
+     * @param resourceId 资源ID值
+     * @return Drawable
+     */
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private Drawable getDrawableOrMipMap(int resourceId) {
+        int skinResourceIds = getSkinResourceIds(resourceId);
+        return isDefaultSkin ? mResources.getDrawable(resourceId) : mSkinResources.getDrawable(skinResourceIds);
+    }
 
 }
